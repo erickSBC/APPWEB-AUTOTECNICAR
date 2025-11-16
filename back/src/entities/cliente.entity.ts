@@ -7,6 +7,8 @@ import {
   OneToMany,
 } from 'typeorm';
 import { Carrito } from './carrito.entity';
+import { Pedido} from './pedido.entity';
+import { Comprobante} from './comprobante.entity';
 
 
 @Entity('cliente')
@@ -14,10 +16,10 @@ export class Cliente {
   @PrimaryGeneratedColumn({ type: 'bigint' })
   id_cliente: number;
 
-  @Column({ type: 'varchar', length: 100 ,nullable: true })
+  @Column({ type: 'varchar', length: 100, nullable: true })
   nombre: string;
 
-  @Column({ type: 'varchar', length: 100 ,nullable: true })
+  @Column({ type: 'varchar', length: 100, nullable: true })
   apellido: string;
 
   @Column({ type: 'varchar', length: 150, unique: true })
@@ -26,7 +28,7 @@ export class Cliente {
   @Column({ type: 'varchar', length: 255 })
   password: string;
 
-  @Column({ type: 'varchar', length: 20, nullable: true})
+  @Column({ type: 'varchar', length: 20, nullable: true })
   telefono: string;
 
   @Column({ type: 'varchar', length: 255, nullable: true })
@@ -40,4 +42,14 @@ export class Cliente {
 
   @OneToMany(() => Carrito, (c) => c.cliente)
   carritos: Carrito[];
+
+
+
+  // src/usuarios/usuario.entity.ts
+  @OneToMany(() => Pedido, (pedido) => pedido.cliente)
+  pedidos: Pedido[];
+
+  @OneToMany(() => Comprobante, (c) => c.cliente)
+  comprobantes: Comprobante[];
+
 }

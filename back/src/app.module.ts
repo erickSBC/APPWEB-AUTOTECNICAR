@@ -11,6 +11,11 @@ import { Categoria } from './entities/categoria.entity';
 import { Producto } from './entities/producto.entity';
 import { CarritoDetalle } from './entities/carrito-detalle.entity';
 import { CarritosModule } from './carritos/carrito.module';
+import { PedidosModule } from './pedidos/pedido.module';
+import { ComprobantesModule } from './comprobantes/comprobante.module';
+import { Pedido } from './entities/pedido.entity';
+import { PedidoDetalle } from './entities/pedido-detalle.entity';
+import { Comprobante } from './entities/comprobante.entity';
 
 @Module({
   imports: [
@@ -21,7 +26,7 @@ import { CarritosModule } from './carritos/carrito.module';
       username: 'root',
       password: 'password',
       database: 'ejemplodb',
-      entities: [Cliente,Carrito,Categoria,Producto,CarritoDetalle,Cliente
+      entities: [Cliente,Carrito,Categoria,Producto,CarritoDetalle,Cliente,Pedido,PedidoDetalle,Comprobante
    // <--- ¡Asegúrate de que ESTÉ aquí!
     // ... CarritoDetalle, y cualquier otra entidad
   ],       // Carga automáticamente todas las entidades
@@ -30,7 +35,9 @@ import { CarritosModule } from './carritos/carrito.module';
     ProductosModule,
     CategoriasModule,
     ClientesModule,
-    CarritosModule
+    CarritosModule,
+    PedidosModule,ComprobantesModule
+  
 
   ],
   controllers: [AppController],

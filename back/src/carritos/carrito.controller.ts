@@ -48,7 +48,10 @@ export class CarritosController {
         }
         return this.carritosService.addDetalle(carritoId, dto);
     }
-
+    @Put(':id/detalles')
+    updateDetalle(@Param('id') id: number, @Body() data: CreateUpdateCarritoDetalleDto) {
+        return this.carritosService.updateDetalle(id, data);
+    }
     @Get(':id/detalles')
     listDetalles(@Param('id') id: number) {
         return this.carritosService.listDetalles(id);
