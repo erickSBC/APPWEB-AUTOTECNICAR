@@ -22,7 +22,7 @@ export class AdministradoresService {
   }
 
   async findOne(id: number) {
-    const a = await this.adminRepo.findOneBy({ id_administrador: id } as any);
+    const a = await this.adminRepo.findOneBy({ id_admin: id } as any);
     if (!a) throw new NotFoundException('Administrador not found');
     return a;
   }

@@ -18,6 +18,8 @@ import { Pedido } from './entities/pedido.entity';
 import { PedidoDetalle } from './entities/pedido-detalle.entity';
 import { Comprobante } from './entities/comprobante.entity';
 import { AdministradoresModule } from './administradores/administrador.module';
+import { ReportesModule } from './reportes/reportes.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -40,6 +42,9 @@ import { AdministradoresModule } from './administradores/administrador.module';
     CarritosModule,
     PedidosModule,ComprobantesModule
   ,AdministradoresModule
+
+  ,ReportesModule
+  ,AuthModule
   
 
   ],

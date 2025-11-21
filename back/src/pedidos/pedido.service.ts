@@ -53,7 +53,7 @@ export class PedidosService {
   }
 
   async findOne(id: number) {
-    const p = await this.pedidoRepo.findOne({ where: { id_pedido: id }, relations: ['usuario', 'detalles', 'detalles.producto'] });
+    const p = await this.pedidoRepo.findOne({ where: { id_pedido: id }, relations: ['cliente', 'detalles', 'detalles.producto'] });
     if (!p) throw new NotFoundException('Pedido not found');
     return p;
   }
