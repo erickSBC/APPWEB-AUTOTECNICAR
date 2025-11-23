@@ -6,11 +6,9 @@ import { PedidoDetalle } from '../entities/pedido-detalle.entity';
 export enum PedidoEstado {
   pendiente = 'pendiente',
   pagado = 'pagado',
-  procesando = 'procesando',
-  enviado = 'enviado',
+  procesando = 'enviado',
   entregado = 'entregado',
   cancelado = 'cancelado',
-  reembolso = 'reembolso',
 }
 
 @Entity('pedido')

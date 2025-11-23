@@ -134,7 +134,6 @@ Registrar nuevo cliente.
 
 ## Administradores
 
-**Autenticación requerida:** JWT Token (header: `Authorization: Bearer <token>`)
 **Roles permitidos:** `superadmin` (para crear/actualizar/eliminar), `superadmin`/`vendedor` (para listar/obtener)
 
 ### GET /administradores
@@ -698,7 +697,6 @@ Eliminar producto.
 
 ## Carritos
 
-**Autenticación requerida:** JWT Token para rutas de modificación
 
 ### GET /carritos
 Listar todos los carritos.
@@ -913,8 +911,7 @@ Eliminar detalle del carrito.
 
 ## Pedidos
 
-**Autenticación requerida:** JWT Token
-**Estados posibles:** pendiente, pagado, procesando, enviado, entregado, cancelado, reembolso
+**Estados posibles:** pendiente, pagado, enviado, entregado, cancelado
 
 ### GET /pedidos
 Listar todos los pedidos.
@@ -1092,8 +1089,6 @@ Eliminar pedido.
 
 ## Comprobantes
 
-**Autenticación requerida:** JWT Token
-
 ### GET /comprobantes
 Listar todos los comprobantes.
 
@@ -1185,7 +1180,6 @@ Eliminar comprobante.
 
 ## Reportes
 
-**Autenticación requerida:** JWT Token
 **Roles permitidos:** `superadmin`, `vendedor`
 
 ### GET /reportes/ventas/totales

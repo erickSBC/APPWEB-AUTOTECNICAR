@@ -24,19 +24,19 @@ export class ModelosController {
   }
 
   @Post()
-  @UseGuards(JwtGuard, new RolesGuard(['superadmin']))
+  //@UseGuards(JwtGuard, new RolesGuard(['superadmin']))
   create(@Body() dto: CreateModeloVehiculoDto) {
     return this.modelosService.create(dto);
   }
 
   @Put(':id')
-  @UseGuards(JwtGuard, new RolesGuard(['superadmin']))
+  //@UseGuards(JwtGuard, new RolesGuard(['superadmin']))
   update(@Param('id') id: number, @Body() dto: UpdateModeloVehiculoDto) {
     return this.modelosService.update(id, dto);
   }
 
   @Delete(':id')
-  @UseGuards(JwtGuard, new RolesGuard(['superadmin']))
+  //@UseGuards(JwtGuard, new RolesGuard(['superadmin']))
   remove(@Param('id') id: number) {
     return this.modelosService.remove(id);
   }

@@ -32,13 +32,13 @@ export class ProductoModelosController {
   }
 
   @Post()
-  @UseGuards(JwtGuard, new RolesGuard(['superadmin']))
+  //@UseGuards(JwtGuard, new RolesGuard(['superadmin']))
   create(@Body() dto: CreateProductoModeloDto) {
     return this.productoModelosService.create(dto);
   }
 
   @Put(':id_producto/:id_modelo')
-  @UseGuards(JwtGuard, new RolesGuard(['superadmin']))
+  //@UseGuards(JwtGuard, new RolesGuard(['superadmin']))
   update(
     @Param('id_producto') id_producto: number,
     @Param('id_modelo') id_modelo: number,
@@ -48,7 +48,7 @@ export class ProductoModelosController {
   }
 
   @Delete(':id_producto/:id_modelo')
-  @UseGuards(JwtGuard, new RolesGuard(['superadmin']))
+  //@UseGuards(JwtGuard, new RolesGuard(['superadmin']))
   remove(
     @Param('id_producto') id_producto: number,
     @Param('id_modelo') id_modelo: number,

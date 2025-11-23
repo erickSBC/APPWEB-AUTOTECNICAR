@@ -19,19 +19,19 @@ export class MarcasController {
   }
 
   @Post()
-  @UseGuards(JwtGuard, new RolesGuard(['superadmin']))
+  //@UseGuards(JwtGuard, new RolesGuard(['superadmin']))
   create(@Body() dto: CreateMarcaVehiculoDto) {
     return this.marcasService.create(dto);
   }
 
   @Put(':id')
-  @UseGuards(JwtGuard, new RolesGuard(['superadmin']))
+  //@UseGuards(JwtGuard, new RolesGuard(['superadmin']))
   update(@Param('id') id: number, @Body() dto: UpdateMarcaVehiculoDto) {
     return this.marcasService.update(id, dto);
   }
 
   @Delete(':id')
-  @UseGuards(JwtGuard, new RolesGuard(['superadmin']))
+  //@UseGuards(JwtGuard, new RolesGuard(['superadmin']))
   remove(@Param('id') id: number) {
     return this.marcasService.remove(id);
   }
