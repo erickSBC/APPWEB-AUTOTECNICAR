@@ -1,9 +1,9 @@
-# API Documentation - AutoTecnicar E-Commerce Backend
+# API Endpoints Documentation - AutoTecnicar 
 
 ## Tabla de Contenidos
 1. [Autenticación](#autenticación)
-2. [Administradores](#administradores)
-3. [Clientes](#clientes)
+2. [Clientes](#clientes)
+3. [Administradores](#administradores)
 4. [Categorías](#categorías)
 5. [Productos](#productos)
 6. [Carritos](#carritos)
@@ -12,16 +12,18 @@
 9. [Reportes](#reportes)
 10. [Marcas de Vehículos](#marcas-de-vehículos)
 11. [Modelos de Vehículos](#modelos-de-vehículos)
-12. [Asignación Producto-Modelo](#asignación-producto-modelo)
+12. [Producto-Modelo](#producto-modelo)
 
 ---
 
 ## Autenticación
 
-### POST /auth/admin/login
-Login de administrador con credenciales.
+### Login Administrador
+- **Método:** `POST`
+- **Ruta:** `/auth/admin/login`
+- **Descripción:** Autentica un administrador y retorna un JWT token
 
-**Request:**
+**Request Body:**
 ```json
 {
   "correo": "admin@example.com",
@@ -36,7 +38,7 @@ Login de administrador con credenciales.
 }
 ```
 
-**Error (401 Unauthorized):**
+**Error (401):**
 ```json
 {
   "statusCode": 401,
@@ -46,10 +48,12 @@ Login de administrador con credenciales.
 
 ---
 
-### POST /auth/admin/register
-Registrar nuevo administrador (requiere permisos superadmin).
+### Registrar Administrador
+- **Método:** `POST`
+- **Ruta:** `/auth/admin/register`
+- **Descripción:** Registra un nuevo administrador
 
-**Request:**
+**Request Body:**
 ```json
 {
   "correo": "newadmin@example.com",
@@ -72,6 +76,8 @@ Registrar nuevo administrador (requiere permisos superadmin).
     "nombre": "Juan",
     "apellido": "Pérez",
     "rol": "superadmin",
+    "telefono": "+34912345678",
+    "direccion": "Calle Principal 123",
     "fecha_creacion": "2025-11-20T10:30:00Z"
   }
 }
@@ -79,10 +85,12 @@ Registrar nuevo administrador (requiere permisos superadmin).
 
 ---
 
-### POST /auth/cliente/login
-Login de cliente con credenciales.
+### Login Cliente
+- **Método:** `POST`
+- **Ruta:** `/auth/cliente/login`
+- **Descripción:** Autentica un cliente y retorna un JWT token
 
-**Request:**
+**Request Body:**
 ```json
 {
   "correo": "cliente@example.com",
@@ -99,10 +107,12 @@ Login de cliente con credenciales.
 
 ---
 
-### POST /auth/cliente/register
-Registrar nuevo cliente.
+### Registrar Cliente
+- **Método:** `POST`
+- **Ruta:** `/auth/cliente/register`
+- **Descripción:** Registra un nuevo cliente
 
-**Request:**
+**Request Body:**
 ```json
 {
   "correo": "newcliente@example.com",
@@ -110,7 +120,8 @@ Registrar nuevo cliente.
   "nombre": "Carlos",
   "apellido": "García",
   "telefono": "+34912345678",
-  "direccion": "Avenida Secundaria 456"
+  "direccion": "Avenida Secundaria 456",
+  "dni": "12345678A"
 }
 ```
 
@@ -125,6 +136,7 @@ Registrar nuevo cliente.
     "apellido": "García",
     "telefono": "+34912345678",
     "direccion": "Avenida Secundaria 456",
+    "dni": "12345678A",
     "fecha_creacion": "2025-11-20T10:35:00Z"
   }
 }
@@ -132,12 +144,147 @@ Registrar nuevo cliente.
 
 ---
 
+## Clientes
+
+### Listar Clientes
+- **Método:** `GET`
+- **Ruta:** `/clientes`
+- **Descripción:** Obtiene la lista completa de clientes
+
+**Response (200 OK):**
+```json
+[
+  {
+    "id_cliente": 1,
+    "nombre": "Carlos",
+    "apellido": "García",
+    "correo": "cliente@example.com",
+    "telefono": "+34912345678",
+    "dni": "12345678A",
+    "direccion": "Avenida Secundaria 456",
+    "fecha_creacion": "2025-11-01T09:00:00Z",
+    "fecha_actualizacion": "2025-11-20T10:35:00Z"
+  },
+  {
+    "id_cliente": 2,
+    "nombre": "Pedro",
+    "apellido": "Sánchez",
+    "correo": "pedro@example.com",
+    "telefono": "+34934567890",
+    "dni": "87654321B",
+    "direccion": "Plaza Mayor 10",
+    "fecha_creacion": "2025-11-02T09:00:00Z",
+    "fecha_actualizacion": "2025-11-20T10:35:00Z"
+  }
+]
+```
+
+---
+
+### Obtener Cliente por ID
+- **Método:** `GET`
+- **Ruta:** `/clientes/:id`
+- **Parámetros:** `id` (number) - ID del cliente
+- **Descripción:** Obtiene un cliente específico por su ID
+
+**Response (200 OK):**
+```json
+{
+  "id_cliente": 1,
+  "nombre": "Carlos",
+  "apellido": "García",
+  "correo": "cliente@example.com",
+  "telefono": "+34912345678",
+  "dni": "12345678A",
+  "direccion": "Avenida Secundaria 456",
+  "fecha_creacion": "2025-11-01T09:00:00Z",
+  "fecha_actualizacion": "2025-11-20T10:35:00Z"
+}
+```
+
+---
+
+### Crear Cliente
+- **Método:** `POST`
+- **Ruta:** `/clientes`
+- **Descripción:** Crea un nuevo cliente
+
+**Request Body:**
+```json
+{
+  "correo": "newcliente@example.com",
+  "nombre": "Pedro",
+  "apellido": "Sánchez",
+  "telefono": "+34934567890",
+  "direccion": "Plaza Mayor 10",
+  "dni": "87654321B",
+  "password": "securePass123"
+}
+```
+
+**Response (201 Created):**
+```json
+{
+  "id_cliente": 2,
+  "correo": "newcliente@example.com",
+  "nombre": "Pedro",
+  "apellido": "Sánchez",
+  "telefono": "+34934567890",
+  "direccion": "Plaza Mayor 10",
+  "dni": "87654321B",
+  "fecha_creacion": "2025-11-20T11:10:00Z"
+}
+```
+
+---
+
+### Actualizar Cliente
+- **Método:** `PUT`
+- **Ruta:** `/clientes/:id`
+- **Parámetros:** `id` (number) - ID del cliente
+- **Descripción:** Actualiza información del cliente
+
+**Request Body:**
+```json
+{
+  "nombre": "Pedro Updated",
+  "telefono": "+34912121212",
+  "dni": "87654321B"
+}
+```
+
+**Response (200 OK):**
+```json
+{
+  "id_cliente": 2,
+  "correo": "newcliente@example.com",
+  "nombre": "Pedro Updated",
+  "apellido": "Sánchez",
+  "telefono": "+34912121212",
+  "dni": "87654321B",
+  "direccion": "Plaza Mayor 10",
+  "fecha_actualizacion": "2025-11-20T11:15:00Z"
+}
+```
+
+---
+
+### Eliminar Cliente
+- **Método:** `DELETE`
+- **Ruta:** `/clientes/:id`
+- **Parámetros:** `id` (number) - ID del cliente
+- **Descripción:** Elimina un cliente
+
+**Response (204 No Content)**
+
+---
+
 ## Administradores
 
-**Roles permitidos:** `superadmin` (para crear/actualizar/eliminar), `superadmin`/`vendedor` (para listar/obtener)
-
-### GET /administradores
-Listar todos los administradores.
+### Listar Administradores
+- **Método:** `GET`
+- **Ruta:** `/administradores`
+- **Descripción:** Obtiene la lista de administradores
 
 **Response (200 OK):**
 ```json
@@ -158,11 +305,11 @@ Listar todos los administradores.
 
 ---
 
-### GET /administradores/:id
-Obtener administrador por ID.
-
-**Path Parameters:**
-- `id` (number): ID del administrador
+### Obtener Administrador por ID
+- **Método:** `GET`
+- **Ruta:** `/administradores/:id`
+- **Parámetros:** `id` (number) - ID del administrador
+- **Descripción:** Obtiene un administrador específico
 
 **Response (200 OK):**
 ```json
@@ -181,10 +328,12 @@ Obtener administrador por ID.
 
 ---
 
-### POST /administradores
-Crear nuevo administrador.
+### Crear Administrador
+- **Método:** `POST`
+- **Ruta:** `/administradores`
+- **Descripción:** Crea un nuevo administrador
 
-**Request:**
+**Request Body:**
 ```json
 {
   "correo": "admin2@example.com",
@@ -213,13 +362,13 @@ Crear nuevo administrador.
 
 ---
 
-### PUT /administradores/:id
-Actualizar administrador.
+### Actualizar Administrador
+- **Método:** `PUT`
+- **Ruta:** `/administradores/:id`
+- **Parámetros:** `id` (number) - ID del administrador
+- **Descripción:** Actualiza información del administrador
 
-**Path Parameters:**
-- `id` (number): ID del administrador
-
-**Request:**
+**Request Body:**
 ```json
 {
   "nombre": "María Updated",
@@ -244,143 +393,25 @@ Actualizar administrador.
 
 ---
 
-### DELETE /administradores/:id
-Eliminar administrador.
+### Eliminar Administrador
+- **Método:** `DELETE`
+- **Ruta:** `/administradores/:id`
+- **Parámetros:** `id` (number) - ID del administrador
+- **Descripción:** Elimina un administrador
 
-**Path Parameters:**
-- `id` (number): ID del administrador
-
-**Response (204 No Content):**
-```
-(sin cuerpo)
-```
-
----
-
-## Clientes
-
-### GET /clientes
-Listar todos los clientes.
-
-**Response (200 OK):**
-```json
-[
-  {
-    "id_cliente": 1,
-    "nombre": "Carlos",
-    "apellido": "García",
-    "correo": "cliente@example.com",
-    "telefono": "+34912345678",
-    "direccion": "Avenida Secundaria 456",
-    "fecha_creacion": "2025-11-01T09:00:00Z",
-    "fecha_actualizacion": "2025-11-20T10:35:00Z"
-  }
-]
-```
-
----
-
-### GET /clientes/:id
-Obtener cliente por ID.
-
-**Path Parameters:**
-- `id` (number): ID del cliente
-
-**Response (200 OK):**
-```json
-{
-  "id_cliente": 1,
-  "nombre": "Carlos",
-  "apellido": "García",
-  "correo": "cliente@example.com",
-  "telefono": "+34912345678",
-  "direccion": "Avenida Secundaria 456",
-  "fecha_creacion": "2025-11-01T09:00:00Z",
-  "fecha_actualizacion": "2025-11-20T10:35:00Z"
-}
-```
-
----
-
-### POST /clientes
-Crear nuevo cliente.
-
-**Request:**
-```json
-{
-  "correo": "newcliente@example.com",
-  "nombre": "Pedro",
-  "apellido": "Sánchez",
-  "telefono": "+34934567890",
-  "direccion": "Plaza Mayor 10"
-}
-```
-
-**Response (201 Created):**
-```json
-{
-  "id_cliente": 2,
-  "correo": "newcliente@example.com",
-  "nombre": "Pedro",
-  "apellido": "Sánchez",
-  "telefono": "+34934567890",
-  "direccion": "Plaza Mayor 10",
-  "fecha_creacion": "2025-11-20T11:10:00Z"
-}
-```
-
----
-
-### PUT /clientes/:id
-Actualizar cliente.
-
-**Path Parameters:**
-- `id` (number): ID del cliente
-
-**Request:**
-```json
-{
-  "nombre": "Pedro Updated",
-  "telefono": "+34912121212"
-}
-```
-
-**Response (200 OK):**
-```json
-{
-  "id_cliente": 2,
-  "correo": "newcliente@example.com",
-  "nombre": "Pedro Updated",
-  "apellido": "Sánchez",
-  "telefono": "+34912121212",
-  "direccion": "Plaza Mayor 10",
-  "fecha_actualizacion": "2025-11-20T11:15:00Z"
-}
-```
-
----
-
-### DELETE /clientes/:id
-Eliminar cliente.
-
-**Path Parameters:**
-- `id` (number): ID del cliente
-
-**Response (204 No Content):**
-```
-(sin cuerpo)
-```
+**Response (204 No Content)**
 
 ---
 
 ## Categorías
 
-### GET /categorias
-Listar todas las categorías.
-
-**Query Parameters (opcionales):**
-- `skip` (number): Número de registros a saltar
-- `take` (number): Número de registros a obtener
+### Listar Categorías
+- **Método:** `GET`
+- **Ruta:** `/categorias`
+- **Query Parameters (opcionales):**
+  - `skip` (number) - Registros a saltar
+  - `take` (number) - Registros a obtener
+- **Descripción:** Obtiene la lista de categorías
 
 **Response (200 OK):**
 ```json
@@ -392,8 +423,7 @@ Listar todas las categorías.
     "imagen": "https://example.com/herramientas.jpg",
     "id_padre": null,
     "fecha_creacion": "2025-11-01T10:00:00Z",
-    "fecha_actualizacion": "2025-11-20T10:50:00Z",
-    "hijos": []
+    "fecha_actualizacion": "2025-11-20T10:50:00Z"
   },
   {
     "id_categoria": 2,
@@ -402,19 +432,18 @@ Listar todas las categorías.
     "imagen": "https://example.com/taladros.jpg",
     "id_padre": 1,
     "fecha_creacion": "2025-11-02T10:00:00Z",
-    "fecha_actualizacion": "2025-11-20T10:50:00Z",
-    "hijos": []
+    "fecha_actualizacion": "2025-11-20T10:50:00Z"
   }
 ]
 ```
 
 ---
 
-### GET /categorias/:id
-Obtener categoría por ID con sus productos.
-
-**Path Parameters:**
-- `id` (number): ID de la categoría
+### Obtener Categoría por ID
+- **Método:** `GET`
+- **Ruta:** `/categorias/:id`
+- **Parámetros:** `id` (number) - ID de la categoría
+- **Descripción:** Obtiene una categoría con sus productos e hijos
 
 **Response (200 OK):**
 ```json
@@ -448,10 +477,12 @@ Obtener categoría por ID con sus productos.
 
 ---
 
-### POST /categorias
-Crear nueva categoría.
+### Crear Categoría
+- **Método:** `POST`
+- **Ruta:** `/categorias`
+- **Descripción:** Crea una nueva categoría
 
-**Request:**
+**Request Body:**
 ```json
 {
   "nombre": "Accesorios",
@@ -475,13 +506,13 @@ Crear nueva categoría.
 
 ---
 
-### PUT /categorias/:id
-Actualizar categoría.
+### Actualizar Categoría
+- **Método:** `PUT`
+- **Ruta:** `/categorias/:id`
+- **Parámetros:** `id` (number) - ID de la categoría
+- **Descripción:** Actualiza una categoría
 
-**Path Parameters:**
-- `id` (number): ID de la categoría
-
-**Request:**
+**Request Body:**
 ```json
 {
   "nombre": "Accesorios Updated",
@@ -503,27 +534,25 @@ Actualizar categoría.
 
 ---
 
-### DELETE /categorias/:id
-Eliminar categoría.
+### Eliminar Categoría
+- **Método:** `DELETE`
+- **Ruta:** `/categorias/:id`
+- **Parámetros:** `id` (number) - ID de la categoría
+- **Descripción:** Elimina una categoría
 
-**Path Parameters:**
-- `id` (number): ID de la categoría
-
-**Response (204 No Content):**
-```
-(sin cuerpo)
-```
+**Response (204 No Content)**
 
 ---
 
 ## Productos
 
-### GET /productos
-Listar todos los productos.
-
-**Query Parameters (opcionales):**
-- `skip` (number): Número de registros a saltar
-- `take` (number): Número de registros a obtener
+### Listar Productos
+- **Método:** `GET`
+- **Ruta:** `/productos`
+- **Query Parameters (opcionales):**
+  - `skip` (number) - Registros a saltar
+  - `take` (number) - Registros a obtener
+- **Descripción:** Obtiene la lista de productos
 
 **Response (200 OK):**
 ```json
@@ -537,22 +566,19 @@ Listar todos los productos.
     "imagen": "https://example.com/taladro-dewalt.jpg",
     "id_categoria": 2,
     "fecha_creacion": "2025-11-01T11:00:00Z",
-    "fecha_actualizacion": "2025-11-20T11:00:00Z",
-    "categoria": {
-      "id_categoria": 2,
-      "nombre": "Taladros"
-    }
+    "fecha_actualizacion": "2025-11-20T11:00:00Z"
   }
 ]
 ```
 
 ---
 
-### GET /productos/search
-Buscar productos por patrón de nombre (case-insensitive).
-
-**Query Parameters:**
-- `pattern` (string, **requerido**): Patrón de búsqueda
+### Buscar Productos por Patrón
+- **Método:** `GET`
+- **Ruta:** `/productos/search`
+- **Query Parameters:**
+  - `pattern` (string, **requerido**) - Patrón de búsqueda
+- **Descripción:** Busca productos por nombre (case-insensitive)
 
 **Example:**
 ```
@@ -577,21 +603,13 @@ GET /productos/search?pattern=taladro
 ]
 ```
 
-**Error (400 Bad Request):**
-```json
-{
-  "statusCode": 400,
-  "message": "Pattern cannot be empty"
-}
-```
-
 ---
 
-### GET /productos/:id
-Obtener producto por ID.
-
-**Path Parameters:**
-- `id` (number): ID del producto
+### Obtener Producto por ID
+- **Método:** `GET`
+- **Ruta:** `/productos/:id`
+- **Parámetros:** `id` (number) - ID del producto
+- **Descripción:** Obtiene un producto específico con sus modelos asociados
 
 **Response (200 OK):**
 ```json
@@ -612,7 +630,7 @@ Obtener producto por ID.
   "modelos": [
     {
       "id_modelo": 5,
-      "nombre": "Model A 2024"
+      "nombre": "Corolla"
     }
   ]
 }
@@ -620,10 +638,12 @@ Obtener producto por ID.
 
 ---
 
-### POST /productos
-Crear nuevo producto.
+### Crear Producto
+- **Método:** `POST`
+- **Ruta:** `/productos`
+- **Descripción:** Crea un nuevo producto
 
-**Request:**
+**Request Body:**
 ```json
 {
   "nombre": "Sierra Circular",
@@ -651,13 +671,13 @@ Crear nuevo producto.
 
 ---
 
-### PUT /productos/:id
-Actualizar producto.
+### Actualizar Producto
+- **Método:** `PUT`
+- **Ruta:** `/productos/:id`
+- **Parámetros:** `id` (number) - ID del producto
+- **Descripción:** Actualiza un producto
 
-**Path Parameters:**
-- `id` (number): ID del producto
-
-**Request:**
+**Request Body:**
 ```json
 {
   "nombre": "Sierra Circular Pro",
@@ -682,24 +702,22 @@ Actualizar producto.
 
 ---
 
-### DELETE /productos/:id
-Eliminar producto.
+### Eliminar Producto
+- **Método:** `DELETE`
+- **Ruta:** `/productos/:id`
+- **Parámetros:** `id` (number) - ID del producto
+- **Descripción:** Elimina un producto
 
-**Path Parameters:**
-- `id` (number): ID del producto
-
-**Response (204 No Content):**
-```
-(sin cuerpo)
-```
+**Response (204 No Content)**
 
 ---
 
 ## Carritos
 
-
-### GET /carritos
-Listar todos los carritos.
+### Listar Carritos
+- **Método:** `GET`
+- **Ruta:** `/carritos`
+- **Descripción:** Obtiene la lista de carritos
 
 **Response (200 OK):**
 ```json
@@ -724,9 +742,7 @@ Listar todos los carritos.
         "producto": {
           "id_producto": 1,
           "nombre": "Taladro DeWalt",
-          "imagen_url": "https://example.com/taladro-dewalt.jpg",
-          "stock": 15,
-          "precio_unitario": 250.00
+          "stock": 15
         }
       }
     ]
@@ -736,11 +752,11 @@ Listar todos los carritos.
 
 ---
 
-### GET /carritos/:id
-Obtener carrito por ID con detalles.
-
-**Path Parameters:**
-- `id` (number): ID del carrito
+### Obtener Carrito por ID
+- **Método:** `GET`
+- **Ruta:** `/carritos/:id`
+- **Parámetros:** `id` (number) - ID del carrito
+- **Descripción:** Obtiene un carrito específico con sus detalles
 
 **Response (200 OK):**
 ```json
@@ -763,9 +779,7 @@ Obtener carrito por ID con detalles.
       "producto": {
         "id_producto": 1,
         "nombre": "Taladro DeWalt",
-        "imagen_url": "https://example.com/taladro-dewalt.jpg",
-        "stock": 15,
-        "precio_unitario": 250.00
+        "stock": 15
       }
     }
   ]
@@ -774,10 +788,12 @@ Obtener carrito por ID con detalles.
 
 ---
 
-### POST /carritos
-Crear nuevo carrito.
+### Crear Carrito
+- **Método:** `POST`
+- **Ruta:** `/carritos`
+- **Descripción:** Crea un nuevo carrito
 
-**Request:**
+**Request Body:**
 ```json
 {
   "id_cliente": 1,
@@ -797,13 +813,13 @@ Crear nuevo carrito.
 
 ---
 
-### POST /carritos/:id/detalles
-Añadir detalle (producto) al carrito.
+### Agregar Detalle al Carrito
+- **Método:** `POST`
+- **Ruta:** `/carritos/:id/detalles`
+- **Parámetros:** `id` (number) - ID del carrito
+- **Descripción:** Añade un producto al carrito
 
-**Path Parameters:**
-- `id` (number): ID del carrito
-
-**Request:**
+**Request Body:**
 ```json
 {
   "id_producto": 1,
@@ -822,20 +838,18 @@ Añadir detalle (producto) al carrito.
   "producto": {
     "id_producto": 1,
     "nombre": "Taladro DeWalt",
-    "imagen_url": "https://example.com/taladro-dewalt.jpg",
-    "stock": 15,
-    "precio_unitario": 250.00
+    "stock": 15
   }
 }
 ```
 
 ---
 
-### GET /carritos/:id/detalles
-Listar detalles del carrito.
-
-**Path Parameters:**
-- `id` (number): ID del carrito
+### Listar Detalles del Carrito
+- **Método:** `GET`
+- **Ruta:** `/carritos/:id/detalles`
+- **Parámetros:** `id` (number) - ID del carrito
+- **Descripción:** Obtiene los detalles del carrito
 
 **Response (200 OK):**
 ```json
@@ -848,9 +862,7 @@ Listar detalles del carrito.
     "producto": {
       "id_producto": 1,
       "nombre": "Taladro DeWalt",
-      "imagen_url": "https://example.com/taladro-dewalt.jpg",
-      "stock": 15,
-      "precio_unitario": 250.00
+      "stock": 15
     }
   }
 ]
@@ -858,13 +870,13 @@ Listar detalles del carrito.
 
 ---
 
-### PUT /carritos/:id
-Actualizar estado del carrito.
+### Actualizar Carrito
+- **Método:** `PUT`
+- **Ruta:** `/carritos/:id`
+- **Parámetros:** `id` (number) - ID del carrito
+- **Descripción:** Actualiza el estado del carrito
 
-**Path Parameters:**
-- `id` (number): ID del carrito
-
-**Request:**
+**Request Body:**
 ```json
 {
   "estado": "completado"
@@ -883,38 +895,32 @@ Actualizar estado del carrito.
 
 ---
 
-### DELETE /carritos/:id
-Eliminar carrito.
+### Eliminar Carrito
+- **Método:** `DELETE`
+- **Ruta:** `/carritos/:id`
+- **Parámetros:** `id` (number) - ID del carrito
+- **Descripción:** Elimina un carrito
 
-**Path Parameters:**
-- `id` (number): ID del carrito
-
-**Response (204 No Content):**
-```
-(sin cuerpo)
-```
+**Response (204 No Content)**
 
 ---
 
-### DELETE /carritos/detalles/:id_detalle
-Eliminar detalle del carrito.
+### Eliminar Detalle del Carrito
+- **Método:** `DELETE`
+- **Ruta:** `/carritos/detalles/:id_detalle`
+- **Parámetros:** `id_detalle` (number) - ID del detalle
+- **Descripción:** Elimina un producto del carrito
 
-**Path Parameters:**
-- `id_detalle` (number): ID del detalle
-
-**Response (204 No Content):**
-```
-(sin cuerpo)
-```
+**Response (204 No Content)**
 
 ---
 
 ## Pedidos
 
-**Estados posibles:** pendiente, pagado, enviado, entregado, cancelado
-
-### GET /pedidos
-Listar todos los pedidos.
+### Listar Pedidos
+- **Método:** `GET`
+- **Ruta:** `/pedidos`
+- **Descripción:** Obtiene la lista de pedidos
 
 **Response (200 OK):**
 ```json
@@ -937,8 +943,7 @@ Listar todos los pedidos.
         "subtotal": 250.00,
         "producto": {
           "id_producto": 1,
-          "nombre": "Taladro DeWalt",
-          "precio": 250.00
+          "nombre": "Taladro DeWalt"
         }
       }
     ]
@@ -948,11 +953,11 @@ Listar todos los pedidos.
 
 ---
 
-### GET /pedidos/:id
-Obtener pedido por ID con detalles.
-
-**Path Parameters:**
-- `id` (number): ID del pedido
+### Obtener Pedido por ID
+- **Método:** `GET`
+- **Ruta:** `/pedidos/:id`
+- **Parámetros:** `id` (number) - ID del pedido
+- **Descripción:** Obtiene un pedido específico con sus detalles
 
 **Response (200 OK):**
 ```json
@@ -973,8 +978,7 @@ Obtener pedido por ID con detalles.
       "subtotal": 250.00,
       "producto": {
         "id_producto": 1,
-        "nombre": "Taladro DeWalt",
-        "precio": 250.00
+        "nombre": "Taladro DeWalt"
       }
     },
     {
@@ -986,8 +990,7 @@ Obtener pedido por ID con detalles.
       "subtotal": 950.50,
       "producto": {
         "id_producto": 5,
-        "nombre": "Sierra Circular",
-        "precio": 475.25
+        "nombre": "Sierra Circular"
       }
     }
   ]
@@ -996,10 +999,12 @@ Obtener pedido por ID con detalles.
 
 ---
 
-### POST /pedidos
-Crear nuevo pedido con detalles.
+### Crear Pedido
+- **Método:** `POST`
+- **Ruta:** `/pedidos`
+- **Descripción:** Crea un nuevo pedido con detalles
 
-**Request:**
+**Request Body:**
 ```json
 {
   "id_usuario": 1,
@@ -1047,13 +1052,15 @@ Crear nuevo pedido con detalles.
 
 ---
 
-### PUT /pedidos/:id
-Actualizar estado del pedido.
+### Actualizar Estado del Pedido
+- **Método:** `PUT`
+- **Ruta:** `/pedidos/:id`
+- **Parámetros:** `id` (number) - ID del pedido
+- **Descripción:** Actualiza el estado del pedido
 
-**Path Parameters:**
-- `id` (number): ID del pedido
+**Estados válidos:** `pendiente`, `pagado`, `procesando`, `enviado`, `entregado`, `cancelado`, `reembolso`
 
-**Request:**
+**Request Body:**
 ```json
 {
   "estado": "pagado"
@@ -1074,23 +1081,22 @@ Actualizar estado del pedido.
 
 ---
 
-### DELETE /pedidos/:id
-Eliminar pedido.
+### Eliminar Pedido
+- **Método:** `DELETE`
+- **Ruta:** `/pedidos/:id`
+- **Parámetros:** `id` (number) - ID del pedido
+- **Descripción:** Elimina un pedido
 
-**Path Parameters:**
-- `id` (number): ID del pedido
-
-**Response (204 No Content):**
-```
-(sin cuerpo)
-```
+**Response (204 No Content)**
 
 ---
 
 ## Comprobantes
 
-### GET /comprobantes
-Listar todos los comprobantes.
+### Listar Comprobantes
+- **Método:** `GET`
+- **Ruta:** `/comprobantes`
+- **Descripción:** Obtiene la lista de comprobantes
 
 **Response (200 OK):**
 ```json
@@ -1111,11 +1117,11 @@ Listar todos los comprobantes.
 
 ---
 
-### GET /comprobantes/:id
-Obtener comprobante por ID.
-
-**Path Parameters:**
-- `id` (number): ID del comprobante
+### Obtener Comprobante por ID
+- **Método:** `GET`
+- **Ruta:** `/comprobantes/:id`
+- **Parámetros:** `id` (number) - ID del comprobante
+- **Descripción:** Obtiene un comprobante específico
 
 **Response (200 OK):**
 ```json
@@ -1134,10 +1140,12 @@ Obtener comprobante por ID.
 
 ---
 
-### POST /comprobantes
-Crear nuevo comprobante.
+### Crear Comprobante
+- **Método:** `POST`
+- **Ruta:** `/comprobantes`
+- **Descripción:** Crea un nuevo comprobante
 
-**Request:**
+**Request Body:**
 ```json
 {
   "id_pedido": 1,
@@ -1165,34 +1173,25 @@ Crear nuevo comprobante.
 
 ---
 
-### DELETE /comprobantes/:id
-Eliminar comprobante.
+### Eliminar Comprobante
+- **Método:** `DELETE`
+- **Ruta:** `/comprobantes/:id`
+- **Parámetros:** `id` (number) - ID del comprobante
+- **Descripción:** Elimina un comprobante
 
-**Path Parameters:**
-- `id` (number): ID del comprobante
-
-**Response (204 No Content):**
-```
-(sin cuerpo)
-```
+**Response (204 No Content)**
 
 ---
 
 ## Reportes
 
-**Roles permitidos:** `superadmin`, `vendedor`
-
-### GET /reportes/ventas/totales
-Obtener ventas totales en un rango de fechas.
-
-**Query Parameters (opcionales):**
-- `desde` (string, ISO 8601): Fecha inicial (ej: 2025-01-01)
-- `hasta` (string, ISO 8601): Fecha final (ej: 2025-11-20)
-
-**Example:**
-```
-GET /reportes/ventas/totales?desde=2025-01-01&hasta=2025-11-20
-```
+### Ventas Totales
+- **Método:** `GET`
+- **Ruta:** `/reportes/ventas/totales`
+- **Query Parameters (opcionales):**
+  - `desde` (string, ISO 8601) - Fecha inicial (ej: 2025-01-01)
+  - `hasta` (string, ISO 8601) - Fecha final (ej: 2025-11-20)
+- **Descripción:** Obtiene ventas totales en un rango de fechas
 
 **Response (200 OK):**
 ```json
@@ -1208,17 +1207,13 @@ GET /reportes/ventas/totales?desde=2025-01-01&hasta=2025-11-20
 
 ---
 
-### GET /reportes/ventas/por-producto
-Obtener ventas agrupadas por producto.
-
-**Query Parameters (opcionales):**
-- `desde` (string, ISO 8601): Fecha inicial
-- `hasta` (string, ISO 8601): Fecha final
-
-**Example:**
-```
-GET /reportes/ventas/por-producto?desde=2025-01-01&hasta=2025-11-20
-```
+### Ventas por Producto
+- **Método:** `GET`
+- **Ruta:** `/reportes/ventas/por-producto`
+- **Query Parameters (opcionales):**
+  - `desde` (string, ISO 8601) - Fecha inicial
+  - `hasta` (string, ISO 8601) - Fecha final
+- **Descripción:** Obtiene ventas agrupadas por producto
 
 **Response (200 OK):**
 ```json
@@ -1242,17 +1237,13 @@ GET /reportes/ventas/por-producto?desde=2025-01-01&hasta=2025-11-20
 
 ---
 
-### GET /reportes/pedidos/por-dia
-Obtener cantidad de pedidos por día.
-
-**Query Parameters (opcionales):**
-- `desde` (string, ISO 8601): Fecha inicial
-- `hasta` (string, ISO 8601): Fecha final
-
-**Example:**
-```
-GET /reportes/pedidos/por-dia?desde=2025-11-01&hasta=2025-11-20
-```
+### Pedidos por Día
+- **Método:** `GET`
+- **Ruta:** `/reportes/pedidos/por-dia`
+- **Query Parameters (opcionales):**
+  - `desde` (string, ISO 8601) - Fecha inicial
+  - `hasta` (string, ISO 8601) - Fecha final
+- **Descripción:** Obtiene cantidad de pedidos por día
 
 **Response (200 OK):**
 ```json
@@ -1277,16 +1268,12 @@ GET /reportes/pedidos/por-dia?desde=2025-11-01&hasta=2025-11-20
 
 ---
 
-### GET /reportes/clientes/top
-Obtener clientes con más compras (top clientes).
-
-**Query Parameters (opcionales):**
-- `limit` (number): Número máximo de clientes a retornar (default: 10)
-
-**Example:**
-```
-GET /reportes/clientes/top?limit=5
-```
+### Clientes Top
+- **Método:** `GET`
+- **Ruta:** `/reportes/clientes/top`
+- **Query Parameters (opcionales):**
+  - `limit` (number) - Número máximo de clientes (default: 10)
+- **Descripción:** Obtiene clientes con más compras
 
 **Response (200 OK):**
 ```json
@@ -1310,16 +1297,12 @@ GET /reportes/clientes/top?limit=5
 
 ---
 
-### GET /reportes/stock/bajo
-Obtener productos con stock bajo (por debajo de umbral).
-
-**Query Parameters (opcionales):**
-- `threshold` (number): Umbral mínimo de stock (default: 10)
-
-**Example:**
-```
-GET /reportes/stock/bajo?threshold=10
-```
+### Stock Bajo
+- **Método:** `GET`
+- **Ruta:** `/reportes/stock/bajo`
+- **Query Parameters (opcionales):**
+  - `threshold` (number) - Umbral mínimo de stock (default: 10)
+- **Descripción:** Obtiene productos con stock bajo
 
 **Response (200 OK):**
 ```json
@@ -1347,8 +1330,10 @@ GET /reportes/stock/bajo?threshold=10
 
 ## Marcas de Vehículos
 
-### GET /marcas
-Listar todas las marcas de vehículos.
+### Listar Marcas
+- **Método:** `GET`
+- **Ruta:** `/marcas`
+- **Descripción:** Obtiene la lista de marcas de vehículos
 
 **Response (200 OK):**
 ```json
@@ -1380,11 +1365,11 @@ Listar todas las marcas de vehículos.
 
 ---
 
-### GET /marcas/:id
-Obtener marca por ID.
-
-**Path Parameters:**
-- `id` (number): ID de la marca
+### Obtener Marca por ID
+- **Método:** `GET`
+- **Ruta:** `/marcas/:id`
+- **Parámetros:** `id` (number) - ID de la marca
+- **Descripción:** Obtiene una marca específica con sus modelos
 
 **Response (200 OK):**
 ```json
@@ -1408,10 +1393,12 @@ Obtener marca por ID.
 
 ---
 
-### POST /marcas
-Crear nueva marca de vehículo.
+### Crear Marca
+- **Método:** `POST`
+- **Ruta:** `/marcas`
+- **Descripción:** Crea una nueva marca de vehículo
 
-**Request:**
+**Request Body:**
 ```json
 {
   "nombre": "BMW"
@@ -1429,13 +1416,13 @@ Crear nueva marca de vehículo.
 
 ---
 
-### PUT /marcas/:id
-Actualizar marca.
+### Actualizar Marca
+- **Método:** `PUT`
+- **Ruta:** `/marcas/:id`
+- **Parámetros:** `id` (number) - ID de la marca
+- **Descripción:** Actualiza una marca
 
-**Path Parameters:**
-- `id` (number): ID de la marca
-
-**Request:**
+**Request Body:**
 ```json
 {
   "nombre": "BMW Premium"
@@ -1453,23 +1440,22 @@ Actualizar marca.
 
 ---
 
-### DELETE /marcas/:id
-Eliminar marca.
+### Eliminar Marca
+- **Método:** `DELETE`
+- **Ruta:** `/marcas/:id`
+- **Parámetros:** `id` (number) - ID de la marca
+- **Descripción:** Elimina una marca
 
-**Path Parameters:**
-- `id` (number): ID de la marca
-
-**Response (204 No Content):**
-```
-(sin cuerpo)
-```
+**Response (204 No Content)**
 
 ---
 
 ## Modelos de Vehículos
 
-### GET /modelos
-Listar todos los modelos de vehículos.
+### Listar Modelos
+- **Método:** `GET`
+- **Ruta:** `/modelos`
+- **Descripción:** Obtiene la lista de modelos de vehículos
 
 **Response (200 OK):**
 ```json
@@ -1496,39 +1482,11 @@ Listar todos los modelos de vehículos.
 
 ---
 
-### GET /modelos/marca/:id_marca
-Obtener todos los modelos de una marca específica.
-
-**Path Parameters:**
-- `id_marca` (number): ID de la marca
-
-**Response (200 OK):**
-```json
-[
-  {
-    "id_modelo": 5,
-    "nombre": "Corolla",
-    "marca": {
-      "id_marca": 1,
-      "nombre": "Toyota"
-    },
-    "productoModelos": [
-      {
-        "id_producto": 1,
-        "id_modelo": 5
-      }
-    ]
-  }
-]
-```
-
----
-
-### GET /modelos/:id
-Obtener modelo por ID.
-
-**Path Parameters:**
-- `id` (number): ID del modelo
+### Obtener Modelo por ID
+- **Método:** `GET`
+- **Ruta:** `/modelos/:id`
+- **Parámetros:** `id` (number) - ID del modelo
+- **Descripción:** Obtiene un modelo específico con sus productos
 
 **Response (200 OK):**
 ```json
@@ -1554,10 +1512,44 @@ Obtener modelo por ID.
 
 ---
 
-### POST /modelos
-Crear nuevo modelo de vehículo.
+### Obtener Modelos por Marca
+- **Método:** `GET`
+- **Ruta:** `/modelos/marca/:id_marca`
+- **Parámetros:** `id_marca` (number) - ID de la marca
+- **Descripción:** Obtiene todos los modelos de una marca específica
 
-**Request:**
+**Response (200 OK):**
+```json
+[
+  {
+    "id_modelo": 5,
+    "nombre": "Corolla",
+    "id_marca": 1,
+    "marca": {
+      "id_marca": 1,
+      "nombre": "Toyota"
+    }
+  },
+  {
+    "id_modelo": 6,
+    "nombre": "RAV4",
+    "id_marca": 1,
+    "marca": {
+      "id_marca": 1,
+      "nombre": "Toyota"
+    }
+  }
+]
+```
+
+---
+
+### Crear Modelo
+- **Método:** `POST`
+- **Ruta:** `/modelos`
+- **Descripción:** Crea un nuevo modelo de vehículo
+
+**Request Body:**
 ```json
 {
   "nombre": "3 Series",
@@ -1577,13 +1569,13 @@ Crear nuevo modelo de vehículo.
 
 ---
 
-### PUT /modelos/:id
-Actualizar modelo.
+### Actualizar Modelo
+- **Método:** `PUT`
+- **Ruta:** `/modelos/:id`
+- **Parámetros:** `id` (number) - ID del modelo
+- **Descripción:** Actualiza un modelo
 
-**Path Parameters:**
-- `id` (number): ID del modelo
-
-**Request:**
+**Request Body:**
 ```json
 {
   "nombre": "3 Series 2024"
@@ -1602,25 +1594,24 @@ Actualizar modelo.
 
 ---
 
-### DELETE /modelos/:id
-Eliminar modelo.
+### Eliminar Modelo
+- **Método:** `DELETE`
+- **Ruta:** `/modelos/:id`
+- **Parámetros:** `id` (number) - ID del modelo
+- **Descripción:** Elimina un modelo
 
-**Path Parameters:**
-- `id` (number): ID del modelo
-
-**Response (204 No Content):**
-```
-(sin cuerpo)
-```
+**Response (204 No Content)**
 
 ---
 
-## Asignación Producto-Modelo
+## Producto-Modelo
 
-### POST /producto-modelos
-Asignar un producto a un modelo de vehículo.
+### Crear Asignación Producto-Modelo
+- **Método:** `POST`
+- **Ruta:** `/producto-modelos`
+- **Descripción:** Asigna un producto a un modelo de vehículo
 
-**Request:**
+**Request Body:**
 ```json
 {
   "id_producto": 1,
@@ -1639,8 +1630,10 @@ Asignar un producto a un modelo de vehículo.
 
 ---
 
-### GET /producto-modelos
-Listar todas las asignaciones producto-modelo.
+### Listar Todas las Asignaciones
+- **Método:** `GET`
+- **Ruta:** `/producto-modelos`
+- **Descripción:** Obtiene todas las asignaciones producto-modelo
 
 **Response (200 OK):**
 ```json
@@ -1668,11 +1661,11 @@ Listar todas las asignaciones producto-modelo.
 
 ---
 
-### GET /producto-modelos/producto/:id_producto
-Obtener todos los modelos asociados a un producto.
-
-**Path Parameters:**
-- `id_producto` (number): ID del producto
+### Obtener Modelos de un Producto
+- **Método:** `GET`
+- **Ruta:** `/producto-modelos/producto/:id_producto`
+- **Parámetros:** `id_producto` (number) - ID del producto
+- **Descripción:** Obtiene todos los modelos asociados a un producto
 
 **Response (200 OK):**
 ```json
@@ -1698,11 +1691,11 @@ Obtener todos los modelos asociados a un producto.
 
 ---
 
-### GET /producto-modelos/modelo/:id_modelo
-Obtener todos los productos asociados a un modelo.
-
-**Path Parameters:**
-- `id_modelo` (number): ID del modelo
+### Obtener Productos de un Modelo
+- **Método:** `GET`
+- **Ruta:** `/producto-modelos/modelo/:id_modelo`
+- **Parámetros:** `id_modelo` (number) - ID del modelo
+- **Descripción:** Obtiene todos los productos asociados a un modelo
 
 **Response (200 OK):**
 ```json
@@ -1726,130 +1719,72 @@ Obtener todos los productos asociados a un modelo.
 
 ---
 
-### GET /producto-modelos/:id_producto/:id_modelo
-Obtener una asignación específica producto-modelo.
+### Desasignar Producto de Modelo
+- **Método:** `DELETE`
+- **Ruta:** `/producto-modelos/:id_producto/:id_modelo`
+- **Parámetros:**
+  - `id_producto` (number) - ID del producto
+  - `id_modelo` (number) - ID del modelo
+- **Descripción:** Desasigna un producto de un modelo
 
-**Path Parameters:**
-- `id_producto` (number): ID del producto
-- `id_modelo` (number): ID del modelo
+**Response (204 No Content)**
 
-**Response (200 OK):**
+---
+
+## Documentación
+- **Método:** `GET`
+- **Ruta:** `/docs`
+- **Descripción:** Sirve la documentación de API en formato HTML (markdown renderizado)
+
+**Response:** Página HTML con documentación formateada
+
+---
+
+## Documentación Raw
+- **Método:** `GET`
+- **Ruta:** `/docs/raw`
+- **Descripción:** Devuelve la documentación en formato Markdown crudo
+
+**Response:** Archivo Markdown (Content-Type: text/markdown)
+
+---
+
+## Resumen de Códigos HTTP
+
+| Código | Significado |
+|--------|------------|
+| 200 | OK - Solicitud exitosa |
+| 201 | Created - Recurso creado exitosamente |
+| 204 | No Content - Operación exitosa sin contenido |
+| 400 | Bad Request - Solicitud inválida |
+| 401 | Unauthorized - Sin autenticación |
+| 403 | Forbidden - Sin permisos |
+| 404 | Not Found - Recurso no encontrado |
+| 500 | Internal Server Error - Error del servidor |
+
+---
+
+## Estructura de Respuestas
+
+### Respuesta Exitosa
 ```json
 {
-  "id_producto": 1,
-  "id_modelo": 5,
-  "fecha_creacion": "2025-11-20T13:50:00Z",
-  "producto": {
-    "id_producto": 1,
-    "nombre": "Taladro DeWalt",
-    "precio": 250.00
-  },
-  "modelo": {
-    "id_modelo": 5,
-    "nombre": "Corolla"
-  }
+  "id": 1,
+  "field": "value",
+  "fecha_creacion": "2025-11-20T10:30:00Z"
 }
 ```
 
----
-
-### PUT /producto-modelos/:id_producto/:id_modelo
-Actualizar asignación producto-modelo.
-
-**Path Parameters:**
-- `id_producto` (number): ID del producto
-- `id_modelo` (number): ID del modelo
-
-**Request:**
+### Respuesta de Error
 ```json
 {
-  "id_modelo": 6
+  "statusCode": 400,
+  "message": "Descripción del error"
 }
-```
-
-**Response (200 OK):**
-```json
-{
-  "id_producto": 1,
-  "id_modelo": 6,
-  "fecha_actualizacion": "2025-11-20T14:00:00Z"
-}
-```
-
----
-
-### DELETE /producto-modelos/:id_producto/:id_modelo
-Desasignar un producto de un modelo.
-
-**Path Parameters:**
-- `id_producto` (number): ID del producto
-- `id_modelo` (number): ID del modelo
-
-**Response (204 No Content):**
-```
-(sin cuerpo)
-```
-
----
-
-## Notas de Seguridad y Autenticación
-
-### Headers requeridos para rutas protegidas
-```
-Authorization: Bearer <JWT_TOKEN>
-```
-
-### Roles y permisos
-- **superadmin**: Acceso completo a todas las rutas (CRUD en administradores, reportes, etc).
-- **vendedor**: Acceso a reportes y lectura de productos/categorías.
-- **cliente**: Acceso a carritos, pedidos, comprobantes propios.
-
-### Variables de entorno requeridas
-```bash
-JWT_SECRET=tu_secreto_aqui
-DB_HOST=localhost
-DB_PORT=3306
-DB_USER=user
-DB_PASS=password
-DB_NAME=autotecnicar_db
-```
-
-### Códigos de estado HTTP comunes
-- **200 OK**: Solicitud exitosa.
-- **201 Created**: Recurso creado exitosamente.
-- **204 No Content**: Operación exitosa sin contenido de retorno.
-- **400 Bad Request**: Solicitud inválida (parámetros faltantes o incorrectos).
-- **401 Unauthorized**: Falta autenticación o token inválido.
-- **403 Forbidden**: Permisos insuficientes.
-- **404 Not Found**: Recurso no encontrado.
-- **500 Internal Server Error**: Error del servidor.
-
----
-
-## Ejemplos de uso con cURL (PowerShell)
-
-### Registrar cliente
-```powershell
-curl -Method POST -Body (ConvertTo-Json @{ correo='cliente@x.com'; password='pass123'; nombre='Juan' }) -ContentType 'application/json' http://localhost:3000/auth/cliente/register
-```
-
-### Login cliente
-```powershell
-$response = curl -Method POST -Body (ConvertTo-Json @{ correo='cliente@x.com'; password='pass123' }) -ContentType 'application/json' http://localhost:3000/auth/cliente/login | ConvertFrom-Json
-$token = $response.access_token
-```
-
-### Acceder a ruta protegida
-```powershell
-curl -Headers @{ 'Authorization' = "Bearer $token" } http://localhost:3000/reportes/ventas/totales
-```
-
-### Crear producto
-```powershell
-curl -Method POST -Body (ConvertTo-Json @{ nombre='Producto'; descripcion='Desc'; precio=100; stock=50; id_categoria=1 }) -ContentType 'application/json' -Headers @{ 'Authorization' = "Bearer $token" } http://localhost:3000/productos
 ```
 
 ---
 
 **Última actualización:** 20 de noviembre de 2025
 **Versión de API:** 1.0.0
+**Base URL:** http://localhost:3000
