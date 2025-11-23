@@ -33,13 +33,11 @@ import { ProductoModelosModule } from './producto-modelos/producto-modelos.modul
       type: 'mysql',              // Tipo de base de datos
       host: 'localhost',
       port: 3306,
-      username: 'root',
+      username: 'esant', //root
       password: 'password',
-      database: 'ejemplodb',
+      database: 'DB_WEB', //ejemplodb
   entities: [Cliente,Carrito,Categoria,Producto,CarritoDetalle,Pedido,PedidoDetalle,Comprobante,Administrador,MarcaVehiculo,ModeloVehiculo,ProductoModelo
-   // <--- ¡Asegúrate de que ESTÉ aquí!
-    // ... CarritoDetalle, y cualquier otra entidad
-  ],       // Carga automáticamente todas las entidades
+  ],       
       synchronize: true,             // ¡Solo para desarrollo! Crea tablas automáticamente
     }),
   ProductosModule,
