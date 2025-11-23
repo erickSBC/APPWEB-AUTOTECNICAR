@@ -1,5 +1,5 @@
 # API Endpoints Documentation - AutoTecnicar 
-
+**Base URL:** http://154.38.160.251/api
 ## Tabla de Contenidos
 1. [Autenticación](#autenticación)
 2. [Clientes](#clientes)
@@ -1731,23 +1731,7 @@ GET /productos/search?pattern=taladro
 
 ---
 
-## Documentación
-- **Método:** `GET`
-- **Ruta:** `/docs`
-- **Descripción:** Sirve la documentación de API en formato HTML (markdown renderizado)
 
-**Response:** Página HTML con documentación formateada
-
----
-
-## Documentación Raw
-- **Método:** `GET`
-- **Ruta:** `/docs/raw`
-- **Descripción:** Devuelve la documentación en formato Markdown crudo
-
-**Response:** Archivo Markdown (Content-Type: text/markdown)
-
----
 
 ## Resumen de Códigos HTTP
 
@@ -1787,4 +1771,4 @@ GET /productos/search?pattern=taladro
 
 **Última actualización:** 20 de noviembre de 2025
 **Versión de API:** 1.0.0
-**Base URL:** http://localhost:3000
+**Base URL:** http://154.38.160.251/api
