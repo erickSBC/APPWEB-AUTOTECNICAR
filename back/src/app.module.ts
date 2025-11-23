@@ -9,6 +9,9 @@ import { Cliente } from './entities/cliente.entity';
 import { Carrito } from './entities/carrito.entity';
 import { Categoria } from './entities/categoria.entity';
 import { Producto } from './entities/producto.entity';
+import { MarcaVehiculo } from './entities/marca-vehiculo.entity';
+import { ModeloVehiculo } from './entities/modelo-vehiculo.entity';
+import { ProductoModelo } from './entities/producto-modelo.entity';
 import { CarritoDetalle } from './entities/carrito-detalle.entity';
 import { Administrador } from './entities/administrador.entity';
 import { CarritosModule } from './carritos/carrito.module';
@@ -20,6 +23,9 @@ import { Comprobante } from './entities/comprobante.entity';
 import { AdministradoresModule } from './administradores/administrador.module';
 import { ReportesModule } from './reportes/reportes.module';
 import { AuthModule } from './auth/auth.module';
+import { MarcasModule } from './marcas/marcas.module';
+import { ModelosModule } from './modelos/modelos.module';
+import { ProductoModelosModule } from './producto-modelos/producto-modelos.module';
 
 @Module({
   imports: [
@@ -30,7 +36,7 @@ import { AuthModule } from './auth/auth.module';
       username: 'root',
       password: 'password',
       database: 'ejemplodb',
-  entities: [Cliente,Carrito,Categoria,Producto,CarritoDetalle,Pedido,PedidoDetalle,Comprobante,Administrador
+  entities: [Cliente,Carrito,Categoria,Producto,CarritoDetalle,Pedido,PedidoDetalle,Comprobante,Administrador,MarcaVehiculo,ModeloVehiculo,ProductoModelo
    // <--- ¡Asegúrate de que ESTÉ aquí!
     // ... CarritoDetalle, y cualquier otra entidad
   ],       // Carga automáticamente todas las entidades
@@ -45,6 +51,9 @@ import { AuthModule } from './auth/auth.module';
 
   ,ReportesModule
   ,AuthModule
+  ,MarcasModule
+  ,ModelosModule
+  ,ProductoModelosModule
   
 
   ],

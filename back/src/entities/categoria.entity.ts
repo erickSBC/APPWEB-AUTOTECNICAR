@@ -8,6 +8,7 @@ import {
   OneToMany,
 } from 'typeorm';
 import { Producto } from './producto.entity';
+import { RelationId, ManyToOne } from 'typeorm';
 
 @Entity('categoria')
 export class Categoria {
@@ -32,4 +33,15 @@ export class Categoria {
   // Relación con productos
   @OneToMany(() => Producto, (producto) => producto.categoria)
   productos: Producto[];
+
+  // Relación padre/hijos (categoría jerárquica)
+  @ManyToOne(() => Categoria, (categoria) => categoria.hijos, { nullable: true })
+  padre?: Categoria;
+
+  @OneToMany(() => Categoria, (categoria) => categoria.padre)
+  hijos: Categoria[];
+
+  // FK expuesta para consultas rápidas
+  @RelationId((categoria: Categoria) => categoria.padre)
+  id_padre?: number;
 }

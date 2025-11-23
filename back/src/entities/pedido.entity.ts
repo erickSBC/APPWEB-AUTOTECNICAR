@@ -1,7 +1,17 @@
 // src/pedidos/pedido.entity.ts
 import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, ManyToOne, OneToMany, JoinColumn } from 'typeorm';
-import { Cliente} from '../entities/cliente.entity';
+import { Cliente } from '../entities/cliente.entity';
 import { PedidoDetalle } from '../entities/pedido-detalle.entity';
+
+export enum PedidoEstado {
+  pendiente = 'pendiente',
+  pagado = 'pagado',
+  procesando = 'procesando',
+  enviado = 'enviado',
+  entregado = 'entregado',
+  cancelado = 'cancelado',
+  reembolso = 'reembolso',
+}
 
 @Entity('pedido')
 export class Pedido {
@@ -10,13 +20,13 @@ export class Pedido {
 
   @ManyToOne(() => Cliente, (c) => c.pedidos, { nullable: true })
   @JoinColumn({ name: 'id_cliente' })
-  cliente?: Cliente                                     ;
+  cliente?: Cliente;
 
   @Column({ type: 'varchar', length: 20 })
   tipo_pedido: string; // "online" | "local"
 
-  @Column({ type: 'varchar', length: 20, default: 'pendiente' })
-  estado: string; // pendiente | pagado | cancelado | entregado
+  @Column({ type: 'enum', enum: PedidoEstado, default: PedidoEstado.pendiente })
+  estado: PedidoEstado;
 
   @Column({ type: 'decimal', precision: 10, scale: 2, default: 0 })
   total: number;

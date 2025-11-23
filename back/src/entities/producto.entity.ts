@@ -7,8 +7,10 @@ import {
   UpdateDateColumn,
   ManyToOne,
   JoinColumn,
+  OneToMany,
 } from 'typeorm';
 import { Categoria } from './categoria.entity';
+import { ProductoModelo } from './producto-modelo.entity';
 
 @Entity('producto')
 export class Producto {
@@ -47,4 +49,7 @@ export class Producto {
 
   @UpdateDateColumn({ type: 'timestamp' })
   fecha_actualizacion: Date;
+
+  @OneToMany(() => ProductoModelo, (pm) => pm.producto)
+  productoModelos: ProductoModelo[];
 }

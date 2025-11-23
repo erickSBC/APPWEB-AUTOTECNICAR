@@ -1,3 +1,5 @@
+import { PedidoEstado } from '../../entities/pedido.entity';
+
 export class UpdatePedidoDto {
-  estado?: string;
+  estado?: PedidoEstado;
 }

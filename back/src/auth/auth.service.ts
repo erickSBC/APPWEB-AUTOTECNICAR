@@ -19,9 +19,8 @@ export class AuthService {
   async validateAdministrador(correo: string, password: string) {
     const admin = await this.adminRepo.findOneBy({ correo } as any);
     if (!admin) return null;
-    //const match = await bcrypt.compare(password, admin.password);
-    //test if:
-    const match = admin.password === password ;
+    const match = await bcrypt.compare(password, admin.password);
+    //const match = admin.password === password ;
     if (!match) return null;
     return admin;
   }
