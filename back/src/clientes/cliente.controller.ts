@@ -9,7 +9,6 @@ export class ClientesController {
 
   @Get()
   findAll() {
-    console.log("get simple")
 
     return this.clientesService.findAll();
   }

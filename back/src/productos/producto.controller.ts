@@ -9,7 +9,6 @@ export class ProductosController {
 
   @Get()
   findAll() {
-    console.log("get simple")
 
     return this.productosService.findAll();
   }

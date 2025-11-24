@@ -4,17 +4,22 @@ import { Repository } from 'typeorm';
 import { Administrador } from '../entities/administrador.entity';
 import { CreateAdministradorDto } from './dto/create-administrador.dto';
 import { UpdateAdministradorDto } from './dto/update-administrador.dto';
+import * as bcrypt from 'bcryptjs';
 
 @Injectable()
 export class AdministradoresService {
   constructor(
     @InjectRepository(Administrador)
     private readonly adminRepo: Repository<Administrador>,
-  ) {}
+  ) { }
 
   async create(data: CreateAdministradorDto) {
-    const admin = this.adminRepo.create({ ...data } as any);
-    return this.adminRepo.save(admin);
+    if (!data.password) throw new Error('Password requerido');
+    const exists = await this.adminRepo.findOneBy({ correo: data.correo } as any);
+    if (exists) throw new Error('Administrador ya existe');
+    const hashed = await bcrypt.hash(String(data.password), 10);
+    const nuevo = this.adminRepo.create({ ...data, password: hashed } as any);
+    return this.adminRepo.save(nuevo);
   }
 
   async findAll() {

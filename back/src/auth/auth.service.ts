@@ -14,23 +14,33 @@ export class AuthService {
     @InjectRepository(Cliente)
     private readonly clienteRepo: Repository<Cliente>,
     private readonly jwtService: JwtService,
-  ) {}
+  ) { }
 
-  async validateAdministrador(correo: string, password: string) {
-    const admin = await this.adminRepo.findOneBy({ correo } as any);
-    if (!admin) return null;
-    const match = await bcrypt.compare(password, admin.password);
-    //const match = admin.password === password ;
-    if (!match) return null;
-    return admin;
-  }
+  // async validateAdministrador(correo: string, password: string) {
+  //   const admin = await this.adminRepo.findOneBy({ correo } as any);
+  //   if (!admin) return null;
+  //   const match = await bcrypt.compare(password, admin.password);
+  //   //const match = admin.password === password ;
+  //   if (!match) return null;
+  //   return admin;
+  // }
 
-  async validateCliente(correo: string, password: string) {
+  // async validateCliente(correo: string, password: string) {
+  //   const cliente = await this.clienteRepo.findOneBy({ correo } as any);
+  //   if (!cliente) return null;
+  //   const match = await bcrypt.compare(password, cliente.password);
+  //   if (!match) return null;
+  //   return cliente;
+  // }
+  async validateUser(correo: string, password: string) {
     const cliente = await this.clienteRepo.findOneBy({ correo } as any);
-    if (!cliente) return null;
-    const match = await bcrypt.compare(password, cliente.password);
+    const admin = await this.adminRepo.findOneBy({ correo } as any);
+
+    if (!cliente && !admin) return null;
+    const real: Cliente | Administrador = cliente ?? admin ?? {} as Administrador;
+    const match = await bcrypt.compare(password, real.password);
     if (!match) return null;
-    return cliente;
+    return real;
   }
 
   signPayload(payload: any) {
@@ -55,10 +65,10 @@ export class AuthService {
     if (exists) throw new Error('Cliente ya existe');
     const hashed = await bcrypt.hash(String(data.password), 10);
     const nuevo = this.clienteRepo.create({ ...data, password: hashed } as any);
-  const rawSaved = await this.clienteRepo.save(nuevo);
-  const savedEntity: Cliente = Array.isArray(rawSaved) ? (rawSaved[0] as Cliente) : (rawSaved as Cliente);
-  // Return token as well
-  return { cliente: savedEntity, token: this.loginAsCliente(savedEntity as Cliente).access_token };
+    const rawSaved = await this.clienteRepo.save(nuevo);
+    const savedEntity: Cliente = Array.isArray(rawSaved) ? (rawSaved[0] as Cliente) : (rawSaved as Cliente);
+    // Return token as well
+    return { cliente: savedEntity, token: this.loginAsCliente(savedEntity as Cliente).access_token };
   }
 
   async registerAdministrador(data: Partial<Administrador>) {
@@ -67,8 +77,8 @@ export class AuthService {
     if (exists) throw new Error('Administrador ya existe');
     const hashed = await bcrypt.hash(String(data.password), 10);
     const nuevo = this.adminRepo.create({ ...data, password: hashed } as any);
-  const rawSavedAdmin = await this.adminRepo.save(nuevo);
-  const savedAdmin: Administrador = Array.isArray(rawSavedAdmin) ? (rawSavedAdmin[0] as Administrador) : (rawSavedAdmin as Administrador);
-  return { administrador: savedAdmin, token: this.loginAsAdmin(savedAdmin as Administrador).access_token };
+    const rawSavedAdmin = await this.adminRepo.save(nuevo);
+    const savedAdmin: Administrador = Array.isArray(rawSavedAdmin) ? (rawSavedAdmin[0] as Administrador) : (rawSavedAdmin as Administrador);
+    return { administrador: savedAdmin, token: this.loginAsAdmin(savedAdmin as Administrador).access_token };
   }
 }
