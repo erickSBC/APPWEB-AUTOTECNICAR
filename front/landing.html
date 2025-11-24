@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Landing - AutoMas</title>
+
+    <!-- Fuente -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <style>
+            body {
+        margin-top: 80px;
+        }   
+
+            /* ---------------- HEADER / NAV (mejorada para e‑commerce) ---------------- */
+            header {
+                background: #111;
+                color: white;
+                padding: 10px 20px;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                z-index: 9999;
+                gap: 12px;
+            }
+
+            .header-left {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+            }
+
+            .logo {
+                font-size: 26px;
+                font-weight: 700;
+                color: #e60000;
+            }
+
+            .menu-toggle {
+                display: none;
+                background: transparent;
+                border: none;
+                color: white;
+                font-size: 22px;
+                cursor: pointer;
+            }
+
+            .nav-links {
+                display: flex;
+                gap: 16px;
+            }
+
+            .nav-links a {
+                color: white;
+                text-decoration: none;
+                font-weight: 500;
+                padding: 8px 6px;
+                border-radius: 6px;
+            }
+
+            .nav-links a:hover {
+                background: rgba(255,255,255,0.04);
+            }
+
+            .search-and-cart {
+                display: flex;
+                gap: 12px;
+                align-items: center;
+            }
+
+            .search-bar {
+                width: 380px;
+                max-width: 45vw;
+                display: flex;
+                align-items: center;
+                background: white;
+                border-radius: 6px;
+                overflow: hidden;
+            }
+
+            .search-bar input {
+                width: 100%;
+                padding: 9px 12px;
+                border: none;
+                outline: none;
+                font-size: 14px;
+            }
+
+            .search-bar button {
+                padding: 9px 12px;
+                background: #e60000;
+                color: white;
+                border: none;
+                cursor: pointer;
+            }
+
+            .cart {
+                color: white;
+                text-decoration: none;
+                display: inline-flex;
+                align-items: center;
+                gap: 8px;
+                position: relative;
+                font-size: 18px;
+            }
+
+            .cart-count {
+                background: #e60000;
+                color: white;
+                font-size: 12px;
+                padding: 2px 6px;
+                border-radius: 999px;
+                position: absolute;
+                top: -6px;
+                right: -10px;
+            }
+
+            /* Responsive */
+            @media (max-width: 880px) {
+                .search-bar { display: none; }
+                .nav-links { display: none; position: absolute; top: 64px; left: 0; right:0; background: #111; flex-direction: column; gap:0; padding: 12px 20px; }
+                .nav-links a { padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.03); }
+                .menu-toggle { display: inline-block; }
+            }
+
+        /* HERO */
+        .hero {
+            background: url('https://img.freepik.com/free-photo/car-mechanic-holds-wrench-hand-repair-shop_1150-9168.jpg') center/cover no-repeat;
+            height: 420px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-shadow: 0 0 10px rgba(0,0,0,0.5);
+            font-size: 40px;
+            font-weight: 600;
+        }
+
+            /* FOOTER */
+            footer {
+                background: #111;
+                color: white;
+                padding: 20px;
+                text-align: center;
+                margin-top: 60px;
+            }
+        /* SECCIÓN DESTACADA */
+        .section {
+            text-align: center;
+            padding: 60px 20px;
+            background: white;
+            margin-top: 30px;
+        }
+
+        .section h2 {
+            font-size: 28px;
+        }
+
+        .section p {
+            font-size: 16px;
+            max-width: 700px;
+            margin: 10px auto;
+        }
+
+        /* FEATURES */
+        .features {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin-top: 40px;
+        }
+
+        .feature-box {
+            width: 250px;
+            background: #fff;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+        }
+
+        .feature-box h3 {
+            margin-bottom: 10px;
+        }
+
+        /* SECCIÓN ESTILO EMMA — FORMULARIO */
+        .emma-block {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 80px 20px;
+            background: #fff;
+            margin-top: 50px;
+        }
+
+        .emma-left img {
+            width: 450px;
+            border-radius: 8px;
+        }
+
+        .emma-right {
+            background: #fafafa;
+            padding: 30px;
+            width: 350px;
+            border-radius: 8px;
+            margin-left: 40px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+
+        .emma-right input {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+        }
+
+        .emma-right button {
+            width: 100%;
+            padding: 14px;
+            background: #e60000;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 15px;
+            margin-top: 10px;
+        }
+
+        .emma-title {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .emma-title h2 {
+            font-size: 26px;
+            margin-bottom: 10px;
+        }
+
+        /* FOOTER */
+        footer {
+            background: #111;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            margin-top: 60px;
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <!-- Header / Nav mejorado -->
+    <header>
+        <div class="header-left">
+            <button class="menu-toggle" aria-label="Abrir menú">☰</button>
+            <div class="logo">AutoMas</div>
+        </div>
+
+        <nav class="nav-links" aria-label="Navegación principal">
+            <a href="index.html">Inicio</a>
+            <a href="landing.html">Landing</a>
+            <a href="producto.html">Productos</a>
+            <a href="../profile.html">Perfil</a>
+        </nav>
+
+        <div class="search-and-cart">
+            <form class="search-bar" role="search" action="#" onsubmit="event.preventDefault();">
+                <input type="search" placeholder="Busca productos..." aria-label="Buscar productos">
+                <button aria-label="Buscar">🔍</button>
+            </form>
+
+            <a class="cart" href="shopping-cart.html" aria-label="Ver carrito">
+                🛒
+                <span class="cart-count" id="cart-count">0</span>
+            </a>
+        </div>
+    </header>
+
+    <!-- HERO -->
+    <div class="hero">
+        Bienvenido a AutoMas
+    </div>
+
+    <!-- SECCIÓN 1 -->
+    <div class="section">
+        <h2>Productos de calidad a un precio justo</h2>
+        <p>
+            Encuentra filtros, repuestos, accesorios y todo tipo de componentes para tu vehículo,
+            con la mejor atención y garantía.
+        </p>
+
+        <div class="features">
+            <div class="feature-box">
+                <h3>Alta calidad</h3>
+                Repuestos seleccionados de marcas líderes.
+            </div>
+
+            <div class="feature-box">
+                <h3>Atención rápida</h3>
+                Compras sin complicaciones, envíos inmediatos.
+            </div>
+
+            <div class="feature-box">
+                <h3>Garantía total</h3>
+                Todos los productos certificados.
+            </div>
+        </div>
+    </div>
+
+    <!-- SECCIÓN ESTILO EMMA (Registro) -->
+    <div class="emma-block">
+
+        <div class="emma-left">
+            <img src="https://cdn.dribbble.com/users/1162077/screenshots/3848914/programmer.gif" alt="">
+        </div>
+
+        <div class="emma-right">
+            <div class="emma-title">
+                <h2>Regístrate ahora</h2>
+                <p>Únete a AutoMas y recibe ofertas exclusivas.</p>
+            </div>
+
+            <input type="text" placeholder="Nombre completo">
+            <input type="email" placeholder="Correo electrónico">
+            <input type="text" placeholder="Teléfono">
+            <input type="text" placeholder="Empresa (opcional)">
+
+            <button>Crear cuenta</button>
+
+        </div>
+
+    </div>
+
+        <footer class="site-footer">
+            <div class="footer-inner">
+                <div class="footer-contact">
+                    <strong>Contacto</strong>
+                    <div>Av. Jorge Basadre Grohmann Asoc. de comerciantes 4 de nov puesto 01, Tacna, Perú</div>
+                    <div>Horario: Lun–Vie: 9:00 AM – 1:00 PM y 2:30 PM – 6:30 PM. Sáb: 9:00 AM – 1:30 PM</div>
+                    <div>Tel: (052) 242713</div>
+                </div>
+
+                <div class="footer-whatsapp">
+                    <a href="https://wa.me/51987092808?text=Hola%20quiero%20informaci%C3%B3n%20sobre%20un%20producto" target="_blank" rel="noopener noreferrer" aria-label="Contactar por WhatsApp">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                            <path d="M20.52 3.48A11.94 11.94 0 0012 0C5.373 0 .004 5.372.004 12 0 13.994.418 15.88 1.198 17.552L0 24l6.606-1.193A11.944 11.944 0 0012 24c6.627 0 12-5.372 12-12 0-3.205-1.25-6.206-3.48-8.52z" fill="#25D366"/>
+                            <path d="M17.1 14.32c-.31-.16-1.84-.91-2.12-1.02-.28-.11-.48-.16-.68.16-.2.31-.78 1.02-.96 1.23-.18.2-.36.22-.67.08-.31-.14-1.31-.48-2.49-1.53-.92-.82-1.54-1.84-1.72-2.16-.18-.31-.02-.48.14-.63.14-.14.31-.36.47-.54.16-.18.21-.31.31-.52.1-.2.05-.38-.03-.54-.08-.16-.68-1.64-.93-2.26-.24-.58-.49-.5-.68-.51l-.58-.01c-.2 0-.52.07-.8.36-.28.29-1.06 1.03-1.06 2.5 0 1.47 1.09 2.89 1.24 3.08.14.2 2.14 3.46 5.18 4.85 3.04 1.4 3.04.93 3.59.87.55-.06 1.84-.75 2.1-1.48.26-.73.26-1.36.18-1.48-.07-.12-.28-.2-.59-.36z" fill="#fff"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+            <div class="footer-bottom">© 2025 AutoMas – Todos los derechos reservados.</div>
+        </footer>
+
+    <script src="assets/js/site-cart.js"></script>
+
+</body>
+</html>
