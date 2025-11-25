@@ -5,5 +5,4 @@ export class UpdateAdministradorDto {
   password?: string;
   direccion?: string;
   telefono?: string;
-  rol?: 'superadmin' | 'vendedor';
 }

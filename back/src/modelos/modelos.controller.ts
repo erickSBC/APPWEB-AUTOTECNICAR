@@ -13,9 +13,9 @@ export class ModelosController {
     return this.modelosService.findAll();
   }
 
-  @Get('marca/:id_marca')
-  findByMarca(@Param('id_marca') id_marca: number) {
-    return this.modelosService.findByMarca(id_marca);
+  @Get('marca/:marcaParam')
+  findByMarca(@Param('marcaParam') marcaParam: string) {
+    return this.modelosService.findByMarcaString(marcaParam);
   }
 
   @Get(':id')

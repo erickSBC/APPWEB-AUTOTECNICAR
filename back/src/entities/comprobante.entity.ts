@@ -15,7 +15,7 @@ export class Comprobante {
   @ManyToOne(() => Cliente, { nullable: true })
   @JoinColumn({ name: 'id_cliente' })
   cliente?: Cliente;
-
+  
   @Column({ type: 'varchar', length: 20 })
   tipo_comprobante: string; // boleta, factura, ticket
 

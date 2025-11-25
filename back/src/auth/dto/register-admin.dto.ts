@@ -5,5 +5,4 @@ export class RegisterAdminDto {
   password: string;
   direccion?: string;
   telefono?: string;
-  rol?: 'superadmin' | 'vendedor';
 }

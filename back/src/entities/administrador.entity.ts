@@ -25,9 +25,6 @@ export class Administrador {
   @Column({ type: 'varchar', length: 20, nullable: true })
   telefono: string;
 
-  @Column({ type: 'enum', enum: ['superadmin','vendedor'], default: 'vendedor' })
-  rol: RolAdministrador;
-
   @CreateDateColumn({ type: 'timestamp' })
   fecha_creacion: Date;
 

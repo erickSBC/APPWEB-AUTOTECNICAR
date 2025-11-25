@@ -14,7 +14,7 @@ export class AuthController {
     const user = await this.authService.validateUser(dto.correo, dto.password);
     if (!user) throw new UnauthorizedException('Credenciales inválidas');
 
-    if ((user as any).rol !== undefined || (user as any).id_admin !== undefined) {
+    if ((user as any).id_admin !== undefined) {
       return this.authService.loginAsAdmin(user as Administrador);
     }
 

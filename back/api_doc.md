@@ -60,7 +60,6 @@
   "password": "securePass123",
   "nombre": "Juan",
   "apellido": "Pérez",
-  "rol": "superadmin",
   "telefono": "+34912345678",
   "direccion": "Calle Principal 123"
 }
@@ -75,7 +74,6 @@
     "correo": "newadmin@example.com",
     "nombre": "Juan",
     "apellido": "Pérez",
-    "rol": "superadmin",
     "telefono": "+34912345678",
     "direccion": "Calle Principal 123",
     "fecha_creacion": "2025-11-20T10:30:00Z"
@@ -294,7 +292,6 @@
     "correo": "admin@example.com",
     "nombre": "Juan",
     "apellido": "Pérez",
-    "rol": "superadmin",
     "telefono": "+34912345678",
     "direccion": "Calle Principal 123",
     "fecha_creacion": "2025-11-01T08:00:00Z",
@@ -318,7 +315,6 @@
   "correo": "admin@example.com",
   "nombre": "Juan",
   "apellido": "Pérez",
-  "rol": "superadmin",
   "telefono": "+34912345678",
   "direccion": "Calle Principal 123",
   "fecha_creacion": "2025-11-01T08:00:00Z",
@@ -340,7 +336,6 @@
   "password": "securePass123",
   "nombre": "María",
   "apellido": "López",
-  "rol": "vendedor",
   "telefono": "+34987654321",
   "direccion": "Calle Secundaria 789"
 }
@@ -353,7 +348,6 @@
   "correo": "admin2@example.com",
   "nombre": "María",
   "apellido": "López",
-  "rol": "vendedor",
   "telefono": "+34987654321",
   "direccion": "Calle Secundaria 789",
   "fecha_creacion": "2025-11-20T10:40:00Z"
@@ -373,7 +367,6 @@
 {
   "nombre": "María Updated",
   "telefono": "+34912121212",
-  "rol": "superadmin"
 }
 ```
 
@@ -384,7 +377,6 @@
   "correo": "admin2@example.com",
   "nombre": "María Updated",
   "apellido": "López",
-  "rol": "superadmin",
   "telefono": "+34912121212",
   "direccion": "Calle Secundaria 789",
   "fecha_actualizacion": "2025-11-20T11:00:00Z"
@@ -1328,128 +1320,6 @@ GET /productos/search?pattern=taladro
 
 ---
 
-## Marcas de Vehículos
-
-### Listar Marcas
-- **Método:** `GET`
-- **Ruta:** `/marcas`
-- **Descripción:** Obtiene la lista de marcas de vehículos
-
-**Response (200 OK):**
-```json
-[
-  {
-    "id_marca": 1,
-    "nombre": "Toyota",
-    "fecha_creacion": "2025-11-01T13:00:00Z",
-    "fecha_actualizacion": "2025-11-20T13:00:00Z",
-    "modelos": [
-      {
-        "id_modelo": 5,
-        "nombre": "Corolla"
-      },
-      {
-        "id_modelo": 6,
-        "nombre": "RAV4"
-      }
-    ]
-  },
-  {
-    "id_marca": 2,
-    "nombre": "Ford",
-    "fecha_creacion": "2025-11-02T13:00:00Z",
-    "modelos": []
-  }
-]
-```
-
----
-
-### Obtener Marca por ID
-- **Método:** `GET`
-- **Ruta:** `/marcas/:id`
-- **Parámetros:** `id` (number) - ID de la marca
-- **Descripción:** Obtiene una marca específica con sus modelos
-
-**Response (200 OK):**
-```json
-{
-  "id_marca": 1,
-  "nombre": "Toyota",
-  "fecha_creacion": "2025-11-01T13:00:00Z",
-  "fecha_actualizacion": "2025-11-20T13:00:00Z",
-  "modelos": [
-    {
-      "id_modelo": 5,
-      "nombre": "Corolla"
-    },
-    {
-      "id_modelo": 6,
-      "nombre": "RAV4"
-    }
-  ]
-}
-```
-
----
-
-### Crear Marca
-- **Método:** `POST`
-- **Ruta:** `/marcas`
-- **Descripción:** Crea una nueva marca de vehículo
-
-**Request Body:**
-```json
-{
-  "nombre": "BMW"
-}
-```
-
-**Response (201 Created):**
-```json
-{
-  "id_marca": 3,
-  "nombre": "BMW",
-  "fecha_creacion": "2025-11-20T13:10:00Z"
-}
-```
-
----
-
-### Actualizar Marca
-- **Método:** `PUT`
-- **Ruta:** `/marcas/:id`
-- **Parámetros:** `id` (number) - ID de la marca
-- **Descripción:** Actualiza una marca
-
-**Request Body:**
-```json
-{
-  "nombre": "BMW Premium"
-}
-```
-
-**Response (200 OK):**
-```json
-{
-  "id_marca": 3,
-  "nombre": "BMW Premium",
-  "fecha_actualizacion": "2025-11-20T13:15:00Z"
-}
-```
-
----
-
-### Eliminar Marca
-- **Método:** `DELETE`
-- **Ruta:** `/marcas/:id`
-- **Parámetros:** `id` (number) - ID de la marca
-- **Descripción:** Elimina una marca
-
-**Response (204 No Content)**
-
----
-
 ## Modelos de Vehículos
 
 ### Listar Modelos
@@ -1462,14 +1332,10 @@ GET /productos/search?pattern=taladro
 [
   {
     "id_modelo": 1,
-    "nombre": "Corolla",
+    "nombre": "Toyota Corolla",
     "id_marca": 1,
     "fecha_creacion": "2025-11-01T13:30:00Z",
     "fecha_actualizacion": "2025-11-20T13:30:00Z",
-    "marca": {
-      "id_marca": 1,
-      "nombre": "Toyota"
-    },
     "productos": [
       {
         "id_producto": 1,
@@ -1492,14 +1358,9 @@ GET /productos/search?pattern=taladro
 ```json
 {
   "id_modelo": 1,
-  "nombre": "Corolla",
-  "id_marca": 1,
+  "nombre": "Toyota Corolla",
   "fecha_creacion": "2025-11-01T13:30:00Z",
   "fecha_actualizacion": "2025-11-20T13:30:00Z",
-  "marca": {
-    "id_marca": 1,
-    "nombre": "Toyota"
-  },
   "productos": [
     {
       "id_producto": 1,
@@ -1508,38 +1369,6 @@ GET /productos/search?pattern=taladro
     }
   ]
 }
-```
-
----
-
-### Obtener Modelos por Marca
-- **Método:** `GET`
-- **Ruta:** `/modelos/marca/:id_marca`
-- **Parámetros:** `id_marca` (number) - ID de la marca
-- **Descripción:** Obtiene todos los modelos de una marca específica
-
-**Response (200 OK):**
-```json
-[
-  {
-    "id_modelo": 5,
-    "nombre": "Corolla",
-    "id_marca": 1,
-    "marca": {
-      "id_marca": 1,
-      "nombre": "Toyota"
-    }
-  },
-  {
-    "id_modelo": 6,
-    "nombre": "RAV4",
-    "id_marca": 1,
-    "marca": {
-      "id_marca": 1,
-      "nombre": "Toyota"
-    }
-  }
-]
 ```
 
 ---
@@ -1553,7 +1382,6 @@ GET /productos/search?pattern=taladro
 ```json
 {
   "nombre": "3 Series",
-  "id_marca": 3
 }
 ```
 
@@ -1562,7 +1390,6 @@ GET /productos/search?pattern=taladro
 {
   "id_modelo": 10,
   "nombre": "3 Series",
-  "id_marca": 3,
   "fecha_creacion": "2025-11-20T13:40:00Z"
 }
 ```
@@ -1587,7 +1414,6 @@ GET /productos/search?pattern=taladro
 {
   "id_modelo": 10,
   "nombre": "3 Series 2024",
-  "id_marca": 3,
   "fecha_actualizacion": "2025-11-20T13:45:00Z"
 }
 ```
@@ -1649,11 +1475,7 @@ GET /productos/search?pattern=taladro
     },
     "modelo": {
       "id_modelo": 5,
-      "nombre": "Corolla",
-      "marca": {
-        "id_marca": 1,
-        "nombre": "Toyota"
-      }
+      "nombre": "Toyota Corolla",
     }
   }
 ]
@@ -1672,19 +1494,11 @@ GET /productos/search?pattern=taladro
 [
   {
     "id_modelo": 5,
-    "nombre": "Corolla",
-    "marca": {
-      "id_marca": 1,
-      "nombre": "Toyota"
-    }
+    "nombre": "Toyota Corolla",
   },
   {
     "id_modelo": 6,
-    "nombre": "RAV4",
-    "marca": {
-      "id_marca": 1,
-      "nombre": "Toyota"
-    }
+    "nombre": "Toyota RAV4",
   }
 ]
 ```

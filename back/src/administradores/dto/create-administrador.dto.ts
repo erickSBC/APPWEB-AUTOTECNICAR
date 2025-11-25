@@ -5,5 +5,4 @@ export class CreateAdministradorDto {
   password: string;
   direccion?: string;
   telefono?: string;
-  rol?: 'superadmin' | 'vendedor';
 }

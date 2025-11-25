@@ -9,7 +9,6 @@ import { Cliente } from './entities/cliente.entity';
 import { Carrito } from './entities/carrito.entity';
 import { Categoria } from './entities/categoria.entity';
 import { Producto } from './entities/producto.entity';
-import { MarcaVehiculo } from './entities/marca-vehiculo.entity';
 import { ModeloVehiculo } from './entities/modelo-vehiculo.entity';
 import { ProductoModelo } from './entities/producto-modelo.entity';
 import { CarritoDetalle } from './entities/carrito-detalle.entity';
@@ -23,7 +22,6 @@ import { Comprobante } from './entities/comprobante.entity';
 import { AdministradoresModule } from './administradores/administrador.module';
 import { ReportesModule } from './reportes/reportes.module';
 import { AuthModule } from './auth/auth.module';
-import { MarcasModule } from './marcas/marcas.module';
 import { ModelosModule } from './modelos/modelos.module';
 import { ProductoModelosModule } from './producto-modelos/producto-modelos.module';
 
@@ -35,8 +33,8 @@ import { ProductoModelosModule } from './producto-modelos/producto-modelos.modul
       port: 3306,
       username: 'root', //root/esant
       password: 'password',
-      database: 'ejemplodb', //ejemplodb/DB_WEB
-  entities: [Cliente,Carrito,Categoria,Producto,CarritoDetalle,Pedido,PedidoDetalle,Comprobante,Administrador,MarcaVehiculo,ModeloVehiculo,ProductoModelo
+      database: 'DB_WEB', //ejemplodb/DB_WEB
+  entities: [Cliente,Carrito,Categoria,Producto,CarritoDetalle,Pedido,PedidoDetalle,Comprobante,Administrador,ModeloVehiculo,ProductoModelo
   ],       
       synchronize: true,             // ¡Solo para desarrollo! Crea tablas automáticamente
     }),
@@ -46,10 +44,8 @@ import { ProductoModelosModule } from './producto-modelos/producto-modelos.modul
     CarritosModule,
     PedidosModule,ComprobantesModule
   ,AdministradoresModule
-
   ,ReportesModule
   ,AuthModule
-  ,MarcasModule
   ,ModelosModule
   ,ProductoModelosModule
   

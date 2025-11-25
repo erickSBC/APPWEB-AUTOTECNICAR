@@ -22,7 +22,8 @@ export class Pedido {
 
   @Column({ type: 'varchar', length: 20 })
   tipo_pedido: string; // "online" | "local"
-
+  @Column({ type: 'varchar', length: 20 })
+  dni?: string; 
   @Column({ type: 'enum', enum: PedidoEstado, default: PedidoEstado.pendiente })
   estado: PedidoEstado;
 
