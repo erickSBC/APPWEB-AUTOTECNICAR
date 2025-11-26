@@ -1,0 +1,523 @@
+<!--
+=========================================================
+* Corporate UI - Ventas Management
+=========================================================
+-->
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
+  <link rel="icon" type="image/png" href="../assets/img/favicon.png">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+  <title>Gestión de Ventas</title>
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700|Noto+Sans:300,400,500,600,700,800|PT+Mono:300,400,500,600,700" rel="stylesheet" />
+  <link href="../assets/css/nucleo-icons.css" rel="stylesheet" />
+  <link href="../assets/css/nucleo-svg.css" rel="stylesheet" />
+  <script src="https://kit.fontawesome.com/349ee9c857.js" crossorigin="anonymous"></script>
+  <link id="pagestyle" href="../assets/css/corporate-ui-dashboard.css?v=1.0.0" rel="stylesheet" />
+  <style>
+    .form-section {
+      display: none;
+    }
+    .form-section.active {
+      display: block;
+    }
+    .list-section.hidden {
+      display: none;
+    }
+    .arrow-box {
+      background: #5a5a5e;
+      padding: 6px 8px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .arrow-box i.material-icons {
+      color: white;
+      font-size: 18px;
+    }
+    .arrow-box i {
+      transition: transform .25s;
+    }
+    .nav-link[aria-expanded="true"] .arrow-box i {
+      transform: rotate(180deg);
+    }
+    
+    /* Sidenav push + backdrop behavior */
+    @media (min-width:1200px){
+      aside.sidenav{ width:260px; }
+      main.main-content{ transition: margin-left .25s ease; margin-left:260px; }
+      body.my-sidenav-collapsed main.main-content{ margin-left:0 !important; }
+    }
+
+    #sidenav-backdrop{ display:none; position:fixed; inset:0; background:rgba(0,0,0,0.45); z-index:1040; }
+    body.my-sidenav-open #sidenav-backdrop{ display:block; }
+    @media (min-width:1200px){ #sidenav-backdrop{ display:none !important; } }
+    .badge-success {
+      background-color: #67C23A !important;
+    }
+    .badge-pending {
+      background-color: #E6A23C !important;
+    }
+    .badge-cancelled {
+      background-color: #F56C6C !important;
+    }
+  </style>
+</head>
+
+<body class="g-sidenav-show  bg-gray-100">
+  <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 bg-slate-900 fixed-start " id="sidenav-main">
+    <div class="sidenav-header">
+      <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
+      <a class="navbar-brand d-flex align-items-center m-0" href="dashboard.html">
+        <span class="font-weight-bold text-lg">D'Cesar</span>
+      </a>
+    </div>
+    <div class="collapse navbar-collapse px-4  w-auto " id="sidenav-collapse-main">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" href="../pages/dashboard.html">
+            <div class="icon icon-shape icon-sm px-0 text-center d-flex align-items-center justify-content-center">
+              <svg width="30px" height="30px" viewBox="0 0 48 48" version="1.1" xmlns="http://www.w3.org/2000/svg">
+                <g id="dashboard" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                  <g id="template" transform="translate(12.000000, 12.000000)" fill="#FFFFFF" fill-rule="nonzero">
+                    <path class="color-foreground" d="M0,1.71428571 C0,0.76752 0.76752,0 1.71428571,0 L22.2857143,0 C23.2325143,0 24,0.76752 24,1.71428571 L24,5.14285714 C24,6.08962286 23.2325143,6.85714286 22.2857143,6.85714286 L1.71428571,6.85714286 C0.76752,6.85714286 0,6.08962286 0,5.14285714 L0,1.71428571 Z" id="Path"></path>
+                    <path class="color-background" d="M0,12 C0,11.0532171 0.76752,10.2857143 1.71428571,10.2857143 L12,10.2857143 C12.9468,10.2857143 13.7142857,11.0532171 13.7142857,12 L13.7142857,22.2857143 C13.7142857,23.2325143 12.9468,24 12,24 L1.71428571,24 C0.76752,24 0,23.2325143 0,22.2857143 L0,12 Z" id="Path"></path>
+                    <path class="color-background" d="M18.8571429,10.2857143 C17.9103429,10.2857143 17.1428571,11.0532171 17.1428571,12 L17.1428571,22.2857143 C17.1428571,23.2325143 17.9103429,24 18.8571429,24 L22.2857143,24 C23.2325143,24 24,23.2325143 24,22.2857143 L24,12 C24,11.0532171 23.2325143,10.2857143 22.2857143,10.2857143 L18.8571429,10.2857143 Z" id="Path"></path>
+                  </g>
+                </g>
+              </svg>
+            </div>
+            <span class="nav-link-text ms-1">Dashboard</span>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="usuarios.html">
+            <div class="icon icon-shape icon-sm px-0 text-center d-flex align-items-center justify-content-center">
+              <svg width="30px" height="30px" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                <path d="M24 24a6 6 0 110-12 6 6 0 010 12z" fill="#FFFFFF"/>
+                <path d="M8 32c0-3.3 2-6 6-8h20c4 2 6 4.7 6 8v8H8v-8z" fill="#FFFFFF" opacity="0.7"/>
+              </svg>
+            </div>
+            <span class="nav-link-text ms-1">Usuarios</span>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="productos.html">
+            <div class="icon icon-shape icon-sm px-0 text-center d-flex align-items-center justify-content-center">
+              <svg width="30px" height="30px" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                <path d="M6 12h36v24H6z" fill="#FFFFFF" opacity="0.7"/>
+                <path d="M12 6h24v6H12z" fill="#FFFFFF"/>
+              </svg>
+            </div>
+            <span class="nav-link-text ms-1">Productos</span>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="clients-list.html">
+            <div class="icon icon-shape icon-sm px-0 text-center d-flex align-items-center justify-content-center">
+              <svg width="30px" height="30px" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                <path d="M6 18h36v18H6z" fill="#FFFFFF" opacity="0.7"/>
+                <path d="M6 12h36v6H6z" fill="#FFFFFF"/>
+              </svg>
+            </div>
+            <span class="nav-link-text ms-1">Clientes</span>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link active" href="sales-list.html">
+            <div class="icon icon-shape icon-sm px-0 text-center d-flex align-items-center justify-content-center">
+              <svg width="30px" height="30px" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 12h8v8h-8z" fill="#FFFFFF"/>
+                <path d="M28 12h8v8h-8z" fill="#FFFFFF" opacity="0.7"/>
+                <path d="M12 28h8v8h-8z" fill="#FFFFFF" opacity="0.7"/>
+                <path d="M28 28h8v8h-8z" fill="#FFFFFF" opacity="0.5"/>
+              </svg>
+            </div>
+            <span class="nav-link-text ms-1">Ventas</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </aside>
+
+  <div id="sidenav-backdrop"></div>
+
+  <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+    <!-- Navbar -->
+    <nav class="navbar navbar-main navbar-expand-lg mx-5 px-0 shadow-none rounded" id="navbarBlur" navbar-scroll="true">
+      <div class="container-fluid py-1 px-2">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb bg-transparent mb-1 pb-0 pt-1 px-0 me-sm-6 me-5">
+            <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="dashboard.html">Dashboard</a></li>
+            <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Ventas</li>
+          </ol>
+          <h6 class="font-weight-bold mb-0">Gestión de Ventas</h6>
+        </nav>
+        <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
+          <div class="ms-md-auto pe-md-3 d-flex align-items-center">
+            <div class="input-group">
+              <span class="input-group-text text-body bg-white  border-end-0 ">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+                </svg>
+              </span>
+              <input type="text" class="form-control ps-0" placeholder="Buscar venta">
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
+    <!-- End Navbar -->
+
+    <div class="container-fluid py-4 px-5">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="d-md-flex align-items-center mb-3 mx-2">
+            <div class="mb-md-0 mb-3">
+              <h3 class="font-weight-bold mb-0" id="page-title">Lista de Ventas</h3>
+            </div>
+            <button type="button" class="btn btn-sm btn-dark btn-icon d-flex align-items-center mb-0 ms-md-auto mb-sm-0 mb-2" id="btn-new-sale" onclick="showForm('new')">
+              <span class="btn-inner--icon">
+                <i class="fa fa-plus me-2"></i>
+              </span>
+              <span class="btn-inner--text">Nueva Venta</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECCIÓN DE LISTA -->
+      <div class="list-section" id="list-section">
+        <div class="row my-4">
+          <div class="col-lg-12">
+            <div class="card shadow-xs border">
+              <div class="card-header border-bottom pb-0">
+                <div class="d-sm-flex align-items-center mb-3">
+                  <div>
+                    <h6 class="font-weight-semibold text-lg mb-0">Ventas Registradas</h6>
+                    <p class="text-sm mb-sm-0 mb-2">Total: <strong id="total-sales">5</strong> ventas</p>
+                  </div>
+                </div>
+              </div>
+              <div class="card-body px-0 py-0">
+                <div class="table-responsive p-0">
+                  <table class="table align-items-center justify-content-center mb-0">
+                    <thead class="bg-gray-100">
+                      <tr>
+                        <th class="text-secondary text-xs font-weight-semibold opacity-7">ID Venta</th>
+                        <th class="text-secondary text-xs font-weight-semibold opacity-7 ps-2">Cliente</th>
+                        <th class="text-secondary text-xs font-weight-semibold opacity-7 ps-2">Monto</th>
+                        <th class="text-secondary text-xs font-weight-semibold opacity-7 ps-2">Fecha</th>
+                        <th class="text-secondary text-xs font-weight-semibold opacity-7 ps-2">Estado</th>
+                        <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">Acciones</th>
+                      </tr>
+                    </thead>
+                    <tbody id="sales-table-body">
+                      <tr>
+                        <td>
+                          <p class="text-sm font-weight-bold mb-0">#VT-001</p>
+                        </td>
+                        <td>
+                          <p class="text-sm font-weight-normal mb-0">Pedro Mendoza</p>
+                        </td>
+                        <td>
+                          <p class="text-sm font-weight-bold mb-0">S/ 450.00</p>
+                        </td>
+                        <td>
+                          <span class="text-sm font-weight-normal">22/11/2025</span>
+                        </td>
+                        <td>
+                          <span class="badge badge-success">Completada</span>
+                        </td>
+                        <td class="align-middle text-center">
+                          <button class="btn btn-sm btn-white mb-0 me-1" onclick="showForm('edit', 1)">Ver</button>
+                          <button class="btn btn-sm btn-danger mb-0">Cancelar</button>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <p class="text-sm font-weight-bold mb-0">#VT-002</p>
+                        </td>
+                        <td>
+                          <p class="text-sm font-weight-normal mb-0">Ana Chacón</p>
+                        </td>
+                        <td>
+                          <p class="text-sm font-weight-bold mb-0">S/ 850.75</p>
+                        </td>
+                        <td>
+                          <span class="text-sm font-weight-normal">21/11/2025</span>
+                        </td>
+                        <td>
+                          <span class="badge badge-success">Completada</span>
+                        </td>
+                        <td class="align-middle text-center">
+                          <button class="btn btn-sm btn-white mb-0 me-1" onclick="showForm('edit', 2)">Ver</button>
+                          <button class="btn btn-sm btn-danger mb-0">Cancelar</button>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <p class="text-sm font-weight-bold mb-0">#VT-003</p>
+                        </td>
+                        <td>
+                          <p class="text-sm font-weight-normal mb-0">Roberto Castillo</p>
+                        </td>
+                        <td>
+                          <p class="text-sm font-weight-bold mb-0">S/ 1,200.50</p>
+                        </td>
+                        <td>
+                          <span class="text-sm font-weight-normal">20/11/2025</span>
+                        </td>
+                        <td>
+                          <span class="badge badge-pending">Pendiente</span>
+                        </td>
+                        <td class="align-middle text-center">
+                          <button class="btn btn-sm btn-white mb-0 me-1" onclick="showForm('edit', 3)">Ver</button>
+                          <button class="btn btn-sm btn-danger mb-0">Cancelar</button>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <p class="text-sm font-weight-bold mb-0">#VT-004</p>
+                        </td>
+                        <td>
+                          <p class="text-sm font-weight-normal mb-0">Liliana Morales</p>
+                        </td>
+                        <td>
+                          <p class="text-sm font-weight-bold mb-0">S/ 320.25</p>
+                        </td>
+                        <td>
+                          <span class="text-sm font-weight-normal">19/11/2025</span>
+                        </td>
+                        <td>
+                          <span class="badge badge-success">Completada</span>
+                        </td>
+                        <td class="align-middle text-center">
+                          <button class="btn btn-sm btn-white mb-0 me-1" onclick="showForm('edit', 4)">Ver</button>
+                          <button class="btn btn-sm btn-danger mb-0">Cancelar</button>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <p class="text-sm font-weight-bold mb-0">#VT-005</p>
+                        </td>
+                        <td>
+                          <p class="text-sm font-weight-normal mb-0">Javier Vega</p>
+                        </td>
+                        <td>
+                          <p class="text-sm font-weight-bold mb-0">S/ 675.90</p>
+                        </td>
+                        <td>
+                          <span class="text-sm font-weight-normal">18/11/2025</span>
+                        </td>
+                        <td>
+                          <span class="badge badge-cancelled">Cancelada</span>
+                        </td>
+                        <td class="align-middle text-center">
+                          <button class="btn btn-sm btn-white mb-0 me-1" onclick="showForm('edit', 5)">Ver</button>
+                          <button class="btn btn-sm btn-danger mb-0" disabled>Cancelar</button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECCIÓN DE FORMULARIO (NUEVA/EDITAR) -->
+      <div class="form-section" id="form-section">
+        <div class="row my-4">
+          <div class="col-lg-8 mx-auto">
+            <div class="card shadow-xs border">
+              <div class="card-header border-bottom pb-3">
+                <h6 class="font-weight-semibold text-lg mb-0" id="form-title">Nueva Venta</h6>
+              </div>
+              <div class="card-body p-4">
+                <form id="sale-form">
+                  <div class="row">
+                    <div class="col-md-6 mb-3">
+                      <label class="form-label text-dark font-weight-semibold">Cliente</label>
+                      <select class="form-control" id="form-client" required>
+                        <option value="">Seleccionar cliente</option>
+                        <option value="1">Pedro Mendoza</option>
+                        <option value="2">Ana Chacón</option>
+                        <option value="3">Roberto Castillo</option>
+                        <option value="4">Liliana Morales</option>
+                        <option value="5">Javier Vega</option>
+                      </select>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                      <label class="form-label text-dark font-weight-semibold">Fecha</label>
+                      <input type="date" class="form-control" id="form-date" required>
+                    </div>
+                  </div>
+
+                  <div class="mb-3">
+                    <label class="form-label text-dark font-weight-semibold">Productos</label>
+                    <select class="form-control" id="form-products" required>
+                      <option value="">Seleccionar producto</option>
+                      <option value="1">Aceite Motor 10W60 - S/ 85.90</option>
+                      <option value="2">Filtro Aire Hyundai - S/ 25.00</option>
+                      <option value="3">Refrigerante Rosa - S/ 32.50</option>
+                      <option value="4">Bujía Platino - S/ 15.90</option>
+                    </select>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-6 mb-3">
+                      <label class="form-label text-dark font-weight-semibold">Cantidad</label>
+                      <input type="number" class="form-control" placeholder="1" id="form-quantity" min="1" value="1" required>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                      <label class="form-label text-dark font-weight-semibold">Monto Total (S/)</label>
+                      <input type="number" class="form-control" placeholder="0.00" id="form-total" step="0.01" readonly>
+                    </div>
+                  </div>
+
+                  <div class="mb-3">
+                    <label class="form-label text-dark font-weight-semibold">Estado</label>
+                    <select class="form-control" id="form-status" required>
+                      <option value="completed">Completada</option>
+                      <option value="pending">Pendiente</option>
+                      <option value="cancelled">Cancelada</option>
+                    </select>
+                  </div>
+
+                  <div class="mb-3">
+                    <label class="form-label text-dark font-weight-semibold">Notas</label>
+                    <textarea class="form-control" placeholder="Notas adicionales" id="form-notes" rows="3"></textarea>
+                  </div>
+
+                  <div class="d-flex gap-2">
+                    <button type="submit" class="btn btn-dark mb-0">Guardar Venta</button>
+                    <button type="button" class="btn btn-white mb-0" onclick="showList()">Cancelar</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <footer class="footer pt-3  ">
+      <div class="container-fluid">
+        <div class="row align-items-center justify-content-lg-between">
+          <div class="col-lg-6 mb-lg-0 mb-4">
+            <div class="copyright text-center text-xs text-muted text-lg-start">
+              Copyright © <script>document.write(new Date().getFullYear())</script> D'Cesar - Todos los derechos reservados.
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </main>
+
+  <script src="../assets/js/core/popper.min.js"></script>
+  <script src="../assets/js/core/bootstrap.min.js"></script>
+  <script src="../assets/js/plugins/perfect-scrollbar.min.js"></script>
+  <script src="../assets/js/plugins/smooth-scrollbar.min.js"></script>
+  <script src="../assets/js/corporate-ui-dashboard.min.js?v=1.0.0"></script>
+
+  <script>
+    (function(){
+      const aside = document.getElementById('sidenav-main');
+      const icon = document.getElementById('iconSidenav');
+      const backdrop = document.getElementById('sidenav-backdrop');
+
+      function updateLayout(){
+        const isDesktop = window.innerWidth >= 1200;
+        if(isDesktop){
+          if(getComputedStyle(aside).display === 'none' || aside.classList.contains('d-none')){
+            document.body.classList.add('my-sidenav-collapsed');
+          } else {
+            document.body.classList.remove('my-sidenav-collapsed');
+          }
+          document.body.classList.remove('my-sidenav-open');
+        } else {
+          document.body.classList.remove('my-sidenav-collapsed');
+        }
+      }
+
+      if(icon){
+        icon.addEventListener('click', function(e){
+          const isDesktop = window.innerWidth >= 1200;
+          if(isDesktop){
+            document.body.classList.toggle('my-sidenav-collapsed');
+          } else {
+            document.body.classList.toggle('my-sidenav-open');
+          }
+          setTimeout(updateLayout, 200);
+        });
+      }
+
+      if(backdrop){
+        backdrop.addEventListener('click', function(){
+          document.body.classList.remove('my-sidenav-open');
+        });
+      }
+
+      window.addEventListener('resize', updateLayout);
+      document.addEventListener('DOMContentLoaded', updateLayout);
+    })();
+  </script>
+
+  <script>
+    // Cambiar entre vista de lista y formulario
+    function showList() {
+      document.getElementById('list-section').classList.remove('hidden');
+      document.getElementById('form-section').classList.remove('active');
+      document.getElementById('page-title').textContent = 'Lista de Ventas';
+      document.getElementById('btn-new-sale').style.display = 'flex';
+    }
+
+    function showForm(type, saleId = null) {
+      document.getElementById('list-section').classList.add('hidden');
+      document.getElementById('form-section').classList.add('active');
+      document.getElementById('btn-new-sale').style.display = 'none';
+
+      // Limpiar formulario
+      document.getElementById('sale-form').reset();
+
+      if (type === 'new') {
+        document.getElementById('form-title').textContent = 'Nueva Venta';
+        document.getElementById('form-date').valueAsDate = new Date();
+      } else if (type === 'edit') {
+        document.getElementById('form-title').textContent = 'Ver Venta';
+        // Aquí cargarías los datos de la venta
+      }
+      document.getElementById('page-title').textContent = type === 'new' ? 'Nueva Venta' : 'Ver Venta';
+    }
+
+    // Manejar envío del formulario
+    document.getElementById('sale-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      alert('Venta guardada correctamente!');
+      showList();
+    });
+
+    // Inicializar vista
+    document.addEventListener('DOMContentLoaded', function() {
+      showList();
+      // Establecer fecha actual
+      document.getElementById('form-date').valueAsDate = new Date();
+    });
+  </script>
+
+</body>
+
+</html>

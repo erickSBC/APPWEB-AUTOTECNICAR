@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Iniciar sesión</title>
+
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/css/corporate-ui-dashboard.css?v=1.0.0">
+
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      background-image: url('../assets/img/image-sign-in.jpg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .login-card {
+      width: 100%;
+      max-width: 420px;
+      background: rgba(255, 255, 255, 0.92);
+      border-radius: 18px;
+      padding: 35px;
+      box-shadow: 0px 10px 40px rgba(0, 0, 0, 0.25);
+      backdrop-filter: blur(8px);
+      animation: fadeIn 0.5s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .error-msg, .success-msg {
+      padding: 10px 15px;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      font-size: 14px;
+      display: none;
+    }
+
+    .error-msg {
+      background: #ffdddd;
+      color: #b30000;
+      border-left: 4px solid #d00000;
+    }
+
+    .success-msg {
+      background: #ddffdd;
+      color: #006600;
+      border-left: 4px solid #009900;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="login-card">
+
+    <h3 class="text-dark font-weight-bold mb-2 text-center">Bienvenido</h3>
+    <p class="text-muted text-center mb-4">Inicia sesión para continuar</p>
+
+    <!-- Mensajes -->
+    <div id="errorBox" class="error-msg"></div>
+    <div id="successBox" class="success-msg"></div>
+
+    <form id="loginForm" novalidate>
+
+      <label class="fw-bold">Correo electrónico</label>
+      <div class="mb-3">
+        <input id="correo" type="email" class="form-control" placeholder="Ingresa tu correo" required>
+        <small class="text-danger d-none" id="correoError">Este campo es obligatorio</small>
+      </div>
+
+      <label class="fw-bold">Contraseña</label>
+      <div class="mb-3">
+        <input id="password" type="password" class="form-control" placeholder="Ingresa tu contraseña" required>
+        <small class="text-danger d-none" id="passError">Este campo es obligatorio</small>
+      </div>
+
+      <button type="submit" class="btn btn-dark w-100 mt-2">Iniciar sesión</button>
+
+    </form>
+
+    <p class="text-center mt-3 mb-0">
+      ¿No tienes una cuenta?
+      <a href="./sign-up.html" class="text-dark font-weight-bold">Regístrate</a>
+    </p>
+
+  </div>
+
+  <script>
+    const correoInput = document.getElementById("correo");
+    const passInput = document.getElementById("password");
+    const correoError = document.getElementById("correoError");
+    const passError = document.getElementById("passError");
+    
+    const errorBox = document.getElementById("errorBox");
+    const successBox = document.getElementById("successBox");
+
+    function showError(input, errorEl, msg) {
+      input.classList.add("is-invalid");
+      errorEl.textContent = msg;
+      errorEl.classList.remove("d-none");
+    }
+
+    function clearError(input, errorEl) {
+      input.classList.remove("is-invalid");
+      errorEl.classList.add("d-none");
+    }
+
+    document.getElementById("loginForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      let valid = true;
+
+      // Validaciones visuales
+      if (!correoInput.value.trim()) {
+        showError(correoInput, correoError, "Ingresa un correo válido");
+        valid = false;
+      } else {
+        clearError(correoInput, correoError);
+      }
+
+      if (!passInput.value.trim()) {
+        showError(passInput, passError, "Ingresa tu contraseña");
+        valid = false;
+      } else {
+        clearError(passInput, passError);
+      }
+
+      if (!valid) return;
+
+      // Ocultar mensajes previos
+      errorBox.style.display = "none";
+      successBox.style.display = "none";
+
+      try {
+        const res = await fetch("http://154.38.160.251/api/auth/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            correo: correoInput.value,
+            password: passInput.value
+          })
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) {
+          errorBox.textContent = data.message || "Credenciales incorrectas";
+          errorBox.style.display = "block";
+          return;
+        }
+
+        // Mostrar mensaje éxito
+        successBox.textContent = "Inicio de sesión exitoso. Redirigiendo...";
+        successBox.style.display = "block";
+
+        // Guardar token
+        localStorage.setItem("token", data.access_token);
+
+        const payload = JSON.parse(atob(data.access_token.split(".")[1]));
+
+        // Espera elegante
+        setTimeout(() => {
+          if (payload.role === "admin") {
+            window.location.href = "./dashboard.html";
+          } else {
+            window.location.href = "./web/landing.html";
+          }
+        }, 1200);
+
+      } catch (error) {
+        errorBox.textContent = "Error al conectar con el servidor.";
+        errorBox.style.display = "block";
+      }
+    });
+  </script>
+
+</body>
+</html>
