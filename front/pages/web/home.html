@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AutoMas - Repuestos y Accesorios</title>
+
+  <link rel="stylesheet" href="../../assets/css/corporate-ui-dashboard.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <style>
+    body {
+      margin: 0;
+      margin-top: 69px;
+      padding: 0;
+      font-family: "Open Sans", sans-serif;
+      background: #f5f5f5;
+    }
+
+    /* =============== HERO =============== */
+    .hero {
+      width: 100%;
+      height: 380px;
+      background: url("../../assets/img/landingFondo.jpg") center/cover no-repeat;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      color: white;
+      font-size: 48px;
+      font-weight: 800;
+      text-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    }
+.hero-content {
+  text-align: center;
+}
+
+.hero h1 {
+  font-size: 48px;
+  font-weight: 900;
+  margin-bottom: 10px;
+  color: white;
+}
+
+.hero p {
+  font-size: 18px;
+  margin-bottom: 22px;
+  color: #ffffff;
+  font-weight: 600;
+  text-shadow: 0 5px 10px rgb(0, 0, 0);
+}
+
+.hero-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.btn-hero {
+  padding: 12px 25px;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.btn-hero.primary {
+  background: #111;
+  color: rgb(224, 208, 29);
+}
+
+.btn-hero.primary:hover {
+  background: #000;
+}
+
+.btn-hero.secondary {
+  background: white;
+  color: #111;
+  border: 2px solid #111111;
+}
+
+.btn-hero.secondary:hover {
+  background: #f2f2f2;
+}
+
+    /* =============== SECTION BASE =============== */
+    .section {
+      max-width: 1100px;
+      margin: 40px auto;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .section h2 {
+      font-size: 32px;
+      font-weight: 900;
+      margin-bottom: 10px;
+    }
+
+    .section p {
+      color: #555;
+      font-size: 16px;
+    }
+
+    /* =============== FEATURES =============== */
+    .features {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 25px;
+      margin-top: 25px;
+    }
+
+    .feature-box {
+      background: white;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 3px 15px rgba(0, 0, 0, 0.08);
+      font-size: 15px;
+    }
+
+    .feature-box h3 {
+      margin-bottom: 8px;
+      font-size: 20px;
+      font-weight: 800;
+    }
+
+    /* =============== CATEGORÍAS POPULARES =============== */
+    .categories-section {
+      max-width: 1100px;
+      margin: 50px auto;
+      padding: 10px;
+      
+    }
+
+    .categories-title {
+      font-size: 28px;
+      font-weight: 800;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .categories-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .category-box {
+      background: white;
+      padding: 18px;
+      border-radius: 12px;
+      text-align: center;
+      box-shadow: 0 3px 15px rgba(0, 0, 0, 0.08);
+      transition: 0.2s;
+      cursor: pointer;
+    }
+
+    .category-box:hover {
+      transform: translateY(-4px);
+    }
+
+    .category-box img {
+      width: 60px;
+      margin-bottom: 10px;
+    }
+
+
+    /* =============== FOOTER =============== */
+    .site-footer {
+      background: #111;
+      color: white;
+      padding: 40px 25px;
+      margin-top: 60px;
+    }
+
+    .footer-inner {
+      max-width: 1100px;
+      margin: auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+
+    .footer-contact strong {
+      font-size: 20px;
+      font-weight: 800;
+    }
+
+    .footer-whatsapp svg {
+      width: 60px;
+      height: 60px;
+    }
+
+    .footer-bottom {
+      text-align: center;
+      margin-top: 25px;
+      border-top: 1px solid #444;
+      padding-top: 20px;
+      color: #ccc;
+    }
+
+    @media (max-width: 900px) {
+      .features {
+        grid-template-columns: 1fr;
+      }
+      .categories-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+      .emma-block {
+        flex-direction: column;
+        text-align: center;
+      }
+      .emma-left img {
+        width: 100%;
+      }
+      .footer-inner {
+        flex-direction: column;
+        text-align: center;
+        gap: 25px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- HEADER DINÁMICO -->
+  <div id="header"></div>
+  <script>
+    fetch("components/header.html")
+      .then(r => r.text())
+      .then(h => {
+
+        document.getElementById("header").innerHTML = h
+      });
+  </script>
+
+  <!-- HERO -->
+  <!-- HERO -->
+<div class="hero">
+  <div class="hero-content">
+    <h1>Bienvenido a AutoMas</h1>
+    <p>Los mejores repuestos, accesorios y soluciones para tu vehículo.</p>
+
+    <div class="hero-buttons">
+      <a href="tienda.html" class="btn-hero primary">Ver productos</a>
+      <a href="../sign-in.html" class="btn-hero secondary">Iniciar sesión</a>
+    </div>
+  </div>
+</div>
+    
+
+  <!-- SECCIÓN 1 -->
+  <div class="section">
+    <h2>Productos de calidad a un precio justo</h2>
+    <p>
+      Repuestos, filtros, accesorios, iluminación, frenos, lubricantes y más.
+      Todo con garantía y soporte profesional.
+    </p>
+
+    <div class="features">
+      <div class="feature-box">
+        <h3>Alta calidad</h3>
+        Repuestos de marcas líderes.
+      </div>
+
+      <div class="feature-box">
+        <h3>Atención rápida</h3>
+        Compras sin complicaciones y envíos inmediatos.
+      </div>
+
+      <div class="feature-box">
+        <h3>Garantía total</h3>
+        Todos los productos certificados con garantía.
+      </div>
+    </div>
+  </div>
+
+  <!-- CATEGORIAS POPULARES -->
+  <div class="categories-section">
+    <h2 class="categories-title">Categorías disponibles</h2>
+
+    <div class="categories-grid">
+      <div class="category-box">
+        <img src="https://cdn-icons-png.flaticon.com/512/3616/3616960.png">
+        Eléctricos
+      </div>
+
+      <div class="category-box">
+        <img src="https://cdn-icons-png.flaticon.com/512/2975/2975175.png">
+        Motor de arranque
+      </div>
+
+      <div class="category-box">
+        <img src="https://cdn-icons-png.flaticon.com/512/1995/1995520.png">
+        Alternadores
+      </div>
+
+      <!-- <div class="category-box">
+        <img src="https://cdn-icons-png.flaticon.com/512/1998/1998592.png">
+        Accesorios
+      </div> -->
+    </div>
+  </div>
+
+  
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-contact">
+        <strong>Contacto</strong>
+        <div>Av. Jorge Basadre Grohmann, Tacna, Perú</div>
+        <div>Horario: Lun–Vie 9:00–13:00 / 14:30–18:30 – Sáb 9:00–13:30</div>
+        <div>Tel: (052) 242713</div>
+      </div>
+
+      <div class="footer-whatsapp">
+        <a href="https://wa.me/51987092808?text=Hola%20quiero%20información" target="_blank">
+          <svg viewBox="0 0 24 24" fill="none">
+            <!-- <path d="M20.52 3.48A11.94 11.94 0 0012 0C5.373 0 .004 5.372.004 12..." fill="#25D366"/> -->
+          </svg>
+        </a>
+      </div>
+    </div>
+
+    <div class="footer-bottom">© 2025 AutoMas – Todos los derechos reservados.</div>
+  </footer>
+
+
+
+
+  <script src="./components/header-logic.js"></script>
+</body>
+
+</html>

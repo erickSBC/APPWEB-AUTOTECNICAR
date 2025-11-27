@@ -162,7 +162,7 @@
                   <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
                 </svg>
               </span>
-              <input type="text" class="form-control ps-0" placeholder="Search">
+              <input type="text" class="form-control ps-0" placeholder="Buscar por nombre o email" id="search-input" onkeyup="handleSearch(this.value)">
             </div>
           </div>
         </div>
@@ -191,12 +191,42 @@
       <div class="list-section" id="list-section">
         <div class="row my-4">
           <div class="col-lg-12">
+            <div class="card shadow-xs border mb-3">
+              <div class="card-body p-3">
+                <div class="row g-2">
+                  <div class="col-md-4">
+                    <label class="form-label text-dark font-weight-semibold text-xs mb-1">Filtrar por Rol</label>
+                    <select class="form-control form-control-sm" id="filter-role" onchange="handleFilter()">
+                      <option value="">Todos los roles</option>
+                      <option value="admin">Administrador</option>
+                      <option value="vendedor">Vendedor</option>
+                      <option value="cliente">Cliente</option>
+                    </select>
+                  </div>
+                  <div class="col-md-4">
+                    <label class="form-label text-dark font-weight-semibold text-xs mb-1">Filtrar por Estado</label>
+                    <select class="form-control form-control-sm" id="filter-status" onchange="handleFilter()">
+                      <option value="">Todos los estados</option>
+                      <option value="activo">Activo</option>
+                      <option value="inactivo">Inactivo</option>
+                    </select>
+                  </div>
+                  <div class="col-md-4">
+                    <label class="form-label text-dark font-weight-semibold text-xs mb-1">&nbsp;</label>
+                    <button class="btn btn-sm btn-white w-100" onclick="clearFilters()">
+                      <i class="fa fa-redo me-1"></i>Limpiar filtros
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
             <div class="card shadow-xs border">
               <div class="card-header border-bottom pb-0">
                 <div class="d-sm-flex align-items-center mb-3">
                   <div>
                     <h6 class="font-weight-semibold text-lg mb-0">Usuarios Registrados</h6>
-                    <p class="text-sm mb-sm-0 mb-2">Total: <strong id="total-users">5</strong> usuarios</p>
+                    <p class="text-sm mb-sm-0 mb-2">Mostrando: <strong id="showing-users">0</strong> de <strong id="total-users">0</strong> usuarios</p>
                   </div>
                 </div>
               </div>
@@ -213,84 +243,26 @@
                       </tr>
                     </thead>
                     <tbody id="users-table-body">
-                      <tr>
-                        <td>
-                          <div class="d-flex px-2">
-                            <div class="avatar avatar-sm rounded-circle bg-gray-100 me-2 my-2">
-                              <span class="text-dark font-weight-bold">JD</span>
-                            </div>
-                            <div class="my-auto">
-                              <h6 class="mb-0 text-sm">Juan Díaz</h6>
-                            </div>
-                          </div>
-                        </td>
-                        <td>
-                          <p class="text-sm font-weight-normal mb-0">juan@example.com</p>
-                        </td>
-                        <td>
-                          <span class="text-sm font-weight-normal">Administrador</span>
-                        </td>
-                        <td>
-                          <span class="badge badge-sm bg-success">Activo</span>
-                        </td>
-                        <td class="align-middle text-center">
-                          <button class="btn btn-sm btn-white mb-0 me-1" onclick="showForm('edit', 1)">Editar</button>
-                          <button class="btn btn-sm btn-danger mb-0">Eliminar</button>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>
-                          <div class="d-flex px-2">
-                            <div class="avatar avatar-sm rounded-circle bg-gray-100 me-2 my-2">
-                              <span class="text-dark font-weight-bold">MG</span>
-                            </div>
-                            <div class="my-auto">
-                              <h6 class="mb-0 text-sm">María García</h6>
-                            </div>
-                          </div>
-                        </td>
-                        <td>
-                          <p class="text-sm font-weight-normal mb-0">maria@example.com</p>
-                        </td>
-                        <td>
-                          <span class="text-sm font-weight-normal">Vendedor</span>
-                        </td>
-                        <td>
-                          <span class="badge badge-sm bg-success">Activo</span>
-                        </td>
-                        <td class="align-middle text-center">
-                          <button class="btn btn-sm btn-white mb-0 me-1" onclick="showForm('edit', 2)">Editar</button>
-                          <button class="btn btn-sm btn-danger mb-0">Eliminar</button>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>
-                          <div class="d-flex px-2">
-                            <div class="avatar avatar-sm rounded-circle bg-gray-100 me-2 my-2">
-                              <span class="text-dark font-weight-bold">CR</span>
-                            </div>
-                            <div class="my-auto">
-                              <h6 class="mb-0 text-sm">Carlos Ruiz</h6>
-                            </div>
-                          </div>
-                        </td>
-                        <td>
-                          <p class="text-sm font-weight-normal mb-0">carlos@example.com</p>
-                        </td>
-                        <td>
-                          <span class="text-sm font-weight-normal">Vendedor</span>
-                        </td>
-                        <td>
-                          <span class="badge badge-sm bg-warning">Inactivo</span>
-                        </td>
-                        <td class="align-middle text-center">
-                          <button class="btn btn-sm btn-white mb-0 me-1" onclick="showForm('edit', 3)">Editar</button>
-                          <button class="btn btn-sm btn-danger mb-0">Eliminar</button>
-                        </td>
-                      </tr>
                     </tbody>
                   </table>
                 </div>
+              </div>
+              
+              <!-- Paginación -->
+              <div class="card-footer bg-white py-3 border-top">
+                <nav aria-label="Page navigation">
+                  <ul class="pagination mb-0 float-end">
+                    <li class="page-item" id="prev-page-btn">
+                      <button class="page-link" onclick="previousPage()">Anterior</button>
+                    </li>
+                    <li class="page-item active" id="page-info">
+                      <span class="page-link">Página 1</span>
+                    </li>
+                    <li class="page-item" id="next-page-btn">
+                      <button class="page-link" onclick="nextPage()">Siguiente</button>
+                    </li>
+                  </ul>
+                </nav>
               </div>
             </div>
           </div>
@@ -429,6 +401,195 @@
   </script>
 
   <script>
+    // Estado global de usuarios
+    let allUsers = [];
+    let filteredUsers = [];
+    let currentPage = 1;
+    const usersPerPage = 5;
+    let filterText = '';
+    let filterRole = '';
+    let filterStatus = '';
+    let editingUserId = null;
+
+    // Inicializar usuarios desde tabla
+    function loadUsersFromTable() {
+      allUsers = [
+        {
+          id: 1,
+          name: 'Juan Díaz',
+          email: 'juan@example.com',
+          role: 'admin',
+          status: 'activo',
+          phone: '+51 999 111 222',
+          address: 'Av. Principal 123, Lima'
+        },
+        {
+          id: 2,
+          name: 'María García',
+          email: 'maria@example.com',
+          role: 'vendedor',
+          status: 'activo',
+          phone: '+51 999 333 444',
+          address: 'Calle Secundaria 456, Lima'
+        },
+        {
+          id: 3,
+          name: 'Carlos Ruiz',
+          email: 'carlos@example.com',
+          role: 'vendedor',
+          status: 'inactivo',
+          phone: '+51 999 555 666',
+          address: 'Avenida Tercera 789, Lima'
+        },
+        {
+          id: 4,
+          name: 'Sofía López',
+          email: 'sofia@example.com',
+          role: 'cliente',
+          status: 'activo',
+          phone: '+51 999 777 888',
+          address: 'Calle Principal 321, Callao'
+        },
+        {
+          id: 5,
+          name: 'Roberto Martínez',
+          email: 'roberto@example.com',
+          role: 'vendedor',
+          status: 'activo',
+          phone: '+51 999 999 000',
+          address: 'Av. Central 654, Arequipa'
+        }
+      ];
+      filteredUsers = [...allUsers];
+      updateUserCount();
+    }
+
+    // Filtrar usuarios
+    function filterUsers() {
+      filteredUsers = allUsers.filter(user => {
+        const matchSearch = user.name.toLowerCase().includes(filterText.toLowerCase()) ||
+                           user.email.toLowerCase().includes(filterText.toLowerCase());
+        const matchRole = filterRole === '' || user.role === filterRole;
+        const matchStatus = filterStatus === '' || user.status === filterStatus;
+        
+        return matchSearch && matchRole && matchStatus;
+      });
+      
+      currentPage = 1;
+      renderTable();
+    }
+
+    // Manejar búsqueda
+    function handleSearch(value) {
+      filterText = value;
+      filterUsers();
+    }
+
+    // Manejar filtros
+    function handleFilter() {
+      filterRole = document.getElementById('filter-role').value;
+      filterStatus = document.getElementById('filter-status').value;
+      filterUsers();
+    }
+
+    // Limpiar filtros
+    function clearFilters() {
+      document.getElementById('search-input').value = '';
+      document.getElementById('filter-role').value = '';
+      document.getElementById('filter-status').value = '';
+      filterText = '';
+      filterRole = '';
+      filterStatus = '';
+      filterUsers();
+    }
+
+    // Renderizar tabla
+    function renderTable() {
+      const startIndex = (currentPage - 1) * usersPerPage;
+      const endIndex = startIndex + usersPerPage;
+      const paginatedUsers = filteredUsers.slice(startIndex, endIndex);
+
+      const tbody = document.getElementById('users-table-body');
+      tbody.innerHTML = '';
+
+      if (paginatedUsers.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="5" class="text-center text-muted py-4">No hay usuarios que coincidan con los filtros</td></tr>';
+      } else {
+        paginatedUsers.forEach(user => {
+          const initials = user.name.split(' ').map(n => n[0]).join('').toUpperCase();
+          const roleLabel = user.role === 'admin' ? 'Administrador' : 
+                           user.role === 'vendedor' ? 'Vendedor' : 'Cliente';
+          const statusBadge = user.status === 'activo' 
+            ? '<span class="badge badge-sm bg-success">Activo</span>'
+            : '<span class="badge badge-sm bg-warning">Inactivo</span>';
+
+          const row = document.createElement('tr');
+          row.innerHTML = `
+            <td>
+              <div class="d-flex px-2">
+                <div class="avatar avatar-sm rounded-circle bg-gray-100 me-2 my-2">
+                  <span class="text-dark font-weight-bold">${initials}</span>
+                </div>
+                <div class="my-auto">
+                  <h6 class="mb-0 text-sm">${user.name}</h6>
+                </div>
+              </div>
+            </td>
+            <td>
+              <p class="text-sm font-weight-normal mb-0">${user.email}</p>
+            </td>
+            <td>
+              <span class="text-sm font-weight-normal">${roleLabel}</span>
+            </td>
+            <td>
+              ${statusBadge}
+            </td>
+            <td class="align-middle text-center">
+              <button class="btn btn-sm btn-white mb-0 me-1" onclick="showForm('edit', ${user.id})">Editar</button>
+              <button class="btn btn-sm btn-danger mb-0" onclick="deleteUser(${user.id})">Eliminar</button>
+            </td>
+          `;
+          tbody.appendChild(row);
+        });
+      }
+
+      updatePagination();
+    }
+
+    // Actualizar paginación
+    function updatePagination() {
+      const totalPages = Math.ceil(filteredUsers.length / usersPerPage);
+      const pageInfo = document.getElementById('page-info');
+      pageInfo.innerHTML = `<span class="page-link">Página ${currentPage} de ${totalPages}</span>`;
+
+      document.getElementById('prev-page-btn').classList.toggle('disabled', currentPage === 1);
+      document.getElementById('next-page-btn').classList.toggle('disabled', currentPage >= totalPages);
+    }
+
+    // Cambiar página
+    function previousPage() {
+      if (currentPage > 1) {
+        currentPage--;
+        renderTable();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    }
+
+    function nextPage() {
+      const totalPages = Math.ceil(filteredUsers.length / usersPerPage);
+      if (currentPage < totalPages) {
+        currentPage++;
+        renderTable();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    }
+
+    // Actualizar conteo
+    function updateUserCount() {
+      document.getElementById('total-users').textContent = allUsers.length;
+      document.getElementById('showing-users').textContent = filteredUsers.length;
+    }
+
     // Cambiar entre vista de lista y formulario
     function showList() {
       document.getElementById('list-section').classList.remove('hidden');
@@ -444,27 +605,89 @@
 
       // Limpiar formulario
       document.getElementById('user-form').reset();
+      editingUserId = userId;
 
       if (type === 'new') {
         document.getElementById('form-title').textContent = 'Nuevo Usuario';
         document.getElementById('form-password').required = true;
-      } else if (type === 'edit') {
+      } else if (type === 'edit' && userId) {
         document.getElementById('form-title').textContent = 'Editar Usuario';
         document.getElementById('form-password').required = false;
-        // Aquí cargarías los datos del usuario
+        
+        const user = allUsers.find(u => u.id === userId);
+        if (user) {
+          document.getElementById('form-name').value = user.name;
+          document.getElementById('form-email').value = user.email;
+          document.getElementById('form-phone').value = user.phone;
+          document.getElementById('form-role').value = user.role;
+          document.getElementById('form-status').value = user.status;
+          document.getElementById('form-address').value = user.address;
+        }
       }
       document.getElementById('page-title').textContent = type === 'new' ? 'Nuevo Usuario' : 'Editar Usuario';
+    }
+
+    // Eliminar usuario
+    function deleteUser(userId) {
+      if (confirm('¿Estás seguro de que deseas eliminar este usuario?')) {
+        allUsers = allUsers.filter(u => u.id !== userId);
+        filterUsers();
+        alert('Usuario eliminado correctamente');
+      }
     }
 
     // Manejar envío del formulario
     document.getElementById('user-form').addEventListener('submit', function(e) {
       e.preventDefault();
-      alert('Usuario guardado correctamente!');
+      
+      const name = document.getElementById('form-name').value;
+      const email = document.getElementById('form-email').value;
+      const phone = document.getElementById('form-phone').value;
+      const role = document.getElementById('form-role').value;
+      const status = document.getElementById('form-status').value;
+      const address = document.getElementById('form-address').value;
+
+      // Validación
+      if (!name || !email || !role || !status) {
+        alert('Por favor completa todos los campos requeridos');
+        return;
+      }
+
+      if (editingUserId) {
+        // Editar usuario existente
+        const user = allUsers.find(u => u.id === editingUserId);
+        if (user) {
+          user.name = name;
+          user.email = email;
+          user.phone = phone;
+          user.role = role;
+          user.status = status;
+          user.address = address;
+          alert('Usuario actualizado correctamente');
+        }
+      } else {
+        // Crear nuevo usuario
+        const newId = Math.max(...allUsers.map(u => u.id), 0) + 1;
+        allUsers.push({
+          id: newId,
+          name,
+          email,
+          phone,
+          role,
+          status,
+          address
+        });
+        alert('Usuario creado correctamente');
+      }
+
+      filterUsers();
       showList();
     });
 
-    // Inicializar vista
+    // Inicializar página
     document.addEventListener('DOMContentLoaded', function() {
+      loadUsersFromTable();
+      renderTable();
       showList();
     });
   </script>

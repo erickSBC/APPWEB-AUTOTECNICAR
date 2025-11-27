@@ -2,15 +2,16 @@
 import { Controller, Get, Post, Put, Delete, Param, Body, Query, BadRequestException } from '@nestjs/common';
 import { ProductosService } from './producto.service';
 import { CreateProductoDto } from './create-producto.dto';
+import { normalizePagination } from 'src/utils/pagination.util';
 
 @Controller('productos')
 export class ProductosController {
   constructor(private readonly productosService: ProductosService) { }
 
   @Get()
-  findAll() {
-
-    return this.productosService.findAll();
+  findAll(@Query() query: any) {
+    const { skip, take } = normalizePagination(query);
+    return this.productosService.findAllPaginated(skip, take);
   }
 
 
@@ -21,6 +22,26 @@ export class ProductosController {
     }
     const results = await this.productosService.searchByName(pattern.trim());
     return results;
+  }
+  @Get('filtrar')
+  async filterProducts(
+    @Query('nombre') nombre?: string,
+    @Query('categorias') categorias?: string,
+    @Query() query?: any
+  ) {
+    const { skip, take } = normalizePagination(query);
+
+    // convertir "1,3,5" → [1, 3, 5]
+    const categoriasArray = categorias
+      ? categorias.split(',').map(id => Number(id))
+      : [];
+
+    return this.productosService.filterProducts({
+      nombre,
+      categorias: categoriasArray,
+      skip,
+      take,
+    });
   }
   @Get(':id')
   findOne(@Param('id') id: number) {
@@ -40,4 +61,5 @@ export class ProductosController {
   remove(@Param('id') id: number) {
     return this.productosService.remove(id);
   }
+
 }

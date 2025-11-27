@@ -51,6 +51,7 @@ export class AuthService {
     const id = (admin as any).id_admin ?? (admin as any).id_admin ?? admin['id'];
     const payload = { sub: id, correo: admin.correo, rol: 'admin' };
     return { access_token: this.signPayload(payload) };
+    
   }
 
   loginAsCliente(cliente: Cliente) {

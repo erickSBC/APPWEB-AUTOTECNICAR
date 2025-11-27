@@ -15,7 +15,7 @@
       margin: 0;
       padding: 40px 0;
       min-height: 100vh;
-      background-image: url('../assets/img/image-sign-up.jpg');
+      background-image: url('../assets/img/loginregister.jpg');
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
@@ -212,8 +212,8 @@
       errorBox.style.display = "none";
       successBox.style.display = "none";
 
-      try {
-        const res = await fetch("http://154.38.160.251/api/auth/cliente/register", {
+      try {//http://154.38.160.251/api/auth/cliente/register
+        const res = await fetch("http://localhost:3000/auth/cliente/register", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(dataToSend)

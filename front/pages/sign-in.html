@@ -15,7 +15,7 @@
       margin: 0;
       padding: 0;
       height: 100vh;
-      background-image: url('../assets/img/image-sign-in.jpg');
+      background-image: url('../assets/img/loginregister.jpg');
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
@@ -144,8 +144,8 @@
       errorBox.style.display = "none";
       successBox.style.display = "none";
 
-      try {
-        const res = await fetch("http://154.38.160.251/api/auth/login", {
+      try {//"http://154.38.160.251/api/auth/login"
+        const res = await fetch("http://localhost:3000/auth/login", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -170,13 +170,13 @@
         localStorage.setItem("token", data.access_token);
 
         const payload = JSON.parse(atob(data.access_token.split(".")[1]));
-
+        alert("role",payload.rol)
         // Espera elegante
         setTimeout(() => {
-          if (payload.role === "admin") {
+          if (payload.rol === "admin") {
             window.location.href = "./dashboard.html";
           } else {
-            window.location.href = "./web/landing.html";
+            window.location.href = "./web/home.html";
           }
         }, 1200);
 

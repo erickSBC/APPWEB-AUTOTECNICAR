@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mi Perfil</title>
+
+  <link rel="stylesheet" href="../../assets/css/corporate-ui-dashboard.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <style>
+    body {
+      background: #f0f2f5;
+      font-family: "Open Sans", sans-serif;
+      margin: 0;
+      padding: 20px;
+    }
+
+    .profile-layout {
+      display: grid;
+      grid-template-columns: 300px 1fr;
+      gap: 25px;
+      margin: 30px auto;
+      max-width: 1200px;
+    }
+
+    /* PANEL IZQUIERDO */
+    .profile-left {
+      background: white;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+      text-align: center;
+    }
+
+    .avatar {
+      width: 90px;
+      height: 90px;
+      background: #ddd;
+      border-radius: 50%;
+      margin: auto;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 22px;
+      font-weight: 700;
+      color: #555;
+    }
+
+    .profile-left h3 {
+      margin-top: 15px;
+      font-weight: 800;
+    }
+
+    .profile-left p {
+      margin: 3px 0;
+      color: #666;
+    }
+
+    .btn-block {
+      display: block;
+      width: 90%;
+      margin: 12px auto;
+      padding: 10px;
+      border-radius: 6px;
+      border: 1px solid #aaa;
+      cursor: pointer;
+      background: white;
+      font-weight: 600;
+    }
+
+    .btn-edit {
+      background: #111;
+      color: white;
+      border: none;
+    }
+
+    .info-row {
+      margin-top: 20px;
+      border-top: 1px solid #eee;
+      padding-top: 15px;
+      display: flex;
+      justify-content: space-between;
+      font-size: 14px;
+      color: #555;
+    }
+
+    /* PANEL DERECHO */
+    .profile-right {
+      background: white;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    }
+
+    .tabs {
+      display: flex;
+      gap: 25px;
+      border-bottom: 2px solid #eee;
+      padding-bottom: 10px;
+      margin-bottom: 25px;
+    }
+
+    .tabs div {
+      font-weight: 700;
+      cursor: pointer;
+      padding-bottom: 8px;
+    }
+
+    .tabs .active {
+      border-bottom: 3px solid #111;
+    }
+
+    .form-group {
+      margin-bottom: 18px;
+    }
+
+    label {
+      font-weight: 700;
+      margin-bottom: 5px;
+      display: block;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 10px;
+      border: 2px solid #ccc;
+      border-radius: 6px;
+      font-size: 15px;
+    }
+
+    .btn-save {
+      background: #111;
+      color: white;
+      padding: 12px;
+      border: none;
+      border-radius: 6px;
+      font-weight: 700;
+      cursor: pointer;
+      width: 180px;
+    }
+
+    .btn-cancel {
+      padding: 12px;
+      background: #ddd;
+      border-radius: 6px;
+      border: 1px solid #999;
+      font-weight: 600;
+      cursor: pointer;
+      width: 150px;
+    }
+
+    .msg {
+      margin-top: 15px;
+      padding: 12px;
+      border-radius: 6px;
+      display: none;
+    }
+
+    .msg-success {
+      background: #d8ffd8;
+      color: #006600;
+      border-left: 4px solid #009900;
+    }
+
+    .msg-error {
+      background: #ffd6d6;
+      color: #a30000;
+      border-left: 4px solid #d10000;
+    }
+
+    @media (max-width: 900px) {
+      .profile-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- HEADER -->
+  <div id="header"></div>
+  <script>
+    fetch("./components/header.html")
+      .then(r => r.text())
+      .then(h => document.getElementById("header").innerHTML = h);
+  </script>
+
+  <!-- PERFIL -->
+
+  <div class="profile-layout">
+
+    <!-- PANEL IZQUIERDO -->
+    <div class="profile-left">
+      <div class="avatar" id="avatarTxt">?</div>
+
+      <h3 id="nombreCompleto">Nombre Apellido</h3>
+      <p id="correoTxt">@correo</p>
+      <p id="telefonoTxt">Teléfono</p>
+
+      <button class="btn-block">Cambiar foto</button>
+      <button class="btn-block btn-edit">Editar perfil</button>
+
+      <div class="info-row">
+        <div>
+          <strong>Miembro desde</strong><br>
+          <span id="miembroDesde">----</span>
+        </div>
+        <div>
+          <strong>Último acceso</strong><br>
+          <span id="ultimoAcceso">Hoy</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- PANEL DERECHO -->
+    <div class="profile-right">
+
+      <div class="tabs">
+        <div class="active">Perfil</div>
+      </div>
+
+
+      <!-- FORMULARIO -->
+      <form id="perfilForm">
+
+        <div class="form-group">
+          <label>Nombre</label>
+          <input type="text" id="nombre" required>
+        </div>
+
+        <div class="form-group">
+          <label>Apellido</label>
+          <input type="text" id="apellido" required>
+        </div>
+
+        <div class="form-group">
+          <label>Correo</label>
+          <input type="email" id="correo" disabled>
+        </div>
+
+        <div class="form-group">
+          <label>Contraseña (opcional)</label>
+          <input type="password" id="password" placeholder="Dejar vacío para no cambiar">
+        </div>
+
+        <div class="form-group">
+          <label>Teléfono</label>
+          <input type="text" id="telefono" required>
+        </div>
+
+        <div class="form-group">
+          <label>Dirección</label>
+          <input type="text" id="direccion" required>
+        </div>
+
+        <div class="form-group">
+          <label>DNI</label>
+          <input type="text" id="dni" required>
+        </div>
+<!-- MENSAJES -->
+      <div id="msgSuccess" class="msg msg-success"></div>
+      <div id="msgError" class="msg msg-error"></div>
+        <div style="display:flex; gap:15px; margin-top:20px;">
+          <button type="submit" class="btn-save">Guardar cambios</button>
+          <button type="button" class="btn-cancel" onclick="window.location.reload()">Cancelar</button>
+        </div>
+
+      </form>
+
+    </div>
+  </div>
+
+  <script>
+    const token = localStorage.getItem("token");  
+    //const token = true;
+    if (!token) window.location.href = "sign-in.html";
+
+    const payload = JSON.parse(atob(token.split(".")[1]));
+    const clienteId = payload.sub;
+
+    // ==== Cargar datos de cliente ====
+    async function cargarPerfil() {
+      try {
+        const res = await fetch(`http://localhost:3000/clientes/${clienteId}`, {
+          headers: { "Authorization": "Bearer " + token }
+        });
+
+        const c = await res.json();
+
+        nombre.value = c.nombre;
+        apellido.value = c.apellido;
+        correo.value = c.correo;
+        telefono.value = c.telefono;
+        direccion.value = c.direccion;
+        dni.value = c.dni;
+
+        // Panel izquierdo
+        nombreCompleto.textContent = c.nombre + " " + c.apellido;
+        correoTxt.textContent = c.correo;
+        telefonoTxt.textContent = c.telefono;
+        avatarTxt.textContent = c.nombre.charAt(0).toUpperCase();
+        miembroDesde.textContent = new Date(c.fecha_creacion).toLocaleDateString("es-ES");
+
+      } catch (err) {
+        console.error(err);
+      }
+    }
+
+    cargarPerfil();
+
+    // ==== GUARDAR CAMBIOS ====
+    perfilForm.onsubmit = async (e) => {
+      e.preventDefault();
+
+      const body = {
+        nombre: nombre.value,
+        apellido: apellido.value,
+        telefono: telefono.value,
+        direccion: direccion.value,
+        dni: dni.value
+      };
+
+      if (password.value.trim() !== "") {
+        body.password = password.value;
+      }
+
+      try {
+        const res = await fetch(`http://localhost:3000/clientes/${clienteId}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + token
+          },
+          body: JSON.stringify(body)
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) {
+          msgSuccess.style.display = "none";
+          msgError.style.display = "block";
+          msgError.textContent = data.message || "Error al actualizar datos";
+          return;
+        }
+
+        msgError.style.display = "none";
+        msgSuccess.style.display = "block";
+        msgSuccess.textContent = "Cambios guardados exitosamente";
+
+      } catch (err) {
+        msgSuccess.style.display = "none";
+        msgError.style.display = "block";
+        msgError.textContent = "Error de conexión.";
+      }
+    };
+  </script>
+  <script src="./components/header-logic.js"></script>
+
+</body>
+</html>

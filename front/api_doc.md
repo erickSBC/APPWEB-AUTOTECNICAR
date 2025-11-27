@@ -546,31 +546,40 @@
 
 ### Buscar Productos por Patrón
 - **Método:** `GET`
-- **Ruta:** `/productos/search`
+- **Ruta:** `/productos/buscar`
 - **Query Parameters:**
-  - `pattern` (string, **requerido**) - Patrón de búsqueda
+  - `nombre` (string, **requerido**) - Patrón de búsqueda
 - **Descripción:** Busca productos por nombre (case-insensitive)
 
 **Example:**
 ```
-GET /productos/search?pattern=taladro
+GET /productos/buscar?nombre=taladro
 ```
 
 **Response (200 OK):**
 ```json
 [
-  {
-    "id_producto": 1,
-    "nombre": "Taladro DeWalt",
-    "descripcion": "Taladro profesional de alta potencia",
-    "precio": 250.00,
-    "stock": 15,
-    "imagen": "https://example.com/taladro-dewalt.jpg",
-    "categoria": {
-      "id_categoria": 2,
-      "nombre": "Taladros"
+    {
+        "id_producto": "105",
+        "categoria": {
+            "id_categoria": "2",
+            "nombre": "Arrancadores",
+            "descripcion": "Categoría de arrancadores automotrices para vehículos livianos, comerciales y de carga. Incluye modelos para Toyota, Nissan, Hyundai, Kia, Mitsubishi y más.",
+            "imagen": "img/categorias/arrancadores.jpg",
+            "fecha_creacion": "2025-11-26T18:51:03.000Z",
+            "fecha_actualizacion": "2025-11-26T18:51:03.000Z",
+            "id_padre": null
+        },
+        "nombre": "ARRANCADOR 1GD ND",
+        "descripcion": "Arrancador ND para motor 1GD, óptima respuesta y rendimiento.",
+        "precio": "512.00",
+        "stock": 10,
+        "descuento": "0.00",
+        "activo": 1,
+        "imagen": "img/arrancadores/3.jpg",
+        "fecha_creacion": "2025-11-26T18:53:33.824Z",
+        "fecha_actualizacion": "2025-11-26T18:53:33.824Z"
     }
-  }
 ]
 ```
 

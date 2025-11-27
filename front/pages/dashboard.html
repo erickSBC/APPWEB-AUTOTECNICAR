@@ -102,7 +102,44 @@
   body.my-sidenav-open #sidenav-backdrop{ display:block; }
   @media (min-width:1200px){ #sidenav-backdrop{ display:none !important; } }
  
-  </style>
+    .stat-card { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border-radius: 8px; padding: 20px; margin-bottom: 15px; }
+    .stat-card.warning { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); }
+    .stat-card.success { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); }
+    .stat-card.info { background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); }
+    .stat-card h6 { font-size: 0.85rem; opacity: 0.9; }
+    .stat-card .stat-value { font-size: 1.8rem; font-weight: bold; }
+    .badge-estado { padding: 5px 10px; border-radius: 4px; font-size: 0.75rem; font-weight: 600; }
+    .badge-activo { background-color: #d4edda; color: #155724; }
+    .badge-agotado { background-color: #f8d7da; color: #721c24; }
+    .badge-inactivo { background-color: #e2e3e5; color: #383d41; }
+    .stock-critical { color: #dc3545; font-weight: bold; }
+    .stock-low { color: #ffc107; font-weight: bold; }
+    .stock-ok { color: #28a745; }
+    .tab-button { padding: 10px 15px; cursor: pointer; border: none; background: #f0f0f0; margin-right: 5px; margin-bottom: 10px; border-radius: 4px; font-weight: 500; transition: all 0.3s; }
+    .tab-button.active { background: #667eea; color: white; }
+    .tab-button:hover { transform: translateY(-2px); }
+    .form-section-title { font-size: 1.1rem; font-weight: 600; color: #333; margin-top: 25px; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 2px solid #667eea; }
+    .password-strength { height: 4px; background: #e9ecef; border-radius: 2px; margin-top: 5px; }
+    .password-strength.weak { background: #dc3545; }
+    .password-strength.medium { background: #ffc107; }
+    .password-strength.strong { background: #28a745; }
+    .strength-text { font-size: 0.85rem; margin-top: 3px; }
+    .strength-text.weak { color: #dc3545; }
+    .strength-text.medium { color: #ffc107; }
+    .strength-text.strong { color: #28a745; }
+    .success-message { background-color: #d4edda; border: 1px solid #c3e6cb; color: #155724; padding: 12px 15px; border-radius: 4px; margin-bottom: 15px; display: none; }
+    .error-message { background-color: #f8d7da; border: 1px solid #f5c6cb; color: #721c24; padding: 12px 15px; border-radius: 4px; margin-bottom: 15px; display: none; }
+    .profile-header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 40px 20px; border-radius: 8px; text-align: center; }
+    .profile-avatar { width: 120px; height: 120px; border: 5px solid white; border-radius: 50%; object-fit: cover; margin-bottom: 15px; }
+    .stat-box { background: #f8f9fa; padding: 20px; border-radius: 8px; text-align: center; border: 1px solid #dee2e6; }
+    .stat-box h6 { color: #667eea; font-weight: 600; }
+    .stat-box .value { font-size: 1.5rem; font-weight: bold; }
+    .tab-button-prof { padding: 12px 20px; background: #f0f0f0; border: none; border-radius: 6px; cursor: pointer; font-weight: 500; margin-right: 10px; margin-bottom: 15px; transition: all 0.3s; }
+    .tab-button-prof.active { background: #667eea; color: white; }
+    .tab-button-prof:hover { transform: translateY(-2px); }
+    .tab-content-prof { display: none; }
+    .tab-content-prof.active { display: block; }
+    </style>
 
 </head>
 
@@ -117,7 +154,7 @@
     <div class="collapse navbar-collapse px-4  w-auto " id="sidenav-collapse-main">
       <ul class="navbar-nav">
         <li class="nav-item">
-          <a class="nav-link  active" href="../pages/dashboard.html">
+          <a class="nav-link  active" href="javascript:void(0)" onclick="showView('dashboard')">
             <div class="icon icon-shape icon-sm px-0 text-center d-flex align-items-center justify-content-center">
               <svg width="30px" height="30px" viewBox="0 0 48 48" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                 <title>dashboard</title>
@@ -135,268 +172,6 @@
         </li>
        
        
-        <li class="nav-item">
-          <a class="nav-link" data-bs-toggle="collapse" href="#usuariosMenu" role="button" aria-expanded="false" aria-controls="usuariosMenu">
-            <div class="icon icon-shape icon-sm px-0 text-center d-flex align-items-center justify-content-center">
-              <svg width="30px" height="30px" viewBox="0 0 48 48" version="1.1" xmlns="http://www.w3.org/2000/svg">
-                <!-- (tu icono original aquí completo) -->
-              </svg>
-            </div>
-            <span class="nav-link-text ms-1">Usuarios</span>
-            <!-- FLECHA SOFT UI -->
-            <div class="arrow-box ms-auto">
-              <i class="material-icons">expand_more</i>
-            </div>
-          </a>
-
-          <!-- SUBMENÚ -->
-          <div class="collapse" id="usuariosMenu">
-            <ul class="nav ms-4 ps-3">
-
-              <li class="nav-item">
-                <a class="nav-link" href="../pages/new-user.html">
-                  <span class="sidenav-mini-icon">N</span>
-                  <span class="sidenav-normal">Nuevo Usuario</span>
-                </a>
-              </li>
-
-              <li class="nav-item">
-                <a class="nav-link" href="../pages/users-list.html">
-                  <span class="sidenav-mini-icon">L</span>
-                  <span class="sidenav-normal">Lista de Usuarios</span>
-                </a>
-              </li>
-
-              <li class="nav-item">
-                <a class="nav-link" href="../pages/edit-user.html">
-                  <span class="sidenav-mini-icon">E</span>
-                  <span class="sidenav-normal">Editar Usuario</span>
-                </a>
-              </li>
-
-            </ul>
-          </div>
-        </li>
-
-       
-       
-       
-       
-        <li class="nav-item">
-          <a class="nav-link" data-bs-toggle="collapse" href="#productosMenu" role="button" aria-expanded="false" aria-controls="productosMenu">
-            <div class="icon icon-shape icon-sm px-0 text-center d-flex align-items-center justify-content-center">
-              <svg width="30px" height="30px" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-                <!-- ICONO ORIGINAL -->
-                <title>wallet</title>
-                <g id="wallet" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                  <g id="credit-card" transform="translate(12,15)" fill="#FFFFFF">
-                    <path class="color-background" d="M3,0C1.343,0,0,1.343,0,3V4.5H24V3C24,1.343,22.657,0,21,0H3Z"/>
-                    <path class="color-foreground" d="M24,7.5H0V15c0,1.657,1.343,3,3,3H21c1.657,0,3-1.343,3-3V7.5Zm-21,6c0-.828.672-1.5,1.5-1.5H6c.828,0,1.5.672,1.5,1.5S6.828,15,6,15H4.5C3.672,15,3,14.328,3,13.5Zm7.5-1.5c-.828,0-1.5.672-1.5,1.5S9.672,15,10.5,15H12c.828,0,1.5-.672,1.5-1.5S12.828,12,12,12H10.5Z"/>
-                  </g>
-                </g>
-              </svg>
-            </div>
-
-            <span class="nav-link-text ms-1">Productos</span>
-
-            <!-- FLECHA SOFT UI -->
-            <div class="arrow-box ms-auto">
-              <i class="material-icons">expand_more</i>
-            </div>
-
-          </a>
-
-          <!-- SUBMENÚ -->
-          <div class="collapse" id="productosMenu">
-            <ul class="nav ms-4 ps-3">
-
-              <li class="nav-item">
-                <a class="nav-link" href="../pages/new-product.html">
-                  <span class="sidenav-mini-icon">N</span>
-                  <span class="sidenav-normal">Nuevo Producto</span>
-                </a>
-              </li>
-
-              <li class="nav-item">
-                <a class="nav-link" href="../pages/products.html">
-                  <span class="sidenav-mini-icon">L</span>
-                  <span class="sidenav-normal">Lista de Productos</span>
-                </a>
-              </li>
-
-              <li class="nav-item">
-                <a class="nav-link" href="../pages/edit-product.html">
-                  <span class="sidenav-mini-icon">E</span>
-                  <span class="sidenav-normal">Editar Producto</span>
-                </a>
-              </li>
-
-            </ul>
-          </div>
-        </li>
-
-
-
-
-
-        <li class="nav-item">
-          <a class="nav-link" data-bs-toggle="collapse" href="#clientesMenu" role="button" aria-expanded="false" aria-controls="clientesMenu">
-            
-            <div class="icon icon-shape icon-sm px-0 text-center d-flex align-items-center justify-content-center">
-              <!-- ICONO ORIGINAL -->
-              <svg width="30px" height="30px" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-                <title>wallet</title>
-                <g id="wallet" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                  <g id="credit-card" transform="translate(12, 15)" fill="#FFFFFF">
-                    <path class="color-background" d="M3,0 C1.343145,0 0,1.343145 0,3 L0,4.5 L24,4.5 L24,3 C24,1.343145 22.6569,0 21,0 L3,0 Z" />
-                    <path class="color-foreground" d="M24,7.5 L0,7.5 L0,15 C0,16.6569 1.343145,18 3,18 L21,18 C22.6569,18 24,16.6569 24,15 L24,7.5 Z M3,13.5 C3,12.67155 3.67158,12 4.5,12 L6,12 C6.82842,12 7.5,12.67155 7.5,13.5 C7.5,14.32845 6.82842,15 6,15 L4.5,15 C3.67158,15 3,14.32845 3,13.5 Z M10.5,12 C9.67158,12 9,12.67155 9,13.5 C9,14.32845 9.67158,15 10.5,15 L12,15 C12.82845,15 13.5,14.32845 13.5,13.5 C13.5,12.67155 12.82845,12 12,12 L10.5,12 Z" />
-                  </g>
-                </g>
-              </svg>
-            </div>
-
-            <span class="nav-link-text ms-1">Clientes</span>
-
-            <!-- FLECHA DASHBOARD -->
-            <div class="arrow-box ms-auto">
-              <i class="material-icons">expand_more</i>
-            </div>
-
-          </a>
-
-          <!-- SUBMENÚ -->
-          <div class="collapse" id="clientesMenu">
-            <ul class="nav ms-4 ps-3">
-
-              <li class="nav-item">
-                <a class="nav-link" href="../pages/new-client.html">
-                  <span class="sidenav-mini-icon">N</span>
-                  <span class="sidenav-normal">Nuevo Cliente</span>
-                </a>
-              </li>
-
-              <li class="nav-item">
-                <a class="nav-link" href="../pages/clients-list.html">
-                  <span class="sidenav-mini-icon">L</span>
-                  <span class="sidenav-normal">Lista de Clientes</span>
-                </a>
-              </li>
-
-              <li class="nav-item">
-                <a class="nav-link" href="../pages/edit-client.html">
-                  <span class="sidenav-mini-icon">E</span>
-                  <span class="sidenav-normal">Editar Cliente</span>
-                </a>
-              </li>
-
-            </ul>
-          </div>
-        </li>
-
-
-
-      <li class="nav-item">
-
-        <a class="nav-link" data-bs-toggle="collapse" href="#ventasMenu"
-          role="button" aria-expanded="false" aria-controls="ventasMenu">
-
-          <div class="icon icon-shape icon-sm px-0 text-center d-flex align-items-center justify-content-center">
-            <!-- ICONO ORIGINAL -->
-            <svg width="30px" height="30px" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-              <title>wallet</title>
-              <g id="wallet" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                <g id="credit-card" transform="translate(12,15)" fill="#FFFFFF">
-                  <path class="color-background" d="M3,0 C1.34,0 0,1.34 0,3V4.5H24V3C24,1.34 22.66,0 21,0H3Z" />
-                  <path class="color-foreground" d="M24,7.5H0V15c0,1.66 1.34,3 3,3H21c1.66,0 3-1.34 3-3V7.5Zm-21,6c0-.83.67-1.5 1.5-1.5H6c.83,0 1.5.67 1.5,1.5S6.83,15 6,15H4.5C3.67,15 3,14.33 3,13.5Zm7.5-1.5c-.83,0-1.5.67-1.5,1.5S9.67,15 10.5,15H12c.83,0 1.5-.67 1.5-1.5S12.83,12 12,12H10.5Z" />
-                </g>
-              </g>
-            </svg>
-          </div>
-
-          <span class="nav-link-text ms-1">Ventas</span>
-
-          <!-- FLECHA SOFT UI -->
-          <div class="arrow-box ms-auto">
-            <i class="material-icons">expand_more</i>
-          </div>
-
-        </a>
-
-        <!-- SUBMENÚ -->
-        <div class="collapse" id="ventasMenu">
-          <ul class="nav ms-4 ps-3">
-
-            <li class="nav-item">
-              <a class="nav-link" href="../pages/new-sale.html">
-                <span class="sidenav-mini-icon">N</span>
-                <span class="sidenav-normal">Nueva Venta</span>
-              </a>
-            </li>
-
-            <li class="nav-item">
-              <a class="nav-link" href="../pages/pay.html">
-                <span class="sidenav-mini-icon">L</span>
-                <span class="sidenav-normal">Pagos</span>
-              </a>
-            </li>
-
-            <li class="nav-item">
-              <a class="nav-link" href="../pages/sales-list.html">
-                <span class="sidenav-mini-icon">L</span>
-                <span class="sidenav-normal">Lista de Ventas</span>
-              </a>
-            </li>
-
-            <li class="nav-item">
-              <a class="nav-link" href="../pages/sales-report.html">
-                <span class="sidenav-mini-icon">R</span>
-                <span class="sidenav-normal">Reporte</span>
-              </a>
-            </li>
-
-          </ul>
-        </div>
-
-      </li>
-
-
-
-
-        
-        <li class="nav-item">
-          <a class="nav-link  " href="../pages/notificaciones.html">
-            <div class="icon icon-shape icon-sm px-0 text-center d-flex align-items-center justify-content-center">
-              <svg width="30px" height="30px" viewBox="0 0 48 48" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                <title>wallet</title>
-                <g id="wallet" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                  <g id="credit-card" transform="translate(12.000000, 15.000000)" fill="#FFFFFF">
-                    <path class="color-background" d="M3,0 C1.343145,0 0,1.343145 0,3 L0,4.5 L24,4.5 L24,3 C24,1.343145 22.6569,0 21,0 L3,0 Z" id="Path" fill-rule="nonzero"></path>
-                    <path class="color-foreground" d="M24,7.5 L0,7.5 L0,15 C0,16.6569 1.343145,18 3,18 L21,18 C22.6569,18 24,16.6569 24,15 L24,7.5 Z M3,13.5 C3,12.67155 3.67158,12 4.5,12 L6,12 C6.82842,12 7.5,12.67155 7.5,13.5 C7.5,14.32845 6.82842,15 6,15 L4.5,15 C3.67158,15 3,14.32845 3,13.5 Z M10.5,12 C9.67158,12 9,12.67155 9,13.5 C9,14.32845 9.67158,15 10.5,15 L12,15 C12.82845,15 13.5,14.32845 13.5,13.5 C13.5,12.67155 12.82845,12 12,12 L10.5,12 Z" id="Shape"></path>
-                  </g>
-                </g>
-              </svg>
-            </div>
-            <span class="nav-link-text ms-1">Notificaciones</span>
-          </a>
-        </li>
-
-        <li class="nav-item">
-          <a class="nav-link  " href="../pages/reportes.html">
-            <div class="icon icon-shape icon-sm px-0 text-center d-flex align-items-center justify-content-center">
-              <svg width="30px" height="30px" viewBox="0 0 48 48" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                <title>rtl</title>
-                <g id="rtl" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                  <g id="menu-alt-3" transform="translate(12.000000, 14.000000)" fill="#FFFFFF">
-                    <path class="color-foreground" d="M0,1.71428571 C0,0.76752 0.76752,0 1.71428571,0 L22.2857143,0 C23.2325143,0 24,0.76752 24,1.71428571 C24,2.66105143 23.2325143,3.42857143 22.2857143,3.42857143 L1.71428571,3.42857143 C0.76752,3.42857143 0,2.66105143 0,1.71428571 Z" id="Path"></path>
-                    <path class="color-background" d="M0,10.2857143 C0,9.33894857 0.76752,8.57142857 1.71428571,8.57142857 L22.2857143,8.57142857 C23.2325143,8.57142857 24,9.33894857 24,10.2857143 C24,11.2325143 23.2325143,12 22.2857143,12 L1.71428571,12 C0.76752,12 0,11.2325143 0,10.2857143 Z" id="Path"></path>
-                    <path class="color-background" d="M10.2857143,18.8571429 C10.2857143,17.9103429 11.0532343,17.1428571 12,17.1428571 L22.2857143,17.1428571 C23.2325143,17.1428571 24,17.9103429 24,18.8571429 C24,19.8039429 23.2325143,20.5714286 22.2857143,20.5714286 L12,20.5714286 C11.0532343,20.5714286 10.2857143,19.8039429 10.2857143,18.8571429 Z" id="Path"></path>
-                  </g>
-                </g>
-              </svg>
-            </div>
-            <span class="nav-link-text ms-1">Reportes</span>
-          </a>
-        </li>
         <li class="nav-item mt-2">
           <div class="d-flex align-items-center nav-link">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" class="ms-2" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
@@ -406,20 +181,66 @@
           </div>
         </li>
         <li class="nav-item border-start my-0 pt-2">
-          <a class="nav-link position-relative ms-0 ps-2 py-2 " href="../pages/profile.html">
+          <a class="nav-link position-relative ms-0 ps-2 py-2" href="javascript:void(0)" onclick="showView('profile')">
             <span class="nav-link-text ms-1">Perfil</span>
           </a>
         </li>
         <li class="nav-item border-start my-0 pt-2">
-          <a class="nav-link position-relative ms-0 ps-2 py-2 " href="../pages/sign-in.html">
-            <span class="nav-link-text ms-1">Iniciar sesión</span>
+          <a class="nav-link position-relative ms-0 ps-2 py-2" href="sign-in.html">
+            <span class="nav-link-text ms-1">Cerrar sesión</span>
+          </a>
+        </li>
+
+        <!-- Páginas Adicionales -->
+        <li class="nav-item mt-3">
+          <div class="d-flex align-items-center nav-link">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" class="ms-2" viewBox="0 0 24 24" fill="currentColor">
+              <path fill-rule="evenodd" d="M3 6a3 3 0 013-3h12a3 3 0 013 3v12a3 3 0 01-3 3H6a3 3 0 01-3-3V6zm4.5 0a1.5 1.5 0 00-1.5 1.5v9a1.5 1.5 0 003 0V7.5a1.5 1.5 0 00-1.5-1.5zm6 0a1.5 1.5 0 00-1.5 1.5v9a1.5 1.5 0 003 0V7.5a1.5 1.5 0 00-1.5-1.5z" clip-rule="evenodd" />
+            </svg>
+            <span class="font-weight-normal text-md ms-2">Páginas HTML</span>
+          </div>
+        </li>
+        <li class="nav-item border-start my-0 pt-2">
+          <a class="nav-link position-relative ms-0 ps-2 py-2" href="clients-list.html">
+            <span class="nav-link-text ms-1">Clientes</span>
+          </a>
+        </li>
+        
+        <li class="nav-item border-start my-0 pt-2">
+          <a class="nav-link position-relative ms-0 ps-2 py-2" href="notificaciones.html">
+            <span class="nav-link-text ms-1">Notificaciones</span>
           </a>
         </li>
         <li class="nav-item border-start my-0 pt-2">
-          <a class="nav-link position-relative ms-0 ps-2 py-2 " href="../pages/sign-up.html">
-            <span class="nav-link-text ms-1">Cerrar sesión </span>
+          <a class="nav-link position-relative ms-0 ps-2 py-2" href="productos.html">
+            <span class="nav-link-text ms-1">Productos</span>
           </a>
         </li>
+        
+        <li class="nav-item border-start my-0 pt-2">
+          <a class="nav-link position-relative ms-0 ps-2 py-2" href="profile.html">
+            <span class="nav-link-text ms-1">Perfil (Página)</span>
+          </a>
+        </li>
+        <li class="nav-item border-start my-0 pt-2">
+          <a class="nav-link position-relative ms-0 ps-2 py-2" href="reportes.html">
+            <span class="nav-link-text ms-1">Reportes (Página)</span>
+          </a>
+        </li>
+        
+        <li class="nav-item border-start my-0 pt-2">
+          <a class="nav-link position-relative ms-0 ps-2 py-2" href="sales-list.html">
+            <span class="nav-link-text ms-1">Ventas</span>
+          </a>
+        </li>
+        
+        
+        <li class="nav-item border-start my-0 pt-2">
+          <a class="nav-link position-relative ms-0 ps-2 py-2" href="users-list.html">
+            <span class="nav-link-text ms-1">Usuarios (Página)</span>
+          </a>
+        </li>
+        
       </ul>
     </div>
     <div class="sidenav-footer mx-4 ">
@@ -433,17 +254,17 @@
           </div>
           <div class="docs-info">
             <h6 class="font-weight-bold up mb-2">Need help?</h6>
-            <p class="text-sm font-weight-normal">Please check our docs.</p>
-            <a href="https://www.creative-tim.com/learning-lab/bootstrap/license/corporate-ui-dashboard" target="_blank" class="font-weight-bold text-sm mb-0 icon-move-right mt-auto w-100 mb-0">
-              Documentation
-              <i class="fas fa-arrow-right-long text-sm ms-1" aria-hidden="true"></i>
-            </a>
+            
           </div>
         </div>
       </div>
     </div>
   </aside>
   </aside>
+
+
+
+
   <div id="sidenav-backdrop"></div>
   <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
     <!-- Navbar -->
@@ -839,7 +660,7 @@
                 <div class="col-12">
                   <div class="w-100">
                     <p class="text-sm text-secondary mb-1">Ingresos</p>
-                    <h4 class="mb-2 font-weight-bold">S/99,118.5</h4>
+                    <h4 id="ingresosValue" class="mb-2 font-weight-bold">S/99,118.5</h4>
                     <div class="d-flex align-items-center">
                       <span class="text-sm text-success font-weight-bolder">
                         <i class="fa fa-chevron-up text-xs me-1"></i>10.5%
@@ -865,7 +686,7 @@
                 <div class="col-12">
                   <div class="w-100">
                     <p class="text-sm text-secondary mb-1">Transacciones</p>
-                    <h4 class="mb-2 font-weight-bold">376</h4>
+                    <h4 id="transaccionesValue" class="mb-2 font-weight-bold">376</h4>
                     <div class="d-flex align-items-center">
                       <span class="text-sm text-success font-weight-bolder">
                         <i class="fa fa-chevron-up text-xs me-1"></i>55%
@@ -890,7 +711,7 @@
                 <div class="col-12">
                   <div class="w-100">
                     <p class="text-sm text-secondary mb-1">Promedio Transaction</p>
-                    <h4 class="mb-2 font-weight-bold">$450.53</h4>
+                    <h4 id="avgTransactionValue" class="mb-2 font-weight-bold">$450.53</h4>
                     <div class="d-flex align-items-center">
                       <span class="text-sm text-success font-weight-bolder">
                         <i class="fa fa-chevron-up text-xs me-1"></i>22%
@@ -915,7 +736,7 @@
                 <div class="col-12">
                   <div class="w-100">
                     <p class="text-sm text-secondary mb-1">Ventas totales</p>
-                    <h4 class="mb-2 font-weight-bold">S/23,364.55</h4>
+                    <h4 id="ventasTotalesValue" class="mb-2 font-weight-bold">S/23,364.55</h4>
                     <div class="d-flex align-items-center">
                       <span class="text-sm text-success font-weight-bolder">
                         <i class="fa fa-chevron-up text-xs me-1"></i>18%
@@ -962,7 +783,848 @@
           </div>
         </div>
       </div>
-      <footer class="footer pt-3  ">
+
+      <!-- ========== VISTAS INTEGRADAS (OCULTAS POR DEFECTO) ========== -->
+      
+      <!-- VISTA: LISTA DE USUARIOS -->
+      <div data-view="users-list" style="display: none;">
+        <div class="row my-4">
+          <div class="col-lg-12">
+            <div class="card shadow-xs border mb-3">
+              <div class="card-body p-3">
+                <div class="row g-2">
+                  <div class="col-md-4">
+                    <label class="form-label text-dark font-weight-semibold text-xs mb-1">Filtrar por Rol</label>
+                    <select class="form-control form-control-sm" id="filter-role" onchange="handleFilter()">
+                      <option value="">Todos los roles</option>
+                      <option value="admin">Administrador</option>
+                      <option value="vendedor">Vendedor</option>
+                      <option value="cliente">Cliente</option>
+                    </select>
+                  </div>
+                  <div class="col-md-4">
+                    <label class="form-label text-dark font-weight-semibold text-xs mb-1">Filtrar por Estado</label>
+                    <select class="form-control form-control-sm" id="filter-status" onchange="handleFilter()">
+                      <option value="">Todos los estados</option>
+                      <option value="activo">Activo</option>
+                      <option value="inactivo">Inactivo</option>
+                    </select>
+                  </div>
+                  <div class="col-md-4">
+                    <label class="form-label text-dark font-weight-semibold text-xs mb-1">Búsqueda</label>
+                    <input type="text" class="form-control form-control-sm" id="search-input" placeholder="Buscar..." onkeyup="handleSearch(this.value)">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="card shadow-xs border">
+              <div class="card-header border-bottom pb-0">
+                <div class="d-sm-flex align-items-center mb-3">
+                  <div>
+                    <h6 class="font-weight-semibold text-lg mb-0">Usuarios Registrados</h6>
+                    <p class="text-sm mb-sm-0 mb-2">Mostrando: <strong id="showing-users">0</strong> de <strong id="total-users">0</strong> usuarios</p>
+                  </div>
+                </div>
+              </div>
+              <div class="card-body px-0 py-0">
+                <div class="table-responsive p-0">
+                  <table class="table align-items-center justify-content-center mb-0">
+                    <thead class="bg-gray-100">
+                      <tr>
+                        <th class="text-secondary text-xs font-weight-semibold opacity-7">Usuario</th>
+                        <th class="text-secondary text-xs font-weight-semibold opacity-7 ps-2">Email</th>
+                        <th class="text-secondary text-xs font-weight-semibold opacity-7 ps-2">Rol</th>
+                        <th class="text-secondary text-xs font-weight-semibold opacity-7 ps-2">Estado</th>
+                        <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">Acciones</th>
+                      </tr>
+                    </thead>
+                    <tbody id="users-table-body">
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              
+              <!-- Paginación -->
+              <div class="card-footer bg-white py-3 border-top">
+                <nav aria-label="Page navigation">
+                  <ul class="pagination mb-0 float-end">
+                    <li class="page-item" id="prev-page-btn">
+                      <button class="page-link" onclick="previousPage()">Anterior</button>
+                    </li>
+                    <li class="page-item active" id="page-info">
+                      <span class="page-link">Página 1</span>
+                    </li>
+                    <li class="page-item" id="next-page-btn">
+                      <button class="page-link" onclick="nextPage()">Siguiente</button>
+                    </li>
+                  </ul>
+                </nav>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- VISTA: PRODUCTOS -->
+      <div data-view="productos" style="display: none;">
+        <div class="container-fluid py-4">
+          <div class="mb-3">
+            <button class="tab-button active" onclick="switchProdTab('dashboard')"><i class="fa fa-chart-line me-2"></i>Dashboard</button>
+            <button class="tab-button" onclick="switchProdTab('products')"><i class="fa fa-box me-2"></i>Productos</button>
+            <button class="tab-button" onclick="switchProdTab('categories')"><i class="fa fa-tags me-2"></i>Categorías</button>
+          </div>
+
+          <!-- DASHBOARD TAB PRODUCTOS -->
+          <div id="prod-dashboard-tab">
+            <div class="row mb-3">
+              <div class="col-md-12">
+                <h3 class="font-weight-bold">Resumen de Inventario</h3>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-lg-3 col-md-6">
+                <div class="stat-card">
+                  <h6>Total de Productos</h6>
+                  <div class="stat-value" id="stat-total-prod">0</div>
+                  <small>Productos registrados</small>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-6">
+                <div class="stat-card success">
+                  <h6>Stock Total</h6>
+                  <div class="stat-value" id="stat-stock-total-prod">0</div>
+                  <small>Unidades en almacén</small>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-6">
+                <div class="stat-card warning">
+                  <h6>Stock Bajo</h6>
+                  <div class="stat-value" id="stat-low-stock-prod">0</div>
+                  <small>Productos bajo mínimo</small>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-6">
+                <div class="stat-card info">
+                  <h6>Categorías</h6>
+                  <div class="stat-value" id="stat-categories-prod">0</div>
+                  <small>Categorías activas</small>
+                </div>
+              </div>
+            </div>
+
+            <div class="row mt-3">
+              <div class="col-lg-12">
+                <div class="card shadow-xs border">
+                  <div class="card-header border-bottom pb-3">
+                    <h6 class="font-weight-semibold"><i class="fa fa-exclamation-triangle text-warning me-2"></i>Productos con Stock Bajo (< 30 unidades)</h6>
+                  </div>
+                  <div class="card-body">
+                    <div class="table-responsive">
+                      <table class="table table-sm align-items-center mb-0">
+                        <thead class="bg-light">
+                          <tr>
+                            <th>Producto</th>
+                            <th>SKU</th>
+                            <th>Stock</th>
+                            <th>Precio</th>
+                            <th>Marca</th>
+                            <th>Acción</th>
+                          </tr>
+                        </thead>
+                        <tbody id="low-stock-tbody-prod">
+                          <tr><td colspan="6" class="text-center text-muted py-2">Cargando...</td></tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- PRODUCTS TAB -->
+          <div id="prod-products-tab" style="display:none;">
+            <div class="row mb-3">
+              <div class="col-md-12">
+                <div class="d-md-flex align-items-center">
+                  <h3 class="font-weight-bold mb-0">Gestión de Productos</h3>
+                  <button type="button" class="btn btn-sm btn-dark btn-icon d-flex align-items-center mb-0 ms-md-auto" id="btn-new-product-prod" onclick="showProductForm('new')">
+                    <span class="btn-inner--icon"><i class="fa fa-plus me-2"></i></span>
+                    <span class="btn-inner--text">Nuevo Producto</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- FILTERS -->
+            <div class="card shadow-xs border mb-3">
+              <div class="card-body p-3">
+                <div class="row g-2">
+                  <div class="col-md-2">
+                    <label class="form-label text-xs font-weight-bold">Categoría</label>
+                    <select class="form-control form-control-sm" id="prod-filter-category" onchange="applyProductFilters()">
+                      <option value="">Todas</option>
+                    </select>
+                  </div>
+                  <div class="col-md-2">
+                    <label class="form-label text-xs font-weight-bold">Estado</label>
+                    <select class="form-control form-control-sm" id="prod-filter-status" onchange="applyProductFilters()">
+                      <option value="">Todos</option>
+                      <option value="activo">Activo</option>
+                      <option value="agotado">Agotado</option>
+                      <option value="inactivo">Inactivo</option>
+                    </select>
+                  </div>
+                  <div class="col-md-2">
+                    <label class="form-label text-xs font-weight-bold">Precio Min</label>
+                    <input type="number" class="form-control form-control-sm" id="prod-filter-price-min" placeholder="0.00" onchange="applyProductFilters()">
+                  </div>
+                  <div class="col-md-2">
+                    <label class="form-label text-xs font-weight-bold">Precio Max</label>
+                    <input type="number" class="form-control form-control-sm" id="prod-filter-price-max" placeholder="999.99" onchange="applyProductFilters()">
+                  </div>
+                  <div class="col-md-2">
+                    <label class="form-label text-xs font-weight-bold">Ordenar</label>
+                    <select class="form-control form-control-sm" id="prod-filter-sort" onchange="applyProductFilters()">
+                      <option value="">Defecto</option>
+                      <option value="price-asc">Precio ↑</option>
+                      <option value="price-desc">Precio ↓</option>
+                      <option value="stock-asc">Stock ↑</option>
+                      <option value="stock-desc">Stock ↓</option>
+                      <option value="name-asc">Nombre A-Z</option>
+                    </select>
+                  </div>
+                  <div class="col-md-2 d-flex align-items-end">
+                    <button class="btn btn-sm btn-white w-100" onclick="clearProductFilters()"><i class="fa fa-redo me-1"></i>Limpiar</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- TABLA DE PRODUCTOS -->
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="card shadow-xs border">
+                  <div class="card-header border-bottom pb-0">
+                    <h6 class="font-weight-semibold mb-0">Productos Registrados <span id="product-count-badge" class="badge bg-dark ms-2">0</span></h6>
+                  </div>
+                  <div class="card-body px-0 py-0">
+                    <div class="table-responsive p-0">
+                      <table class="table align-items-center justify-content-center mb-0 table-hover">
+                        <thead class="bg-gray-100">
+                          <tr>
+                            <th class="text-secondary text-xs font-weight-semibold opacity-7">Producto</th>
+                            <th class="text-secondary text-xs font-weight-semibold opacity-7 ps-2">SKU</th>
+                            <th class="text-secondary text-xs font-weight-semibold opacity-7 ps-2">Marca</th>
+                            <th class="text-secondary text-xs font-weight-semibold opacity-7 ps-2">Precio</th>
+                            <th class="text-secondary text-xs font-weight-semibold opacity-7 ps-2">Costo</th>
+                            <th class="text-secondary text-xs font-weight-semibold opacity-7 ps-2">Margen %</th>
+                            <th class="text-secondary text-xs font-weight-semibold opacity-7 ps-2">Stock</th>
+                            <th class="text-secondary text-xs font-weight-semibold opacity-7 ps-2">Estado</th>
+                            <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">Acciones</th>
+                          </tr>
+                        </thead>
+                        <tbody id="products-table-body">
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                  <div class="card-footer bg-white py-3">
+                    <nav aria-label="pagination">
+                      <ul class="pagination mb-0 float-end">
+                        <li class="page-item" id="prod-prev-btn"><button class="page-link" onclick="prevProductPage()">Anterior</button></li>
+                        <li class="page-item active"><span class="page-link" id="prod-page-info">Página 1</span></li>
+                        <li class="page-item" id="prod-next-btn"><button class="page-link" onclick="nextProductPage()">Siguiente</button></li>
+                      </ul>
+                    </nav>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- CATEGORIES TAB -->
+          <div id="prod-categories-tab" style="display:none;">
+            <div class="row mb-3">
+              <div class="col-md-12">
+                <div class="d-md-flex align-items-center">
+                  <h3 class="font-weight-bold mb-0">Gestión de Categorías</h3>
+                  <button type="button" class="btn btn-sm btn-dark btn-icon d-flex align-items-center mb-0 ms-md-auto" onclick="showCategoryFormProd('new')">
+                    <span class="btn-inner--icon"><i class="fa fa-plus me-2"></i></span>
+                    <span class="btn-inner--text">Nueva Categoría</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="card shadow-xs border">
+                  <div class="card-header border-bottom pb-0">
+                    <h6 class="font-weight-semibold mb-0">Categorías Activas</h6>
+                  </div>
+                  <div class="card-body">
+                    <div class="row" id="categories-grid">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- VISTA: PERFIL -->
+      <div data-view="profile" style="display: none;">
+        <div class="container-fluid py-4">
+          <!-- PROFILE HEADER -->
+          <div class="row mb-4">
+            <div class="col-lg-12">
+              <div class="profile-header">
+                <div id="avatar-container">
+                  <img src="https://via.placeholder.com/120?text=Usuario" class="profile-avatar" id="profile-avatar" alt="Foto de perfil">
+                </div>
+                <h4 id="profile-name" class="mb-1">Nombre del Usuario</h4>
+                <p id="profile-role" class="mb-0 opacity-8">Rol del usuario</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- STATS -->
+          <div class="row mb-4">
+            <div class="col-lg-3 col-md-6">
+              <div class="stat-box">
+                <h6>Estado</h6>
+                <div class="value" id="stat-status-prof">Activo</div>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+              <div class="stat-box">
+                <h6>Teléfono</h6>
+                <div class="value" id="stat-phone-prof" style="font-size: 1rem;">—</div>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+              <div class="stat-box">
+                <h6>Correo</h6>
+                <div class="value" id="stat-email-prof" style="font-size: 0.9rem;">—</div>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+              <div class="stat-box">
+                <h6>Miembro desde</h6>
+                <div class="value" id="stat-joined-prof" style="font-size: 0.9rem;">—</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- TABS -->
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="card shadow-xs border">
+                <div class="card-header border-bottom pb-3">
+                  <div class="d-flex gap-2">
+                    <button class="tab-button-prof active" onclick="switchProfileTab('informacion')">
+                      <i class="fa fa-user me-2"></i>Información Personal
+                    </button>
+                    <button class="tab-button-prof" onclick="switchProfileTab('seguridad')">
+                      <i class="fa fa-lock me-2"></i>Seguridad
+                    </button>
+                    <button class="tab-button-prof" onclick="switchProfileTab('preferencias')">
+                      <i class="fa fa-cog me-2"></i>Preferencias
+                    </button>
+                  </div>
+                </div>
+
+                <div class="card-body p-4">
+                  <!-- TAB 1: INFORMACIÓN PERSONAL -->
+                  <div id="prof-informacion" class="tab-content-prof active">
+                    <div class="success-message" id="prof-info-success">✓ Información actualizada correctamente</div>
+
+                    <div class="form-section-title">Datos Personales</div>
+                    <form id="prof-info-form">
+                      <div class="row">
+                        <div class="col-md-6 mb-3">
+                          <label class="form-label font-weight-semibold">Nombre Completo *</label>
+                          <input type="text" class="form-control" placeholder="Tu nombre completo" id="prof-info-name" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                          <label class="form-label font-weight-semibold">Correo Electrónico *</label>
+                          <input type="email" class="form-control" placeholder="tu@email.com" id="prof-info-email" required>
+                        </div>
+                      </div>
+
+                      <div class="row">
+                        <div class="col-md-6 mb-3">
+                          <label class="form-label font-weight-semibold">Teléfono</label>
+                          <input type="tel" class="form-control" placeholder="+51 999 123 456" id="prof-info-phone">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                          <label class="form-label font-weight-semibold">Cargo/Rol</label>
+                          <input type="text" class="form-control" placeholder="Tu cargo" id="prof-info-role" disabled>
+                        </div>
+                      </div>
+
+                      <div class="d-flex gap-2 mt-4">
+                        <button type="submit" class="btn btn-dark">
+                          <i class="fa fa-save me-2"></i>Guardar Cambios
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+
+                  <!-- TAB 2: SEGURIDAD -->
+                  <div id="prof-seguridad" class="tab-content-prof" style="display:none;">
+                    <div class="success-message" id="prof-security-success">✓ Contraseña cambiada correctamente</div>
+
+                    <div class="form-section-title">Cambiar Contraseña</div>
+                    <form id="prof-security-form">
+                      <div class="row">
+                        <div class="col-md-6 mb-3">
+                          <label class="form-label font-weight-semibold">Contraseña Actual *</label>
+                          <input type="password" class="form-control" placeholder="Tu contraseña actual" id="prof-security-current" required>
+                        </div>
+                      </div>
+
+                      <div class="row">
+                        <div class="col-md-6 mb-3">
+                          <label class="form-label font-weight-semibold">Nueva Contraseña *</label>
+                          <input type="password" class="form-control" placeholder="Nueva contraseña" id="prof-security-new" required onkeyup="calculateProfilePasswordStrength()">
+                          <div class="password-strength" id="prof-strength-bar"></div>
+                          <small class="strength-text" id="prof-strength-text"></small>
+                        </div>
+                      </div>
+
+                      <div class="row">
+                        <div class="col-md-6 mb-3">
+                          <label class="form-label font-weight-semibold">Confirmar Nueva Contraseña *</label>
+                          <input type="password" class="form-control" placeholder="Confirma tu nueva contraseña" id="prof-security-confirm" required>
+                        </div>
+                      </div>
+
+                      <div class="d-flex gap-2 mt-4">
+                        <button type="submit" class="btn btn-dark">
+                          <i class="fa fa-lock me-2"></i>Actualizar Contraseña
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+
+                  <!-- TAB 3: PREFERENCIAS -->
+                  <div id="prof-preferencias" class="tab-content-prof" style="display:none;">
+                    <div class="success-message" id="prof-prefs-success">✓ Preferencias guardadas</div>
+
+                    <div class="form-section-title">Notificaciones por Email</div>
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div class="form-check mb-3">
+                          <input class="form-check-input" type="checkbox" id="prof-pref-email-news" checked>
+                          <label class="form-check-label" for="prof-pref-email-news">
+                            <strong>Noticias y actualizaciones</strong>
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div class="form-check mb-3">
+                          <input class="form-check-input" type="checkbox" id="prof-pref-email-reports" checked>
+                          <label class="form-check-label" for="prof-pref-email-reports">
+                            <strong>Reportes semanales</strong>
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="form-section-title" style="margin-top: 30px;">Preferencias de Interfaz</div>
+                    <div class="row">
+                      <div class="col-md-6 mb-3">
+                        <label class="form-label font-weight-semibold">Idioma</label>
+                        <select class="form-control" id="prof-pref-language">
+                          <option value="es">Español</option>
+                          <option value="en">English</option>
+                        </select>
+                      </div>
+                      <div class="col-md-6 mb-3">
+                        <label class="form-label font-weight-semibold">Zona Horaria</label>
+                        <select class="form-control" id="prof-pref-timezone">
+                          <option value="america/lima">Lima (UTC -5)</option>
+                          <option value="america/caracas">Caracas (UTC -4)</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div class="d-flex gap-2 mt-4">
+                      <button class="btn btn-dark" onclick="saveProfilePreferences()">
+                        <i class="fa fa-save me-2"></i>Guardar Preferencias
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- VISTA: REPORTES -->
+      <div data-view="reportes" style="display: none;">
+        <div class="container-fluid py-4">
+          <div class="row mb-4">
+            <div class="col-md-12">
+              <h3 class="font-weight-bold">Generador de Reportes</h3>
+            </div>
+          </div>
+
+          <!-- ESTADISTICAS -->
+          <div class="row mb-4">
+            <div class="col-lg-3 col-md-6">
+              <div class="stat-card">
+                <h6>Ventas Totales</h6>
+                <div class="stat-value">S/ 12,450.00</div>
+                <small>Este período</small>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+              <div class="stat-card success">
+                <h6>Transacciones</h6>
+                <div class="stat-value">156</div>
+                <small>Operaciones realizadas</small>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+              <div class="stat-card warning">
+                <h6>Ticket Promedio</h6>
+                <div class="stat-value">S/ 79.81</div>
+                <small>Por transacción</small>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+              <div class="stat-card">
+                <h6>Ganancia Neta</h6>
+                <div class="stat-value">S/ 3,980</div>
+                <small>Utilidad total</small>
+              </div>
+            </div>
+          </div>
+
+          <!-- FILTROS -->
+          <div class="card shadow-xs border mb-3">
+            <div class="card-body p-3">
+              <div class="row g-2 align-items-end">
+                <div class="col-md-2">
+                  <label class="form-label text-xs font-weight-bold">Desde</label>
+                  <input type="date" class="form-control form-control-sm" id="rep-filter-date-from">
+                </div>
+                <div class="col-md-2">
+                  <label class="form-label text-xs font-weight-bold">Hasta</label>
+                  <input type="date" class="form-control form-control-sm" id="rep-filter-date-to">
+                </div>
+                <div class="col-md-2">
+                  <label class="form-label text-xs font-weight-bold">Tipo Reporte</label>
+                  <select class="form-control form-control-sm" id="rep-filter-type" onchange="updateReportCharts()">
+                    <option value="sales">Ventas Diarias</option>
+                    <option value="products">Productos Más Vendidos</option>
+                    <option value="categories">Por Categoría</option>
+                    <option value="clients">Por Cliente</option>
+                  </select>
+                </div>
+                <div class="col-md-2">
+                  <label class="form-label text-xs font-weight-bold">Categoría</label>
+                  <select class="form-control form-control-sm" id="rep-filter-category">
+                    <option value="">Todas</option>
+                    <option value="focos">Focos</option>
+                    <option value="alternadores">Alternadores</option>
+                  </select>
+                </div>
+                <div class="col-md-2">
+                  <label class="form-label text-xs font-weight-bold">&nbsp;</label>
+                  <button class="btn btn-sm btn-dark w-100" onclick="generateReport()"><i class="fa fa-refresh me-1"></i>Generar</button>
+                </div>
+                <div class="col-md-2">
+                  <label class="form-label text-xs font-weight-bold">&nbsp;</label>
+                  <button class="btn btn-sm btn-white w-100" onclick="clearReportFilters()"><i class="fa fa-redo me-1"></i>Limpiar</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- GRAFICOS -->
+          <div class="row mb-4">
+            <div class="col-lg-6">
+              <div class="card shadow-xs border">
+                <div class="card-header border-bottom pb-3">
+                  <h6 class="font-weight-semibold mb-0">Ventas por Día</h6>
+                </div>
+                <div class="card-body">
+                  <div style="position: relative; height: 300px;">
+                    <canvas id="sales-chart-dashboard"></canvas>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="card shadow-xs border">
+                <div class="card-header border-bottom pb-3">
+                  <h6 class="font-weight-semibold mb-0">Ventas por Categoría</h6>
+                </div>
+                <div class="card-body">
+                  <div style="position: relative; height: 300px;">
+                    <canvas id="category-chart-dashboard"></canvas>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- TABLA DE DETALLES -->
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="card shadow-xs border">
+                <div class="card-header border-bottom pb-3">
+                  <h6 class="font-weight-semibold mb-0">Detalles de Ventas</h6>
+                </div>
+                <div class="card-body px-0 py-0">
+                  <div class="table-responsive p-3">
+                    <table class="table table-hover align-items-center mb-0">
+                      <thead class="bg-light">
+                        <tr>
+                          <th>Fecha</th>
+                          <th>Producto</th>
+                          <th>Categoría</th>
+                          <th>Cantidad</th>
+                          <th>Precio Unit.</th>
+                          <th>Total</th>
+                          <th>Ganancia</th>
+                        </tr>
+                      </thead>
+                      <tbody id="report-tbody">
+                        <tr>
+                          <td>2024-11-25</td>
+                          <td>Foco LED H7</td>
+                          <td>Focos</td>
+                          <td>5</td>
+                          <td>S/ 45.90</td>
+                          <td>S/ 229.50</td>
+                          <td>S/ 103.50</td>
+                        </tr>
+                        <tr>
+                          <td>2024-11-25</td>
+                          <td>Alternador Denso</td>
+                          <td>Alternadores</td>
+                          <td>2</td>
+                          <td>S/ 380.50</td>
+                          <td>S/ 761.00</td>
+                          <td>S/ 321.00</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- VISTA: NOTIFICACIONES -->
+      <div data-view="notificaciones" style="display: none;">
+        <div class="row mb-4">
+          <div class="col-md-8">
+            <h3 class="font-weight-bold">Notificaciones <span class="badge badge-sm bg-danger ms-2" id="unread-count">5</span></h3>
+          </div>
+          <div class="col-md-4 text-end">
+            <button class="btn btn-sm btn-dark" onclick="markAllAsRead()"><i class="fa fa-check me-2"></i>Marcar todo como leído</button>
+          </div>
+        </div>
+
+        <!-- FILTROS -->
+        <div class="card shadow-xs border mb-3">
+          <div class="card-body p-3">
+            <div class="row g-2 align-items-end">
+              <div class="col-md-3">
+                <input type="text" class="form-control form-control-sm" id="search-notif" placeholder="Buscar..." onkeyup="filterNotifications()">
+              </div>
+              <div class="col-md-3">
+                <select class="form-control form-control-sm" id="filter-type" onchange="filterNotifications()">
+                  <option value="">Todos los tipos</option>
+                  <option value="alert">Alerta</option>
+                  <option value="success">Éxito</option>
+                  <option value="info">Información</option>
+                  <option value="system">Sistema</option>
+                </select>
+              </div>
+              <div class="col-md-3">
+                <select class="form-control form-control-sm" id="filter-status" onchange="filterNotifications()">
+                  <option value="">Todos</option>
+                  <option value="unread">No leído</option>
+                  <option value="read">Leído</option>
+                </select>
+              </div>
+              <div class="col-md-3">
+                <button class="btn btn-sm btn-white w-100" onclick="clearNotifFilters()"><i class="fa fa-redo me-1"></i>Limpiar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- LISTA DE NOTIFICACIONES -->
+        <div class="row">
+          <div class="col-lg-8">
+            <div id="notifications-container">
+              <!-- Las notificaciones se cargarán aquí -->
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- VISTA: LISTA DE VENTAS -->
+      <div data-view="sales-list" style="display: none;">
+        <div class="row mb-4">
+          <div class="col-md-12">
+            <h3 class="font-weight-bold">Lista de Ventas y Pedidos</h3>
+          </div>
+        </div>
+
+        <!-- FILTROS -->
+        <div class="card shadow-xs border mb-3">
+          <div class="card-body p-3">
+            <div class="row g-2 align-items-end">
+              <div class="col-md-2">
+                <input type="text" class="form-control form-control-sm" id="search-sales" placeholder="Buscar orden, cliente..." onkeyup="filterSales()">
+              </div>
+              <div class="col-md-2">
+                <input type="date" class="form-control form-control-sm" id="filter-date-from">
+              </div>
+              <div class="col-md-2">
+                <input type="date" class="form-control form-control-sm" id="filter-date-to">
+              </div>
+              <div class="col-md-2">
+                <select class="form-control form-control-sm" id="filter-status" onchange="filterSales()">
+                  <option value="">Todos los estados</option>
+                  <option value="pendiente">Pendiente</option>
+                  <option value="confirmado">Confirmado</option>
+                  <option value="enviado">Enviado</option>
+                  <option value="entregado">Entregado</option>
+                  <option value="cancelado">Cancelado</option>
+                </select>
+              </div>
+              <div class="col-md-2">
+                <button class="btn btn-sm btn-dark w-100" onclick="filterSales()"><i class="fa fa-search me-1"></i>Buscar</button>
+              </div>
+              <div class="col-md-2">
+                <button class="btn btn-sm btn-white w-100" onclick="clearSalesFilters()"><i class="fa fa-redo me-1"></i>Limpiar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- TABLA DE VENTAS -->
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="card shadow-xs border">
+              <div class="card-header border-bottom pb-3">
+                <h6 class="font-weight-semibold mb-0">Órdenes de Venta</h6>
+              </div>
+              <div class="card-body px-0 py-0">
+                <div class="table-responsive p-3">
+                  <table class="table table-hover align-items-center mb-0">
+                    <thead class="bg-light">
+                      <tr>
+                        <th>Orden</th>
+                        <th>Fecha</th>
+                        <th>Cliente</th>
+                        <th>Producto</th>
+                        <th>Cantidad</th>
+                        <th>Total</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                      </tr>
+                    </thead>
+                    <tbody id="sales-tbody">
+                      <!-- Se cargarán las ventas aquí -->
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- PAGINACION -->
+        <div class="row mt-3">
+          <div class="col-lg-12 text-center">
+            <nav>
+              <ul class="pagination justify-content-center">
+                <li class="page-item" id="prev-btn"><a class="page-link" href="#" onclick="previousPageSales(event)">Anterior</a></li>
+                <li class="page-item active" id="page-info-sales"><span class="page-link">Página 1 de <span id="total-pages">1</span></span></li>
+                <li class="page-item" id="next-btn"><a class="page-link" href="#" onclick="nextPageSales(event)">Siguiente</a></li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+      </div>
+
+      <!-- MODAL DETALLES VENTAS -->
+      <div class="modal fade" id="detailsModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Detalles de Orden <span id="modal-order-id"></span></h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+              <div class="row mb-3">
+                <div class="col-md-6">
+                  <p><strong>Fecha:</strong> <span id="modal-date"></span></p>
+                  <p><strong>Cliente:</strong> <span id="modal-client"></span></p>
+                  <p><strong>Teléfono:</strong> <span id="modal-phone"></span></p>
+                  <p><strong>Dirección:</strong> <span id="modal-address"></span></p>
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label font-weight-bold">Estado del Pedido</label>
+                  <select class="form-control" id="modal-status-select" onchange="updateOrderStatus()">
+                    <option value="pendiente">Pendiente</option>
+                    <option value="confirmado">Confirmado</option>
+                    <option value="enviado">Enviado</option>
+                    <option value="entregado">Entregado</option>
+                    <option value="cancelado">Cancelado</option>
+                  </select>
+                </div>
+              </div>
+              <hr>
+              <table class="table table-sm">
+                <thead>
+                  <tr>
+                    <th>Producto</th>
+                    <th>Cantidad</th>
+                    <th>Precio</th>
+                    <th>Subtotal</th>
+                  </tr>
+                </thead>
+                <tbody id="modal-items"></tbody>
+              </table>
+              <hr>
+              <div class="row">
+                <div class="col-md-6 offset-md-6">
+                  <p class="d-flex justify-content-between"><strong>Subtotal:</strong> <span id="modal-subtotal"></span></p>
+                  <p class="d-flex justify-content-between"><strong>IGV (18%):</strong> <span id="modal-tax"></span></p>
+                  <p class="d-flex justify-content-between font-weight-bold" style="font-size: 1.1rem;"><strong>Total:</strong> <span id="modal-total"></span></p>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+              <button type="button" class="btn btn-dark" onclick="printOrder()"><i class="fa fa-print me-1"></i>Imprimir</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      
         <div class="container-fluid">
           <div class="row align-items-center justify-content-lg-between">
             <div class="col-lg-6 mb-lg-0 mb-4">
@@ -1084,7 +1746,7 @@
 
     var ctx = document.getElementById("chart-bars").getContext("2d");
 
-    new Chart(ctx, {
+    window.salesBarChart = new Chart(ctx, {
       type: "bar",
       data: {
         labels: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"],
@@ -1187,7 +1849,7 @@
     gradientStroke2.addColorStop(0.7, 'rgba(119,77,211,0.1)');
     gradientStroke2.addColorStop(0, 'rgba(119,77,211,0)'); //purple colors
 
-    new Chart(ctx2, {
+    window.balanceLineChart = new Chart(ctx2, {
       plugins: [{
         beforeInit(chart) {
           const originalFit = chart.legend.fit;
@@ -1368,6 +2030,875 @@
       window.addEventListener('resize', updateLayout);
       document.addEventListener('DOMContentLoaded', updateLayout);
     })();
+  </script>
+  <script>
+    (function(){
+      function parseNumber(text){
+        if(!text) return 0;
+        return Number(text.replace(/[^0-9.-]+/g, '')) || 0;
+      }
+
+      function formatSoles(n){
+        return 'S/' + Number(n).toLocaleString(undefined, {minimumFractionDigits:2, maximumFractionDigits:2});
+      }
+
+      function formatUSD(n){
+        return '$' + Number(n).toLocaleString(undefined, {minimumFractionDigits:2, maximumFractionDigits:2});
+      }
+
+      const ingresosEl = document.getElementById('ingresosValue');
+      const transEl = document.getElementById('transaccionesValue');
+      const avgEl = document.getElementById('avgTransactionValue');
+      const ventasEl = document.getElementById('ventasTotalesValue');
+
+      let baseIngresos = parseNumber(ingresosEl && ingresosEl.textContent);
+      let baseTrans = parseNumber(transEl && transEl.textContent);
+      let baseAvg = parseNumber(avgEl && avgEl.textContent);
+      let baseVentas = parseNumber(ventasEl && ventasEl.textContent);
+
+      function randPct(){ return (Math.random()*0.06)-0.03; } // +/-3%
+
+      function updateMetrics(){
+        baseIngresos = Math.max(0, Math.round(baseIngresos*(1+randPct())*100)/100);
+        baseTrans = Math.max(0, Math.round(baseTrans*(1+randPct())));
+        baseAvg = Math.max(0, Math.round(baseAvg*(1+randPct())*100)/100);
+        baseVentas = Math.max(0, Math.round(baseVentas*(1+randPct())*100)/100);
+
+        if(ingresosEl) ingresosEl.textContent = formatSoles(baseIngresos);
+        if(transEl) transEl.textContent = String(baseTrans);
+        if(avgEl) avgEl.textContent = formatUSD(baseAvg);
+        if(ventasEl) ventasEl.textContent = formatSoles(baseVentas);
+
+        // Slightly perturb chart data to simulate live updates
+        if(window.salesBarChart){
+          window.salesBarChart.data.datasets.forEach(ds=>{
+            ds.data = ds.data.map(v=>Math.max(1, Math.round(v*(1 + (Math.random()*0.08-0.04)))));
+          });
+          window.salesBarChart.update();
+        }
+
+        if(window.balanceLineChart){
+          window.balanceLineChart.data.datasets.forEach(ds=>{
+            ds.data = ds.data.map(v=>Math.max(1, Math.round(v*(1 + (Math.random()*0.08-0.04)))));
+          });
+          window.balanceLineChart.update();
+        }
+      }
+
+      // Kick off
+      setTimeout(updateMetrics, 1200);
+      setInterval(updateMetrics, 10000);
+    })();
+
+    // ================== USUARIOS MANAGEMENT ==================
+    // Estado global de usuarios
+    let allUsers = [];
+    let filteredUsers = [];
+    let currentPage = 1;
+    const usersPerPage = 5;
+    let filterText = '';
+    let filterRole = '';
+    let filterStatus = '';
+
+    // Inicializar usuarios desde tabla
+    function loadUsersFromTable() {
+      allUsers = [
+        {
+          id: 1,
+          name: 'Juan Díaz',
+          email: 'juan@example.com',
+          role: 'admin',
+          status: 'activo',
+          phone: '+51 999 111 222',
+          address: 'Av. Principal 123, Lima'
+        },
+        {
+          id: 2,
+          name: 'María García',
+          email: 'maria@example.com',
+          role: 'vendedor',
+          status: 'activo',
+          phone: '+51 999 333 444',
+          address: 'Calle Secundaria 456, Lima'
+        },
+        {
+          id: 3,
+          name: 'Carlos Ruiz',
+          email: 'carlos@example.com',
+          role: 'vendedor',
+          status: 'inactivo',
+          phone: '+51 999 555 666',
+          address: 'Avenida Tercera 789, Lima'
+        },
+        {
+          id: 4,
+          name: 'Sofía López',
+          email: 'sofia@example.com',
+          role: 'cliente',
+          status: 'activo',
+          phone: '+51 999 777 888',
+          address: 'Calle Principal 321, Callao'
+        },
+        {
+          id: 5,
+          name: 'Roberto Martínez',
+          email: 'roberto@example.com',
+          role: 'vendedor',
+          status: 'activo',
+          phone: '+51 999 999 000',
+          address: 'Av. Central 654, Arequipa'
+        }
+      ];
+      filteredUsers = [...allUsers];
+      updateUserCount();
+    }
+
+    // Filtrar usuarios
+    function filterUsers() {
+      filteredUsers = allUsers.filter(user => {
+        const matchSearch = user.name.toLowerCase().includes(filterText.toLowerCase()) ||
+                           user.email.toLowerCase().includes(filterText.toLowerCase());
+        const matchRole = filterRole === '' || user.role === filterRole;
+        const matchStatus = filterStatus === '' || user.status === filterStatus;
+        
+        return matchSearch && matchRole && matchStatus;
+      });
+      
+      currentPage = 1;
+      renderTable();
+    }
+
+    // Manejar búsqueda
+    function handleSearch(value) {
+      filterText = value;
+      filterUsers();
+    }
+
+    // Manejar filtros
+    function handleFilter() {
+      filterRole = document.getElementById('filter-role').value;
+      filterStatus = document.getElementById('filter-status').value;
+      filterUsers();
+    }
+
+    // Renderizar tabla de usuarios
+    function renderTable() {
+      const startIndex = (currentPage - 1) * usersPerPage;
+      const endIndex = startIndex + usersPerPage;
+      const paginatedUsers = filteredUsers.slice(startIndex, endIndex);
+
+      const tbody = document.getElementById('users-table-body');
+      tbody.innerHTML = '';
+
+      if (paginatedUsers.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="5" class="text-center text-muted py-4">No hay usuarios que coincidan con los filtros</td></tr>';
+      } else {
+        paginatedUsers.forEach(user => {
+          const initials = user.name.split(' ').map(n => n[0]).join('').toUpperCase();
+          const roleLabel = user.role === 'admin' ? 'Administrador' : 
+                           user.role === 'vendedor' ? 'Vendedor' : 'Cliente';
+          const statusBadge = user.status === 'activo' 
+            ? '<span class="badge badge-sm bg-success">Activo</span>'
+            : '<span class="badge badge-sm bg-warning">Inactivo</span>';
+
+          const row = document.createElement('tr');
+          row.innerHTML = `
+            <td>
+              <div class="d-flex px-2">
+                <div class="avatar avatar-sm rounded-circle bg-gray-100 me-2 my-2">
+                  <span class="text-dark font-weight-bold">${initials}</span>
+                </div>
+                <div class="my-auto">
+                  <h6 class="mb-0 text-sm">${user.name}</h6>
+                </div>
+              </div>
+            </td>
+            <td>
+              <p class="text-sm font-weight-normal mb-0">${user.email}</p>
+            </td>
+            <td>
+              <span class="text-sm font-weight-normal">${roleLabel}</span>
+            </td>
+            <td>
+              ${statusBadge}
+            </td>
+            <td class="align-middle text-center">
+              <button class="btn btn-sm btn-white mb-0 me-1" onclick="editUser(${user.id})">Editar</button>
+              <button class="btn btn-sm btn-danger mb-0" onclick="deleteUser(${user.id})">Eliminar</button>
+            </td>
+          `;
+          tbody.appendChild(row);
+        });
+      }
+
+      updatePagination();
+    }
+
+    // Actualizar paginación
+    function updatePagination() {
+      const totalPages = Math.ceil(filteredUsers.length / usersPerPage);
+      const pageInfo = document.getElementById('page-info');
+      pageInfo.innerHTML = `<span class="page-link">Página ${currentPage} de ${totalPages}</span>`;
+
+      document.getElementById('prev-page-btn').classList.toggle('disabled', currentPage === 1);
+      document.getElementById('next-page-btn').classList.toggle('disabled', currentPage >= totalPages);
+    }
+
+    // Cambiar página
+    function previousPage() {
+      if (currentPage > 1) {
+        currentPage--;
+        renderTable();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    }
+
+    function nextPage() {
+      const totalPages = Math.ceil(filteredUsers.length / usersPerPage);
+      if (currentPage < totalPages) {
+        currentPage++;
+        renderTable();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    }
+
+    // Actualizar conteo
+    function updateUserCount() {
+      document.getElementById('total-users').textContent = allUsers.length;
+      document.getElementById('showing-users').textContent = filteredUsers.length;
+    }
+
+    // Editar usuario (modal o inline)
+    function editUser(userId) {
+      const user = allUsers.find(u => u.id === userId);
+      if(user) {
+        alert(`Editando: ${user.name}`);
+        // Aquí irá la lógica de edición
+      }
+    }
+
+    // Eliminar usuario
+    function deleteUser(userId) {
+      if (confirm('¿Estás seguro de que deseas eliminar este usuario?')) {
+        allUsers = allUsers.filter(u => u.id !== userId);
+        filterUsers();
+        alert('Usuario eliminado correctamente');
+      }
+    }
+
+    // ================== SALES MANAGEMENT ==================
+    const itemsPerPageSales = 10;
+    let currentPageSales = 1;
+    let currentSaleId = null;
+
+    let allSales = [
+      { id: '2024-001', date: '2024-11-25', client: 'Juan García Loor', phone: '+51 999 123 456', address: 'Av. Libertad 456, Lima', product: 'Foco LED H7', qty: 5, price: 45.90, status: 'pendiente' },
+      { id: '2024-002', date: '2024-11-25', client: 'María Rodríguez', phone: '+51 987 654 321', address: 'Calle Amazonas 789, Lima', product: 'Alternador Denso', qty: 2, price: 380.50, status: 'confirmado' },
+      { id: '2024-003', date: '2024-11-24', client: 'Carlos López Soto', phone: '+51 912 345 678', address: 'Jr. Bolívar 123, Callao', product: 'Regulador Alternador', qty: 8, price: 65.00, status: 'enviado' },
+      { id: '2024-004', date: '2024-11-24', client: 'Sofia Martinez', phone: '+51 901 234 567', address: 'Pasaje Central 321, Breña', product: 'Rotor Alternador', qty: 3, price: 95.30, status: 'entregado' },
+      { id: '2024-005', date: '2024-11-23', client: 'Roberto Díaz', phone: '+51 945 678 901', address: 'Av. Benavides 654, Surco', product: 'Foco LED H7', qty: 10, price: 45.90, status: 'cancelado' },
+      { id: '2024-006', date: '2024-11-23', client: 'Ana Flores', phone: '+51 934 567 890', address: 'Calle Colón 456, Miraflores', product: 'Alternador Denso', qty: 1, price: 380.50, status: 'pendiente' },
+      { id: '2024-007', date: '2024-11-22', client: 'Miguel Torres', phone: '+51 923 456 789', address: 'Jr. Principal 789, Ate', product: 'Regulador Alternador', qty: 5, price: 65.00, status: 'confirmado' },
+      { id: '2024-008', date: '2024-11-22', client: 'Patricia Ruiz', phone: '+51 912 345 678', address: 'Av. Larcomar 111, Chorrillos', product: 'Rotor Alternador', qty: 2, price: 95.30, status: 'entregado' }
+    ];
+    let filteredSales = [...allSales];
+
+    function getStatusBadge(status) {
+      const badges = {
+        'pendiente': '<span class="badge badge-sm bg-warning">Pendiente</span>',
+        'confirmado': '<span class="badge badge-sm bg-info">Confirmado</span>',
+        'enviado': '<span class="badge badge-sm bg-primary">Enviado</span>',
+        'entregado': '<span class="badge badge-sm bg-success">Entregado</span>',
+        'cancelado': '<span class="badge badge-sm bg-danger">Cancelado</span>'
+      };
+      return badges[status] || status;
+    }
+
+    function renderSales() {
+      const tbody = document.getElementById('sales-tbody');
+      tbody.innerHTML = '';
+
+      const startIdx = (currentPageSales - 1) * itemsPerPageSales;
+      const endIdx = startIdx + itemsPerPageSales;
+      const pageSales = filteredSales.slice(startIdx, endIdx);
+
+      if(pageSales.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="8" class="text-center text-muted py-4">No hay ventas</td></tr>';
+        updatePaginationUISales();
+        return;
+      }
+
+      pageSales.forEach(sale => {
+        const total = sale.qty * sale.price;
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${sale.id}</td>
+          <td>${sale.date}</td>
+          <td>${sale.client}</td>
+          <td>${sale.product}</td>
+          <td>${sale.qty}</td>
+          <td>S/ ${total.toFixed(2)}</td>
+          <td>${getStatusBadge(sale.status)}</td>
+          <td>
+            <button class="btn btn-xs btn-dark btn-icon" onclick="openDetails('${sale.id}')"><i class="fa fa-eye"></i></button>
+            <button class="btn btn-xs btn-danger btn-icon" onclick="cancelOrderSales('${sale.id}')"><i class="fa fa-times"></i></button>
+          </td>
+        `;
+        tbody.appendChild(row);
+      });
+
+      updatePaginationUISales();
+    }
+
+    function updatePaginationUISales() {
+      const totalPages = Math.ceil(filteredSales.length / itemsPerPageSales);
+      document.getElementById('total-pages').textContent = totalPages;
+      document.getElementById('prev-btn').classList.toggle('disabled', currentPageSales === 1);
+      document.getElementById('next-btn').classList.toggle('disabled', currentPageSales === totalPages);
+    }
+
+    function filterSales() {
+      const search = document.getElementById('search-sales').value.toLowerCase();
+      const statusFilter = document.getElementById('filter-status').value;
+      const dateFrom = document.getElementById('filter-date-from').value;
+      const dateTo = document.getElementById('filter-date-to').value;
+
+      filteredSales = allSales.filter(s => {
+        const matchSearch = s.id.toLowerCase().includes(search) || s.client.toLowerCase().includes(search) || s.product.toLowerCase().includes(search);
+        const matchStatus = !statusFilter || s.status === statusFilter;
+        const matchDate = (!dateFrom || s.date >= dateFrom) && (!dateTo || s.date <= dateTo);
+        return matchSearch && matchStatus && matchDate;
+      });
+
+      currentPageSales = 1;
+      renderSales();
+    }
+
+    function clearSalesFilters() {
+      document.getElementById('search-sales').value = '';
+      document.getElementById('filter-status').value = '';
+      document.getElementById('filter-date-from').value = '';
+      document.getElementById('filter-date-to').value = '';
+      filteredSales = [...allSales];
+      currentPageSales = 1;
+      renderSales();
+    }
+
+    function previousPageSales(e) {
+      e.preventDefault();
+      if(currentPageSales > 1) { currentPageSales--; renderSales(); }
+    }
+
+    function nextPageSales(e) {
+      e.preventDefault();
+      const totalPages = Math.ceil(filteredSales.length / itemsPerPageSales);
+      if(currentPageSales < totalPages) { currentPageSales++; renderSales(); }
+    }
+
+    function openDetails(saleId) {
+      const sale = allSales.find(s => s.id === saleId);
+      currentSaleId = saleId;
+
+      const subtotal = sale.qty * sale.price;
+      const tax = subtotal * 0.18;
+      const total = subtotal + tax;
+
+      document.getElementById('modal-order-id').textContent = saleId;
+      document.getElementById('modal-date').textContent = sale.date;
+      document.getElementById('modal-client').textContent = sale.client;
+      document.getElementById('modal-phone').textContent = sale.phone;
+      document.getElementById('modal-address').textContent = sale.address;
+      document.getElementById('modal-status-select').value = sale.status;
+
+      const itemsHtml = `
+        <tr>
+          <td>${sale.product}</td>
+          <td>${sale.qty}</td>
+          <td>S/ ${sale.price.toFixed(2)}</td>
+          <td>S/ ${subtotal.toFixed(2)}</td>
+        </tr>
+      `;
+      document.getElementById('modal-items').innerHTML = itemsHtml;
+      document.getElementById('modal-subtotal').textContent = 'S/ ' + subtotal.toFixed(2);
+      document.getElementById('modal-tax').textContent = 'S/ ' + tax.toFixed(2);
+      document.getElementById('modal-total').textContent = 'S/ ' + total.toFixed(2);
+
+      const modal = new bootstrap.Modal(document.getElementById('detailsModal'));
+      modal.show();
+    }
+
+    function updateOrderStatus() {
+      const newStatus = document.getElementById('modal-status-select').value;
+      const sale = allSales.find(s => s.id === currentSaleId);
+      if(sale) {
+        sale.status = newStatus;
+        renderSales();
+        alert('✓ Estado actualizado a: ' + newStatus);
+      }
+    }
+
+    function cancelOrderSales(saleId) {
+      if(confirm('¿Deseas cancelar este pedido?')) {
+        const sale = allSales.find(s => s.id === saleId);
+        if(sale) {
+          sale.status = 'cancelado';
+          renderSales();
+          alert('✓ Pedido cancelado');
+        }
+      }
+    }
+
+    function printOrder() {
+      window.print();
+    }
+
+    // ================== NOTIFICATIONS MANAGEMENT ==================
+    let allNotifications = [
+      { id: 1, type: 'alert', title: 'Stock bajo detectado', message: 'Foco LED H7 (FOCO-LED-001) tiene solo 5 unidades', read: false, time: 'hace 2 horas' },
+      { id: 2, type: 'success', title: 'Venta confirmada', message: 'Pedido #2024-001 ha sido confirmado exitosamente', read: false, time: 'hace 1 hora' },
+      { id: 3, type: 'info', title: 'Actualización disponible', message: 'Nueva versión del sistema disponible para descargar', read: false, time: 'hace 30 minutos' },
+      { id: 4, type: 'system', title: 'Mantenimiento programado', message: 'El sistema estará en mantenimiento el 28/11/2024 de 22:00 a 23:00', read: false, time: 'hace 15 minutos' },
+      { id: 5, type: 'alert', title: 'Producto agotado', message: 'Alternador Denso (ALT-DENSO-001) está agotado', read: true, time: 'ayer' },
+      { id: 6, type: 'success', title: 'Reporte generado', message: 'Tu reporte mensual está listo para descargar', read: true, time: 'hace 2 días' }
+    ];
+    let filteredNotifications = [...allNotifications];
+
+    function getNotificationIcon(type) {
+      const icons = {
+        alert: 'fa-exclamation-circle text-warning',
+        success: 'fa-check-circle text-success',
+        info: 'fa-info-circle text-info',
+        system: 'fa-cog text-secondary'
+      };
+      const iconClass = icons[type] || 'fa-bell text-secondary';
+      return `<i class="fas ${iconClass} fs-5 me-3"></i>`;
+    }
+
+    function renderNotifications() {
+      const container = document.getElementById('notifications-container');
+      container.innerHTML = '';
+      
+      if(filteredNotifications.length === 0) {
+        container.innerHTML = '<div class="alert alert-info">No hay notificaciones</div>';
+        return;
+      }
+
+      filteredNotifications.forEach(notif => {
+        const item = document.createElement('div');
+        item.className = `card shadow-xs border mb-2 ${notif.read ? '' : 'bg-light'}`;
+        item.innerHTML = `
+          <div class="card-body p-3">
+            <div class="d-flex justify-content-between align-items-start">
+              <div class="d-flex flex-grow-1">
+                <div>${getNotificationIcon(notif.type)}</div>
+                <div class="flex-grow-1">
+                  <h6 class="mb-1">${notif.title}</h6>
+                  <p class="text-sm mb-2">${notif.message}</p>
+                  <div class="text-xs text-muted">${notif.time}</div>
+                </div>
+              </div>
+              <div class="action-buttons">
+                <button class="btn btn-xs btn-white me-1" onclick="toggleRead(${notif.id})" title="Marcar como ${notif.read ? 'no leído' : 'leído'}">
+                  <i class="fas fa-envelope${notif.read ? '' : '-open'}"></i>
+                </button>
+                <button class="btn btn-xs btn-danger" onclick="deleteNotification(${notif.id})" title="Eliminar">
+                  <i class="fas fa-trash"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        `;
+        container.appendChild(item);
+      });
+    }
+
+    function filterNotifications() {
+      const search = document.getElementById('search-notif').value.toLowerCase();
+      const typeFilter = document.getElementById('filter-type').value;
+      const statusFilter = document.getElementById('filter-status').value;
+
+      filteredNotifications = allNotifications.filter(n => {
+        const matchSearch = n.title.toLowerCase().includes(search) || n.message.toLowerCase().includes(search);
+        const matchType = !typeFilter || n.type === typeFilter;
+        const matchStatus = !statusFilter || (statusFilter === 'unread' && !n.read) || (statusFilter === 'read' && n.read);
+        return matchSearch && matchType && matchStatus;
+      });
+
+      renderNotifications();
+    }
+
+    function toggleRead(id) {
+      const notif = allNotifications.find(n => n.id === id);
+      if(notif) notif.read = !notif.read;
+      filterNotifications();
+      updateUnreadCount();
+    }
+
+    function deleteNotification(id) {
+      if(confirm('¿Deseas eliminar esta notificación?')) {
+        allNotifications = allNotifications.filter(n => n.id !== id);
+        filterNotifications();
+        updateUnreadCount();
+      }
+    }
+
+    function markAllAsRead() {
+      allNotifications.forEach(n => n.read = true);
+      filterNotifications();
+      updateUnreadCount();
+    }
+
+    function clearNotifFilters() {
+      document.getElementById('search-notif').value = '';
+      document.getElementById('filter-type').value = '';
+      document.getElementById('filter-status').value = '';
+      filterNotifications();
+    }
+
+    function updateUnreadCount() {
+      const unreadCount = allNotifications.filter(n => !n.read).length;
+      document.getElementById('unread-count').textContent = unreadCount;
+    }
+
+      // ================== PRODUCTOS MANAGEMENT ==================
+      let allProducts = [];
+      let allProdCategories = [];
+      let filteredProducts = [];
+      let currentProdPage = 1;
+      const productsPerPage = 10;
+      let editingProductSku = null;
+      let reportCharts = {};
+    
+      function initializeProducts() {
+        allProdCategories = [
+          { id: 1, name: 'Focos', description: 'Focos y luces automotrices' },
+          { id: 2, name: 'Alternadores', description: 'Alternadores y generadores' },
+          { id: 3, name: 'Piezas de Alternador', description: 'Componentes de alternador' },
+          { id: 4, name: 'Aceites', description: 'Aceites lubricantes' },
+          { id: 5, name: 'Filtros', description: 'Filtros de aire, aceite, combustible' },
+        ];
+
+        allProducts = [
+          { sku: 'FOCO-LED-001', name: 'Foco LED H7 6000K Blanco', price: 45.90, cost: 25.00, stock: 120, minStock: 20, category: 'Focos', brand: 'Osram', status: 'activo', supplier: 'Distribuidora LED', supplierCode: 'LED-H7-001', description: 'Foco LED H7 color blanco 6000K alta luminosidad' },
+          { sku: 'ALT-DENSO-001', name: 'Alternador Denso 100A', price: 380.50, cost: 220.00, stock: 32, minStock: 10, category: 'Alternadores', brand: 'Denso', status: 'activo', supplier: 'Denso Perú', supplierCode: 'ALT-DEN-100A', description: 'Alternador Denso 100 Amperios compatible con múltiples modelos' },
+          { sku: 'PALT-REG-001', name: 'Regulador Alternador 14V', price: 65.00, cost: 35.00, stock: 89, minStock: 15, category: 'Piezas de Alternador', brand: 'Bosch', status: 'activo', supplier: 'Bosch Parts', supplierCode: 'REG-ALT-001', description: 'Regulador de voltaje 14V para alternador' },
+          { sku: 'PALT-ROT-001', name: 'Rotor Alternador Premium', price: 95.30, cost: 50.00, stock: 54, minStock: 12, category: 'Piezas de Alternador', brand: 'OEM', status: 'activo', supplier: 'OEM Supplier', supplierCode: 'ROT-ALT-001', description: 'Rotor de alternador compatible con marcas principales' },
+        ];
+
+        populateProdCategoryFilter();
+        renderProductDashboard();
+      }
+
+      function switchProdTab(tab) {
+        document.querySelectorAll('[id$="-tab"]:not([id*="tab-content"])').forEach(el => {
+          if(el.id.startsWith('prod-')) el.style.display = 'none';
+        });
+        const tabEl = document.getElementById('prod-' + tab + '-tab');
+        if(tabEl) tabEl.style.display = 'block';
+        document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+        event.target?.classList.add('active');
+        if(tab === 'products') applyProductFilters();
+        else if(tab === 'categories') renderCategoriesGrid();
+      }
+
+      function populateProdCategoryFilter() {
+        const select = document.getElementById('prod-filter-category');
+        const formSelect = document.getElementById('form-category') || {};
+        if(select) {
+          select.innerHTML = '<option value="">Todas</option>';
+          allProdCategories.forEach(cat => {
+            select.innerHTML += `<option value="${cat.name}">${cat.name}</option>`;
+          });
+        }
+      }
+
+      function renderProductDashboard() {
+        const totalProducts = allProducts.length;
+        const totalStock = allProducts.reduce((sum, p) => sum + parseInt(p.stock), 0);
+        const lowStock = allProducts.filter(p => parseInt(p.stock) < parseInt(p.minStock)).length;
+        const uniqueCategories = new Set(allProducts.map(p => p.category)).size;
+
+        document.getElementById('stat-total-prod').textContent = totalProducts;
+        document.getElementById('stat-stock-total-prod').textContent = totalStock.toLocaleString();
+        document.getElementById('stat-low-stock-prod').textContent = lowStock;
+        document.getElementById('stat-categories-prod').textContent = uniqueCategories;
+
+        const lowStockProducts = allProducts.filter(p => parseInt(p.stock) < 30).sort((a, b) => parseInt(a.stock) - parseInt(b.stock));
+        const tbody = document.getElementById('low-stock-tbody-prod');
+        if(!tbody) return;
+        tbody.innerHTML = '';
+
+        if(lowStockProducts.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="6" class="text-center text-muted py-3">✓ Sin productos con stock bajo</td></tr>';
+        } else {
+          lowStockProducts.forEach(p => {
+            tbody.innerHTML += `<tr><td><strong>${p.name}</strong></td><td><code>${p.sku}</code></td><td><span class="stock-critical">${p.stock} u</span></td><td>S/ ${parseFloat(p.price).toFixed(2)}</td><td>${p.brand}</td><td><button class="btn btn-xs btn-warning" onclick="showProductForm('edit', '${p.sku}')"><i class="fa fa-edit"></i></button></td></tr>`;
+          });
+        }
+      }
+
+      function applyProductFilters() {
+        const categoryFilter = document.getElementById('prod-filter-category')?.value || '';
+        const statusFilter = document.getElementById('prod-filter-status')?.value || '';
+        const priceMin = parseFloat(document.getElementById('prod-filter-price-min')?.value) || 0;
+        const priceMax = parseFloat(document.getElementById('prod-filter-price-max')?.value) || Infinity;
+        const sortBy = document.getElementById('prod-filter-sort')?.value || '';
+
+        filteredProducts = allProducts.filter(p => {
+          const matchCategory = !categoryFilter || p.category === categoryFilter;
+          const matchStatus = !statusFilter || p.status === statusFilter;
+          const matchPrice = p.price >= priceMin && p.price <= priceMax;
+          return matchCategory && matchStatus && matchPrice;
+        });
+
+        if(sortBy === 'price-asc') filteredProducts.sort((a, b) => a.price - b.price);
+        else if(sortBy === 'price-desc') filteredProducts.sort((a, b) => b.price - a.price);
+        else if(sortBy === 'stock-asc') filteredProducts.sort((a, b) => parseInt(a.stock) - parseInt(b.stock));
+        else if(sortBy === 'stock-desc') filteredProducts.sort((a, b) => parseInt(b.stock) - parseInt(a.stock));
+        else if(sortBy === 'name-asc') filteredProducts.sort((a, b) => a.name.localeCompare(b.name));
+
+        currentProdPage = 1;
+        renderProducts();
+      }
+
+      function renderProducts() {
+        const start = (currentProdPage - 1) * productsPerPage;
+        const end = start + productsPerPage;
+        const paged = filteredProducts.slice(start, end);
+
+        const tbody = document.getElementById('products-table-body');
+        if(!tbody) return;
+        tbody.innerHTML = '';
+
+        if(paged.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="9" class="text-center text-muted py-4">Sin productos que coincidan con los filtros</td></tr>';
+        } else {
+          paged.forEach(p => {
+            const margin = ((p.price - p.cost) / p.price * 100).toFixed(1);
+            const statusBadge = p.status === 'activo' ? 'badge-activo' : p.status === 'agotado' ? 'badge-agotado' : 'badge-inactivo';
+            tbody.innerHTML += `<tr><td><strong>${p.name}</strong></td><td><code>${p.sku}</code></td><td>${p.brand}</td><td>S/ ${parseFloat(p.price).toFixed(2)}</td><td>S/ ${parseFloat(p.cost).toFixed(2)}</td><td><span class="badge bg-info">${margin}%</span></td><td class="stock-${parseInt(p.stock) === 0 ? 'critical' : parseInt(p.stock) < parseInt(p.minStock) ? 'low' : 'ok'}">${p.stock} un.</td><td><span class="badge-estado ${statusBadge}">${p.status.charAt(0).toUpperCase() + p.status.slice(1)}</span></td><td class="text-center"><button class="btn btn-xs btn-primary me-1" onclick="showProductForm('edit', '${p.sku}')"><i class="fa fa-edit"></i></button><button class="btn btn-xs btn-danger" onclick="deleteProduct('${p.sku}')"><i class="fa fa-trash"></i></button></td></tr>`;
+          });
+        }
+
+        const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
+        document.getElementById('prod-page-info').textContent = `Página ${currentProdPage} de ${totalPages}`;
+        document.getElementById('prod-prev-btn').classList.toggle('disabled', currentProdPage === 1);
+        document.getElementById('prod-next-btn').classList.toggle('disabled', currentProdPage >= totalPages);
+        document.getElementById('product-count-badge').textContent = filteredProducts.length;
+      }
+
+      function prevProductPage() { if(currentProdPage > 1) { currentProdPage--; renderProducts(); } }
+      function nextProductPage() { const totalPages = Math.ceil(filteredProducts.length / productsPerPage); if(currentProdPage < totalPages) { currentProdPage++; renderProducts(); } }
+      function clearProductFilters() { document.getElementById('prod-filter-category').value = ''; document.getElementById('prod-filter-status').value = ''; document.getElementById('prod-filter-price-min').value = ''; document.getElementById('prod-filter-price-max').value = ''; document.getElementById('prod-filter-sort').value = ''; applyProductFilters(); }
+      function showProductForm(type, sku = null) { /* Aquí irían los detalles del formulario */ alert('Formulario de producto'); }
+      function deleteProduct(sku) { if(confirm('¿Deseas eliminar este producto?')) { allProducts = allProducts.filter(p => p.sku !== sku); applyProductFilters(); renderProductDashboard(); } }
+      function renderCategoriesGrid() { const grid = document.getElementById('categories-grid'); if(!grid) return; grid.innerHTML = ''; allProdCategories.forEach(cat => { grid.innerHTML += `<div class="col-lg-4 col-md-6 mb-3"><div class="card shadow-xs border"><div class="card-body"><h6>${cat.name}</h6><p class="text-sm text-muted">${cat.description}</p></div></div></div>`; }); }
+      function showCategoryFormProd(type, id = null) { alert('Formulario de categoría'); }
+      // ================== REPORTES MANAGEMENT ==================
+      function initializeReports() {
+        initializeReportCharts();
+      }
+      function initializeReportCharts() {
+        const ctx1 = document.getElementById('sales-chart-dashboard');
+        const ctx2 = document.getElementById('category-chart-dashboard');
+        if(!ctx1 || !ctx2) return;
+        if(reportCharts.salesChart) reportCharts.salesChart.destroy();
+        if(reportCharts.categoryChart) reportCharts.categoryChart.destroy();
+        if(typeof Chart !== 'undefined') {
+          reportCharts.salesChart = new Chart(ctx1, {
+            type: 'line',
+            data: {
+              labels: ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sab', 'Dom'],
+              datasets: [{
+                label: 'Ventas (S/)',
+                data: [1200, 1900, 1600, 2100, 1800, 2200, 1900],
+                borderColor: '#667eea',
+                backgroundColor: 'rgba(102, 126, 234, 0.1)',
+                tension: 0.4,
+                fill: true
+              }]
+            },
+            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
+          });
+          reportCharts.categoryChart = new Chart(ctx2, {
+            type: 'doughnut',
+            data: {
+              labels: ['Focos', 'Alternadores', 'Piezas', 'Aceites'],
+              datasets: [{
+                data: [2500, 4200, 1800, 950],
+                backgroundColor: ['#667eea', '#764ba2', '#f093fb', '#43e97b']
+              }]
+            },
+            options: { responsive: true, maintainAspectRatio: false }
+          });
+        }
+      }
+      function updateReportCharts() { generateReport(); }
+      function generateReport() { alert('✓ Reporte generado correctamente'); }
+      function clearReportFilters() { document.getElementById('rep-filter-date-from').value = ''; document.getElementById('rep-filter-date-to').value = ''; document.getElementById('rep-filter-type').value = 'sales'; document.getElementById('rep-filter-category').value = ''; }
+      // ================== PERFIL MANAGEMENT ==================
+      let currentProfileUser = {
+        name: 'Juan Díaz Martínez',
+        email: 'juan.diaz@empresa.com',
+        phone: '+51 999 123 456',
+        role: 'Administrador',
+        status: 'Activo',
+        joined: '2024-01-15',
+        avatar: 'https://via.placeholder.com/120?text=JD',
+        currentPassword: 'password123'
+      };
+      function initializeProfile() {
+        loadProfileData();
+        setupProfileForms();
+      }
+      function loadProfileData() {
+        document.getElementById('profile-name').textContent = currentProfileUser.name;
+        document.getElementById('profile-role').textContent = currentProfileUser.role;
+        document.getElementById('profile-avatar').src = currentProfileUser.avatar;
+        document.getElementById('stat-status-prof').textContent = currentProfileUser.status;
+        document.getElementById('stat-phone-prof').textContent = currentProfileUser.phone || '—';
+        document.getElementById('stat-email-prof').textContent = currentProfileUser.email;
+        const joinDate = new Date(currentProfileUser.joined).toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' });
+        document.getElementById('stat-joined-prof').textContent = joinDate;
+        document.getElementById('prof-info-name').value = currentProfileUser.name;
+        document.getElementById('prof-info-email').value = currentProfileUser.email;
+        document.getElementById('prof-info-phone').value = currentProfileUser.phone;
+        document.getElementById('prof-info-role').value = currentProfileUser.role;
+      }
+      function setupProfileForms() {
+        const infoForm = document.getElementById('prof-info-form');
+        const secForm = document.getElementById('prof-security-form');
+        if(infoForm) infoForm.addEventListener('submit', e => { e.preventDefault(); saveProfileInfo(); });
+        if(secForm) secForm.addEventListener('submit', e => { e.preventDefault(); changeProfilePassword(); });
+      }
+      function switchProfileTab(tab) {
+        document.querySelectorAll('.tab-content-prof').forEach(el => el.classList.remove('active'));
+        document.getElementById('prof-' + tab).classList.add('active');
+        document.querySelectorAll('.tab-button-prof').forEach(btn => btn.classList.remove('active'));
+        event.target?.classList.add('active');
+      }
+      function saveProfileInfo() {
+        const name = document.getElementById('prof-info-name').value.trim();
+        const email = document.getElementById('prof-info-email').value.trim();
+        const phone = document.getElementById('prof-info-phone').value.trim();
+        if(!name || !email) { alert('✗ Completa todos los campos obligatorios'); return; }
+        currentProfileUser.name = name;
+        currentProfileUser.email = email;
+        currentProfileUser.phone = phone;
+        loadProfileData();
+        document.getElementById('prof-info-success').style.display = 'block';
+        setTimeout(() => { document.getElementById('prof-info-success').style.display = 'none'; }, 3000);
+      }
+      function calculateProfilePasswordStrength() {
+        const pwd = document.getElementById('prof-security-new').value;
+        const bar = document.getElementById('prof-strength-bar');
+        const text = document.getElementById('prof-strength-text');
+        let strength = 0;
+        if(pwd.length >= 8) strength++;
+        if(/[A-Z]/.test(pwd)) strength++;
+        if(/[0-9]/.test(pwd)) strength++;
+        bar.className = 'password-strength';
+        text.className = 'strength-text';
+        if(strength <= 1) { bar.classList.add('weak'); text.classList.add('weak'); text.textContent = '⚠ Débil'; }
+        else if(strength === 2 || strength === 3) { bar.classList.add('medium'); text.classList.add('medium'); text.textContent = '◐ Media'; }
+        else { bar.classList.add('strong'); text.classList.add('strong'); text.textContent = '✓ Fuerte'; }
+      }
+      function changeProfilePassword() {
+        const current = document.getElementById('prof-security-current').value;
+        const newPwd = document.getElementById('prof-security-new').value;
+        const confirm = document.getElementById('prof-security-confirm').value;
+        if(!current || !newPwd || !confirm) { alert('✗ Completa todos los campos'); return; }
+        if(current !== currentProfileUser.currentPassword) { alert('✗ Contraseña actual incorrecta'); return; }
+        const pwdRegex = /^(?=.*[A-Z])(?=.*[0-9]).{8,}$/;
+        if(!pwdRegex.test(newPwd)) { alert('✗ Contraseña no cumple requisitos'); return; }
+        if(newPwd !== confirm) { alert('✗ Las contraseñas no coinciden'); return; }
+        currentProfileUser.currentPassword = newPwd;
+        document.getElementById('prof-security-form').reset();
+        document.getElementById('prof-strength-bar').className = 'password-strength';
+        document.getElementById('prof-strength-text').textContent = '';
+        document.getElementById('prof-security-success').style.display = 'block';
+        setTimeout(() => { document.getElementById('prof-security-success').style.display = 'none'; }, 3000);
+      }
+      function saveProfilePreferences() {
+        document.getElementById('prof-prefs-success').style.display = 'block';
+        setTimeout(() => { document.getElementById('prof-prefs-success').style.display = 'none'; }, 3000);
+      }
+
+    // ================== SPA VIEW SWITCHER ==================
+    function showView(viewName) {
+      // Hide all views
+      const allViews = document.querySelectorAll('[data-view]');
+      allViews.forEach(view => {
+        view.style.display = 'none';
+      });
+
+      // Show selected view
+      const selectedView = document.querySelector(`[data-view="${viewName}"]`);
+      if(selectedView) {
+        selectedView.style.display = 'block';
+        // Scroll to top
+        window.scrollTo(0, 0);
+      }
+
+      // Inicializar datos cuando se selecciona una vista
+      if(viewName === 'users-list' && allUsers.length === 0) {
+        loadUsersFromTable();
+        renderTable();
+      }
+
+      if(viewName === 'sales-list' && document.getElementById('sales-tbody').children.length === 0) {
+        renderSales();
+      }
+
+      if(viewName === 'notificaciones' && document.getElementById('notifications-container').children.length === 0) {
+        renderNotifications();
+        updateUnreadCount();
+      }
+
+      // Inicializar módulos integrados cuando corresponde
+      if(viewName === 'productos' && allProducts.length === 0) {
+        initializeProducts();
+        // aplicar filtros por defecto
+        filteredProducts = [...allProducts];
+        applyProductFilters();
+      }
+
+      if(viewName === 'reportes') {
+        // Pequeño timeout para asegurar que los canvas estén en DOM
+        setTimeout(() => initializeReports(), 50);
+      }
+
+      if(viewName === 'profile') {
+        initializeProfile();
+      }
+
+      // Update active nav link
+      document.querySelectorAll('.nav-link').forEach(link => {
+        link.classList.remove('active');
+      });
+      
+      // Find and activate the clicked nav link
+      const navLinks = document.querySelectorAll(`a[onclick*="showView('${viewName}')"]`);
+      navLinks.forEach(link => {
+        link.classList.add('active');
+      });
+
+      // Update breadcrumb title
+      const titles = {
+        'dashboard': 'Dashboard',
+        'users-list': 'Lista de Usuarios',
+        'productos': 'Productos',
+        'profile': 'Perfil',
+        'reportes': 'Reportes',
+        'notificaciones': 'Notificaciones',
+        'sales-list': 'Lista de Ventas'
+      };
+
+      const pageTitle = document.querySelector('h6.font-weight-bold');
+      if(pageTitle) {
+        pageTitle.textContent = titles[viewName] || 'Dashboard';
+      }
+    }
   </script>
 </body>
 

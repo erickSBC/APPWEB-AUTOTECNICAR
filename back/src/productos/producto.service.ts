@@ -13,9 +13,7 @@ export class ProductosService {
     private readonly productoRepo: Repository<Producto>,
   ) { }
 
-  async findAll() {
-    return this.productoRepo.find({ relations: ['categoria'] });
-  }
+
 
   async findOne(id: number) {
     return this.productoRepo.findOne({
@@ -52,4 +50,58 @@ export class ProductosService {
 
     return qb.getMany();
   }
+  // src/productos/productos.service.ts
+  async findAllPaginated(skip: number, take: number) {
+    const [items, total] = await this.productoRepo.findAndCount({
+      relations: ['categoria'],
+      skip,
+      take,
+    });
+    return {
+      total,
+      skip,
+      take,
+      items,
+    };
+  }
+  // src/productos/productos.service.ts
+  async filterProducts(params: {
+    nombre?: string;
+    categorias?: number[];
+    skip: number;
+    take: number;
+  }) {
+    const { nombre, categorias, skip, take } = params;
+
+    const qb = this.productoRepo
+      .createQueryBuilder('p')
+      .leftJoinAndSelect('p.categoria', 'categoria');
+
+    /** Filtro por nombre */
+    if (nombre && nombre.trim() !== '') {
+      qb.andWhere('LOWER(p.nombre) LIKE LOWER(:nombre)', {
+        nombre: `%${nombre.trim()}%`,
+      });
+    }
+
+    /** Filtro por una o múltiples categorías */
+    if (categorias && categorias.length > 0) {
+      qb.andWhere('categoria.id_categoria IN (:...categorias)', {
+        categorias,
+      });
+    }
+
+    /** Paginación */
+    qb.skip(skip).take(take);
+
+    const [items, total] = await qb.getManyAndCount();
+
+    return {
+      total,
+      skip,
+      take,
+      items,
+    };
+  }
+
 }

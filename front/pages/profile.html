@@ -1,363 +1,681 @@
-
 <!--
 =========================================================
-* Corporate UI - Perfil de Usuario
+* Corporate UI - Perfil de Usuario (Enhanced)
 =========================================================
 -->
 <!DOCTYPE html>
 <html lang="es">
 
 <head>
-	<meta charset="utf-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
-	<link rel="icon" type="image/png" href="../assets/img/favicon.png">
-	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-	<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
-	<title>Perfil de Usuario</title>
-	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700|Noto+Sans:300,400,500,600,700,800|PT+Mono:300,400,500,600,700" rel="stylesheet" />
-	<link href="../assets/css/nucleo-icons.css" rel="stylesheet" />
-	<link href="../assets/css/nucleo-svg.css" rel="stylesheet" />
-	<script src="https://kit.fontawesome.com/349ee9c857.js" crossorigin="anonymous"></script>
-	<link id="pagestyle" href="../assets/css/corporate-ui-dashboard.css?v=1.0.0" rel="stylesheet" />
-	<style>
-		.profile-avatar { width:120px; height:120px; object-fit:cover; }
-		.tab-pane { padding-top: 8px; }
-		.stat-card { min-height:90px }
-	</style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
+  <link rel="icon" type="image/png" href="../assets/img/favicon.png">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+  <title>Perfil de Usuario</title>
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700|Noto+Sans:300,400,500,600,700,800|PT+Mono:300,400,500,600,700" rel="stylesheet" />
+  <link href="../assets/css/nucleo-icons.css" rel="stylesheet" />
+  <link href="../assets/css/nucleo-svg.css" rel="stylesheet" />
+  <script src="https://kit.fontawesome.com/349ee9c857.js" crossorigin="anonymous"></script>
+  <link id="pagestyle" href="../assets/css/corporate-ui-dashboard.css?v=1.0.0" rel="stylesheet" />
+  <style>
+    .profile-header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 40px 20px; border-radius: 8px; text-align: center; }
+    .profile-avatar { width: 120px; height: 120px; border: 5px solid white; border-radius: 50%; object-fit: cover; margin-bottom: 15px; }
+    .tab-button { padding: 12px 20px; background: #f0f0f0; border: none; border-radius: 6px; cursor: pointer; font-weight: 500; margin-right: 10px; margin-bottom: 15px; transition: all 0.3s; }
+    .tab-button.active { background: #667eea; color: white; }
+    .tab-button:hover { transform: translateY(-2px); }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+    .alert-info { background-color: #e3f2fd; border-left: 4px solid #2196f3; padding: 12px 15px; border-radius: 4px; margin-bottom: 20px; }
+    .stat-box { background: #f8f9fa; padding: 20px; border-radius: 8px; text-align: center; border: 1px solid #dee2e6; }
+    .stat-box h6 { color: #667eea; font-weight: 600; }
+    .stat-box .value { font-size: 1.5rem; font-weight: bold; }
+    .form-section-title { font-size: 1.1rem; font-weight: 600; color: #333; margin-top: 25px; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 2px solid #667eea; }
+    .password-strength { height: 4px; background: #e9ecef; border-radius: 2px; margin-top: 5px; }
+    .password-strength.weak { background: #dc3545; }
+    .password-strength.medium { background: #ffc107; }
+    .password-strength.strong { background: #28a745; }
+    .strength-text { font-size: 0.85rem; margin-top: 3px; }
+    .strength-text.weak { color: #dc3545; }
+    .strength-text.medium { color: #ffc107; }
+    .strength-text.strong { color: #28a745; }
+    .success-message { background-color: #d4edda; border: 1px solid #c3e6cb; color: #155724; padding: 12px 15px; border-radius: 4px; margin-bottom: 15px; display: none; }
+    .error-message { background-color: #f8d7da; border: 1px solid #f5c6cb; color: #721c24; padding: 12px 15px; border-radius: 4px; margin-bottom: 15px; display: none; }
+    .arrow-box { background: #5a5a5e; padding: 6px 8px; border-radius: 8px; display: flex; align-items: center; justify-content: center; }
+    .arrow-box i.material-icons { color: white; font-size: 18px; }
+    .arrow-box i { transition: transform .25s; }
+    .nav-link[aria-expanded="true"] .arrow-box i { transform: rotate(180deg); }
+    
+    @media (min-width:1200px){
+      aside.sidenav{ width:260px; }
+      main.main-content{ transition: margin-left .25s ease; margin-left:260px; }
+      body.my-sidenav-collapsed main.main-content{ margin-left:0 !important; }
+    }
+
+    #sidenav-backdrop{ display:none; position:fixed; inset:0; background:rgba(0,0,0,0.45); z-index:1040; }
+    body.my-sidenav-open #sidenav-backdrop{ display:block; }
+    @media (min-width:1200px){ #sidenav-backdrop{ display:none !important; } }
+  </style>
 </head>
 
-<body class="g-sidenav-show  bg-gray-100">
-	<aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 bg-slate-900 fixed-start " id="sidenav-main">
-		<div class="sidenav-header">
-			<i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
-			<a class="navbar-brand d-flex align-items-center m-0" href="dashboard.html">
-				<span class="font-weight-bold text-lg">D'Cesar</span>
-			</a>
-		</div>
-		<div class="collapse navbar-collapse px-4  w-auto " id="sidenav-collapse-main">
-			<ul class="navbar-nav">
-				<li class="nav-item">
-					<a class="nav-link" href="../pages/dashboard.html">
-						<div class="icon icon-shape icon-sm px-0 text-center d-flex align-items-center justify-content-center">
-							<svg width="30px" height="30px" viewBox="0 0 48 48" version="1.1" xmlns="http://www.w3.org/2000/svg">
-								<g id="dashboard" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-									<g id="template" transform="translate(12.000000, 12.000000)" fill="#FFFFFF" fill-rule="nonzero">
-										<path class="color-foreground" d="M0,1.71428571 C0,0.76752 0.76752,0 1.71428571,0 L22.2857143,0 C23.2325143,0 24,0.76752 24,1.71428571 L24,5.14285714 C24,6.08962286 23.2325143,6.85714286 22.2857143,6.85714286 L1.71428571,6.85714286 C0.76752,6.85714286 0,6.08962286 0,5.14285714 L0,1.71428571 Z" id="Path"></path>
-										<path class="color-background" d="M0,12 C0,11.0532171 0.76752,10.2857143 1.71428571,10.2857143 L12,10.2857143 C12.9468,10.2857143 13.7142857,11.0532171 13.7142857,12 L13.7142857,22.2857143 C13.7142857,23.2325143 12.9468,24 12,24 L1.71428571,24 C0.76752,24 0,23.2325143 0,22.2857143 L0,12 Z" id="Path"></path>
-										<path class="color-background" d="M18.8571429,10.2857143 C17.9103429,10.2857143 17.1428571,11.0532171 17.1428571,12 L17.1428571,22.2857143 C17.1428571,23.2325143 17.9103429,24 18.8571429,24 L22.2857143,24 C23.2325143,24 24,23.2325143 24,22.2857143 L24,12 C24,11.0532171 23.2325143,10.2857143 22.2857143,10.2857143 L18.8571429,10.2857143 Z" id="Path"></path>
-									</g>
-								</g>
-							</svg>
-						</div>
-						<span class="nav-link-text ms-1">Dashboard</span>
-					</a>
-				</li>
+<body class="g-sidenav-show bg-gray-100">
+  <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 bg-slate-900 fixed-start" id="sidenav-main">
+    <div class="sidenav-header">
+      <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
+      <a class="navbar-brand d-flex align-items-center m-0" href="dashboard.html">
+        <span class="font-weight-bold text-lg">D'Cesar</span>
+      </a>
+    </div>
+    <div class="collapse navbar-collapse px-4 w-auto" id="sidenav-collapse-main">
+      <ul class="navbar-nav">
+        <li class="nav-item"><a class="nav-link" href="dashboard.html"><div class="icon icon-shape icon-sm px-0 text-center d-flex align-items-center justify-content-center"><svg width="30px" height="30px" viewBox="0 0 48 48" version="1.1" xmlns="http://www.w3.org/2000/svg"><g id="dashboard" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="template" transform="translate(12.000000, 12.000000)" fill="#FFFFFF" fill-rule="nonzero"><path class="color-foreground" d="M0,1.71428571 C0,0.76752 0.76752,0 1.71428571,0 L22.2857143,0 C23.2325143,0 24,0.76752 24,1.71428571 L24,5.14285714 C24,6.08962286 23.2325143,6.85714286 22.2857143,6.85714286 L1.71428571,6.85714286 C0.76752,6.85714286 0,6.08962286 0,5.14285714 L0,1.71428571 Z" id="Path"></path><path class="color-background" d="M0,12 C0,11.0532171 0.76752,10.2857143 1.71428571,10.2857143 L12,10.2857143 C12.9468,10.2857143 13.7142857,11.0532171 13.7142857,12 L13.7142857,22.2857143 C13.7142857,23.2325143 12.9468,24 12,24 L1.71428571,24 C0.76752,24 0,23.2325143 0,22.2857143 L0,12 Z" id="Path"></path><path class="color-background" d="M18.8571429,10.2857143 C17.9103429,10.2857143 17.1428571,11.0532171 17.1428571,12 L17.1428571,22.2857143 C17.1428571,23.2325143 17.9103429,24 18.8571429,24 L22.2857143,24 C23.2325143,24 24,23.2325143 24,22.2857143 L24,12 C24,11.0532171 23.2325143,10.2857143 22.2857143,10.2857143 L18.8571429,10.2857143 Z" id="Path"></path></g></g></svg></div><span class="nav-link-text ms-1">Dashboard</span></a></li>
+        <li class="nav-item"><a class="nav-link" href="users-list.html"><div class="icon icon-shape icon-sm px-0 text-center d-flex align-items-center justify-content-center"><svg width="30px" height="30px" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><path d="M24 24a6 6 0 110-12 6 6 0 010 12z" fill="#FFFFFF"/><path d="M8 32c0-3.3 2-6 6-8h20c4 2 6 4.7 6 8v8H8v-8z" fill="#FFFFFF" opacity="0.7"/></svg></div><span class="nav-link-text ms-1">Usuarios</span></a></li>
+        <li class="nav-item"><a class="nav-link" href="productos.html"><div class="icon icon-shape icon-sm px-0 text-center d-flex align-items-center justify-content-center"><svg width="30px" height="30px" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><path d="M6 12h36v24H6z" fill="#FFFFFF" opacity="0.7"/><path d="M12 6h24v6H12z" fill="#FFFFFF"/></svg></div><span class="nav-link-text ms-1">Productos</span></a></li>
+        <li class="nav-item"><a class="nav-link" href="dashboard.html"><div class="icon icon-shape icon-sm px-0 text-center d-flex align-items-center justify-content-center"><svg width="30px" height="30px" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><path d="M6 18h36v18H6z" fill="#FFFFFF" opacity="0.7"/><path d="M6 12h36v6H6z" fill="#FFFFFF"/></svg></div><span class="nav-link-text ms-1">Clientes</span></a></li>
+        <li class="nav-item"><a class="nav-link" href="dashboard.html"><div class="icon icon-shape icon-sm px-0 text-center d-flex align-items-center justify-content-center"><svg width="30px" height="30px" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><path d="M12 12h8v8h-8z" fill="#FFFFFF"/><path d="M28 12h8v8h-8z" fill="#FFFFFF" opacity="0.7"/><path d="M12 28h8v8h-8z" fill="#FFFFFF" opacity="0.7"/><path d="M28 28h8v8h-8z" fill="#FFFFFF" opacity="0.5"/></svg></div><span class="nav-link-text ms-1">Ventas</span></a></li>
+      </ul>
+    </div>
+  </aside>
 
-				<li class="nav-item">
-					<a class="nav-link active" href="users-list.html">
-						<div class="icon icon-shape icon-sm px-0 text-center d-flex align-items-center justify-content-center">
-							<svg width="30px" height="30px" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-								<path d="M24 24a6 6 0 110-12 6 6 0 010 12z" fill="#FFFFFF"/>
-								<path d="M8 32c0-3.3 2-6 6-8h20c4 2 6 4.7 6 8v8H8v-8z" fill="#FFFFFF" opacity="0.7"/>
-							</svg>
-						</div>
-						<span class="nav-link-text ms-1">Usuarios</span>
-					</a>
-				</li>
-			</ul>
-		</div>
-	</aside>
+  <div id="sidenav-backdrop"></div>
 
-	<div id="sidenav-backdrop"></div>
+  <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg">
+    <nav class="navbar navbar-main navbar-expand-lg mx-5 px-0 shadow-none rounded" id="navbarBlur" navbar-scroll="true">
+      <div class="container-fluid py-1 px-2">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb bg-transparent mb-1 pb-0 pt-1 px-0 me-sm-6 me-5">
+            <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="dashboard.html">Dashboard</a></li>
+            <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Mi Perfil</li>
+          </ol>
+          <h6 class="font-weight-bold mb-0">Perfil de Usuario</h6>
+        </nav>
+        <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
+          <div class="ms-md-auto pe-md-3 d-flex align-items-center">
+            <button class="btn btn-sm btn-white" onclick="logout()">
+              <i class="fa fa-sign-out me-2"></i>Cerrar Sesión
+            </button>
+          </div>
+        </div>
+      </div>
+    </nav>
 
-	<main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
-		<!-- Navbar -->
-		<nav class="navbar navbar-main navbar-expand-lg mx-5 px-0 shadow-none rounded" id="navbarBlur" navbar-scroll="true">
-			<div class="container-fluid py-1 px-2">
-				<nav aria-label="breadcrumb">
-					<ol class="breadcrumb bg-transparent mb-1 pb-0 pt-1 px-0 me-sm-6 me-5">
-						<li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="dashboard.html">Dashboard</a></li>
-						<li class="breadcrumb-item text-sm text-dark active" aria-current="page">Perfil</li>
-					</ol>
-					<h6 class="font-weight-bold mb-0">Perfil de Usuario</h6>
-				</nav>
-				<div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
-					<div class="ms-md-auto pe-md-3 d-flex align-items-center">
-						<div class="input-group">
-							<span class="input-group-text text-body bg-white  border-end-0 ">
-								<svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-									<path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
-								</svg>
-							</span>
-							<input type="text" class="form-control ps-0" placeholder="Buscar usuario">
-						</div>
-					</div>
-				</div>
-			</div>
-		</nav>
-		<!-- End Navbar -->
+    <div class="container-fluid py-4 px-5">
+      <!-- PROFILE HEADER -->
+      <div class="row mb-4">
+        <div class="col-lg-12">
+          <div class="profile-header">
+            <div id="avatar-container">
+              <img src="https://via.placeholder.com/120?text=Usuario" class="profile-avatar" id="profile-avatar" alt="Foto de perfil">
+            </div>
+            <h4 id="profile-name" class="mb-1">Nombre del Usuario</h4>
+            <p id="profile-role" class="mb-0 opacity-8">Rol del usuario</p>
+          </div>
+        </div>
+      </div>
 
-		<div class="container-fluid py-4 px-5">
-			<div class="row">
-				<div class="col-12 d-md-flex align-items-center mb-3 mx-2">
-					<div>
-						<h3 class="font-weight-bold mb-0">Perfil</h3>
-					</div>
-				</div>
-			</div>
+      <!-- STATS -->
+      <div class="row mb-4">
+        <div class="col-lg-3 col-md-6">
+          <div class="stat-box">
+            <h6>Estado</h6>
+            <div class="value" id="stat-status">Activo</div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+          <div class="stat-box">
+            <h6>Teléfono</h6>
+            <div class="value" id="stat-phone" style="font-size: 1rem;">—</div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+          <div class="stat-box">
+            <h6>Correo</h6>
+            <div class="value" id="stat-email" style="font-size: 0.9rem;">—</div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+          <div class="stat-box">
+            <h6>Miembro desde</h6>
+            <div class="value" id="stat-joined" style="font-size: 0.9rem;">—</div>
+          </div>
+        </div>
+      </div>
 
-			<div class="row">
-				<!-- Columna izquierda: avatar y resumen -->
-				<div class="col-lg-4 mb-4">
-					<div class="card shadow-xs border">
-						<div class="card-body text-center">
-							<div class="d-flex flex-column align-items-center">
-								<img id="avatar-preview" src="../assets/img/curved-images/profile.jpg" alt="avatar" class="rounded-circle profile-avatar mb-3">
-								<h5 id="display-name">Nombre Apellido</h5>
-								<p class="text-sm text-muted mb-1" id="display-username">@usuario</p>
-								<p class="text-sm text-muted mb-2" id="display-role">Administrador</p>
-								<div class="d-flex gap-2">
-									<label class="btn btn-sm btn-white mb-0" for="avatar-input">Cambiar foto</label>
-									<button class="btn btn-sm btn-dark mb-0" id="btn-edit-profile" onclick="scrollToTab('perfil')">Editar perfil</button>
-								</div>
-								<input type="file" id="avatar-input" accept="image/*" style="display:none">
-							</div>
-							<hr>
-							<div class="d-flex justify-content-between">
-								<div>
-									<h6 class="mb-0">Miembro desde</h6>
-									<small class="text-muted">Ene 2023</small>
-								</div>
-								<div>
-									<h6 class="mb-0">Último acceso</h6>
-									<small class="text-muted">Hace 2 días</small>
-								</div>
-							</div>
-						</div>
-					</div>
+      <!-- TABS -->
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="card shadow-xs border">
+            <div class="card-header border-bottom pb-3">
+              <div class="d-flex gap-2">
+                <button class="tab-button active" onclick="switchTab('informacion')">
+                  <i class="fa fa-user me-2"></i>Información Personal
+                </button>
+                <button class="tab-button" onclick="switchTab('seguridad')">
+                  <i class="fa fa-lock me-2"></i>Seguridad
+                </button>
+                <button class="tab-button" onclick="switchTab('preferencias')">
+                  <i class="fa fa-cog me-2"></i>Preferencias
+                </button>
+              </div>
+            </div>
 
-					<div class="card shadow-xs border mt-3">
-						<div class="card-body">
-							<h6 class="mb-3">Estadísticas</h6>
-							<div class="row">
-								<div class="col-6 mb-2">
-									<div class="card p-2 stat-card">
-										<h6 class="mb-0">Posts</h6>
-										<p class="text-sm text-muted mb-0">124</p>
-									</div>
-								</div>
-								<div class="col-6 mb-2">
-									<div class="card p-2 stat-card">
-										<h6 class="mb-0">Proyectos</h6>
-										<p class="text-sm text-muted mb-0">8</p>
-									</div>
-								</div>
-								<div class="col-6 mb-2">
-									<div class="card p-2 stat-card">
-										<h6 class="mb-0">Seguidores</h6>
-										<p class="text-sm text-muted mb-0">1.2k</p>
-									</div>
-								</div>
-								<div class="col-6 mb-2">
-									<div class="card p-2 stat-card">
-										<h6 class="mb-0">Actividad</h6>
-										<p class="text-sm text-muted mb-0">Última hora</p>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
+            <div class="card-body p-4">
+              <!-- TAB 1: INFORMACIÓN PERSONAL -->
+              <div id="informacion" class="tab-content active">
+                <div class="success-message" id="info-success">✓ Información actualizada correctamente</div>
+                <div class="error-message" id="info-error"></div>
 
-				<!-- Columna derecha: pestañas y contenido -->
-				<div class="col-lg-8">
-					<div class="card shadow-xs border">
-						<div class="card-body">
-							<ul class="nav nav-pills nav-justified mb-3" id="profileTabs" role="tablist">
-								<li class="nav-item" role="presentation">
-									<button class="nav-link active" id="perfil-tab" data-bs-toggle="pill" data-bs-target="#perfil" type="button" role="tab" aria-controls="perfil" aria-selected="true">Perfil</button>
-								</li>
-								<li class="nav-item" role="presentation">
-									<button class="nav-link" id="seguridad-tab" data-bs-toggle="pill" data-bs-target="#seguridad" type="button" role="tab" aria-controls="seguridad" aria-selected="false">Seguridad</button>
-								</li>
-								<li class="nav-item" role="presentation">
-									<button class="nav-link" id="actividad-tab" data-bs-toggle="pill" data-bs-target="#actividad" type="button" role="tab" aria-controls="actividad" aria-selected="false">Actividad</button>
-								</li>
-								<li class="nav-item" role="presentation">
-									<button class="nav-link" id="facturacion-tab" data-bs-toggle="pill" data-bs-target="#facturacion" type="button" role="tab" aria-controls="facturacion" aria-selected="false">Facturación</button>
-								</li>
-								<li class="nav-item" role="presentation">
-									<button class="nav-link" id="estadisticas-tab" data-bs-toggle="pill" data-bs-target="#estadisticas" type="button" role="tab" aria-controls="estadisticas" aria-selected="false">Estadísticas</button>
-								</li>
-							</ul>
+                <div class="form-section-title">Datos Personales</div>
+                <form id="info-form">
+                  <div class="row">
+                    <div class="col-md-6 mb-3">
+                      <label class="form-label font-weight-semibold">Nombre Completo *</label>
+                      <input type="text" class="form-control" placeholder="Tu nombre completo" id="info-name" required>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                      <label class="form-label font-weight-semibold">Correo Electrónico *</label>
+                      <input type="email" class="form-control" placeholder="tu@email.com" id="info-email" required>
+                    </div>
+                  </div>
 
-							<div class="tab-content">
-								<!-- Perfil -->
-								<div class="tab-pane fade show active" id="perfil" role="tabpanel" aria-labelledby="perfil-tab">
-									<form id="profile-form">
-										<div class="row">
-											<div class="col-md-6 mb-3">
-												<label class="form-label text-dark font-weight-semibold">Nombre completo</label>
-												<input type="text" class="form-control" id="input-name" value="Nombre Apellido">
-											</div>
-											<div class="col-md-6 mb-3">
-												<label class="form-label text-dark font-weight-semibold">Nombre de usuario</label>
-												<input type="text" class="form-control" id="input-username" value="usuario">
-											</div>
-										</div>
+                  <div class="row">
+                    <div class="col-md-6 mb-3">
+                      <label class="form-label font-weight-semibold">Teléfono</label>
+                      <input type="tel" class="form-control" placeholder="+51 999 123 456" id="info-phone">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                      <label class="form-label font-weight-semibold">Cargo/Rol</label>
+                      <input type="text" class="form-control" placeholder="Tu cargo" id="info-role" disabled>
+                    </div>
+                  </div>
 
-										<div class="row">
-											<div class="col-md-6 mb-3">
-												<label class="form-label text-dark font-weight-semibold">Email</label>
-												<input type="email" class="form-control" id="input-email" value="usuario@example.com">
-											</div>
-											<div class="col-md-6 mb-3">
-												<label class="form-label text-dark font-weight-semibold">Teléfono</label>
-												<input type="tel" class="form-control" id="input-phone" value="+34 600 000 000">
-											</div>
-										</div>
+                  <div class="row">
+                    <div class="col-md-12 mb-3">
+                      <label class="form-label font-weight-semibold">Dirección</label>
+                      <input type="text" class="form-control" placeholder="Tu dirección completa" id="info-address">
+                    </div>
+                  </div>
 
-										<div class="mb-3">
-											<label class="form-label text-dark font-weight-semibold">Bio</label>
-											<textarea class="form-control" id="input-bio" rows="3">Desarrollador web y entusiasta del UI.</textarea>
-										</div>
+                  <div class="form-section-title" style="margin-top: 30px;">Foto de Perfil</div>
+                  <div class="row">
+                    <div class="col-md-12 mb-3">
+                      <div id="avatar-preview-container" style="margin-bottom: 15px;">
+                        <img id="avatar-preview" src="" alt="preview" style="max-width: 120px; height: 120px; border-radius: 50%; object-fit: cover; border: 3px solid #667eea;">
+                      </div>
+                      <input type="file" class="form-control" accept="image/*" id="info-avatar" onchange="previewAvatar(event)">
+                      <small class="text-secondary">Máximo 2MB. Formatos: JPG, PNG</small>
+                    </div>
+                  </div>
 
-										<div class="d-flex gap-2">
-											<button type="submit" class="btn btn-dark">Guardar cambios</button>
-											<button type="button" class="btn btn-white" onclick="resetProfile()">Cancelar</button>
-										</div>
-									</form>
-								</div>
+                  <div class="d-flex gap-2 mt-4">
+                    <button type="submit" class="btn btn-dark">
+                      <i class="fa fa-save me-2"></i>Guardar Cambios
+                    </button>
+                    <button type="button" class="btn btn-white" onclick="resetInfoForm()">
+                      <i class="fa fa-undo me-2"></i>Cancelar
+                    </button>
+                  </div>
+                </form>
+              </div>
 
-								<!-- Seguridad -->
-								<div class="tab-pane fade" id="seguridad" role="tabpanel" aria-labelledby="seguridad-tab">
-									<h6>Seguridad de la cuenta</h6>
-									<form id="security-form">
-										<div class="row">
-											<div class="col-md-6 mb-3">
-												<label class="form-label text-dark font-weight-semibold">Cambiar contraseña</label>
-												<input type="password" class="form-control" id="input-password" placeholder="Nueva contraseña">
-											</div>
-											<div class="col-md-6 mb-3">
-												<label class="form-label text-dark font-weight-semibold">Confirmar contraseña</label>
-												<input type="password" class="form-control" id="input-password-confirm" placeholder="Confirmar">
-											</div>
-										</div>
+              <!-- TAB 2: SEGURIDAD -->
+              <div id="seguridad" class="tab-content">
+                <div class="success-message" id="security-success">✓ Contraseña cambiada correctamente</div>
+                <div class="error-message" id="security-error"></div>
 
-										<div class="form-check form-switch mb-3">
-											<input class="form-check-input" type="checkbox" id="toggle-2fa" checked>
-											<label class="form-check-label" for="toggle-2fa">Autenticación en dos pasos (2FA)</label>
-										</div>
+                <div class="alert-info">
+                  <i class="fa fa-info-circle me-2"></i>
+                  <strong>Seguridad:</strong> Cambiar tu contraseña regularmente te ayuda a proteger tu cuenta.
+                </div>
 
-										<div class="d-flex gap-2">
-											<button type="submit" class="btn btn-dark">Actualizar seguridad</button>
-										</div>
-									</form>
-								</div>
+                <div class="form-section-title">Cambiar Contraseña</div>
+                <form id="security-form">
+                  <div class="row">
+                    <div class="col-md-6 mb-3">
+                      <label class="form-label font-weight-semibold">Contraseña Actual *</label>
+                      <input type="password" class="form-control" placeholder="Tu contraseña actual" id="security-current" required>
+                    </div>
+                  </div>
 
-								<!-- Actividad -->
-								<div class="tab-pane fade" id="actividad" role="tabpanel" aria-labelledby="actividad-tab">
-									<h6>Actividad reciente</h6>
-									<ul class="list-group">
-										<li class="list-group-item">Inició sesión desde Madrid - hace 2 horas</li>
-										<li class="list-group-item">Actualizó perfil - hace 1 día</li>
-										<li class="list-group-item">Creó proyecto "Landing" - hace 3 días</li>
-									</ul>
-								</div>
+                  <div class="row">
+                    <div class="col-md-6 mb-3">
+                      <label class="form-label font-weight-semibold">Nueva Contraseña *</label>
+                      <input type="password" class="form-control" placeholder="Nueva contraseña" id="security-new" required onkeyup="calculatePasswordStrength()">
+                      <div class="password-strength" id="strength-bar"></div>
+                      <small class="strength-text" id="strength-text"></small>
+                      <small class="d-block text-secondary mt-2">Mínimo 8 caracteres, 1 mayúscula, 1 número</small>
+                    </div>
+                  </div>
 
-								<!-- Facturación -->
-								<div class="tab-pane fade" id="facturacion" role="tabpanel" aria-labelledby="facturacion-tab">
-									<h6>Facturación</h6>
-									<p class="text-sm text-muted">Método de pago guardado: <strong>Tarjeta terminada en 4242</strong></p>
-									<table class="table">
-										<thead>
-											<tr><th>Fecha</th><th>Descripción</th><th class="text-end">Total</th></tr>
-										</thead>
-										<tbody>
-											<tr><td>01/11/2025</td><td>Suscripción mensual</td><td class="text-end">€9.99</td></tr>
-											<tr><td>01/10/2025</td><td>Suscripción mensual</td><td class="text-end">€9.99</td></tr>
-										</tbody>
-									</table>
-								</div>
+                  <div class="row">
+                    <div class="col-md-6 mb-3">
+                      <label class="form-label font-weight-semibold">Confirmar Nueva Contraseña *</label>
+                      <input type="password" class="form-control" placeholder="Confirma tu nueva contraseña" id="security-confirm" required>
+                    </div>
+                  </div>
 
-								<!-- Estadísticas -->
-								<div class="tab-pane fade" id="estadisticas" role="tabpanel" aria-labelledby="estadisticas-tab">
-									<h6>Estadísticas detalladas</h6>
-									<div class="row">
-										<div class="col-md-6 mb-3">
-											<div class="card p-3">
-												<h6 class="mb-0">Visitas</h6>
-												<p class="text-sm text-muted">12,345 visitas este mes</p>
-											</div>
-										</div>
-										<div class="col-md-6 mb-3">
-											<div class="card p-3">
-												<h6 class="mb-0">Conversión</h6>
-												<p class="text-sm text-muted">2.4%</p>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
+                  <div class="d-flex gap-2 mt-4">
+                    <button type="submit" class="btn btn-dark">
+                      <i class="fa fa-lock me-2"></i>Actualizar Contraseña
+                    </button>
+                    <button type="button" class="btn btn-white" onclick="resetSecurityForm()">
+                      <i class="fa fa-undo me-2"></i>Cancelar
+                    </button>
+                  </div>
+                </form>
 
-						</div>
-					</div>
-				</div>
-			</div>
+                <div class="form-section-title" style="margin-top: 40px;">Sesiones Activas</div>
+                <div class="alert-info">
+                  <i class="fa fa-laptop me-2"></i>
+                  <strong>Sesión Actual:</strong> Chrome en Windows (127.0.0.1) - Ahora mismo
+                </div>
+                <button class="btn btn-sm btn-danger" onclick="logoutOtherSessions()">
+                  <i class="fa fa-sign-out me-2"></i>Cerrar otras sesiones
+                </button>
+              </div>
 
-		</div>
+              <!-- TAB 3: PREFERENCIAS -->
+              <div id="preferencias" class="tab-content">
+                <div class="success-message" id="prefs-success">✓ Preferencias guardadas</div>
 
-		<footer class="footer pt-3  ">
-			<div class="container-fluid">
-				<div class="row align-items-center justify-content-lg-between">
-					<div class="col-lg-6 mb-lg-0 mb-4">
-						<div class="copyright text-center text-xs text-muted text-lg-start">
-							Copyright © <script>document.write(new Date().getFullYear())</script> D'Cesar - Todos los derechos reservados.
-						</div>
-					</div>
-				</div>
-			</div>
-		</footer>
-	</main>
+                <div class="form-section-title">Notificaciones por Email</div>
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="form-check mb-3">
+                      <input class="form-check-input" type="checkbox" id="pref-email-news" checked>
+                      <label class="form-check-label" for="pref-email-news">
+                        <strong>Noticias y actualizaciones</strong>
+                        <small class="d-block text-secondary">Recibe información sobre nuevas funciones y actualizaciones del sistema</small>
+                      </label>
+                    </div>
+                  </div>
+                </div>
 
-	<script src="../assets/js/core/popper.min.js"></script>
-	<script src="../assets/js/core/bootstrap.min.js"></script>
-	<script src="../assets/js/plugins/perfect-scrollbar.min.js"></script>
-	<script src="../assets/js/plugins/smooth-scrollbar.min.js"></script>
-	<script src="../assets/js/corporate-ui-dashboard.min.js?v=1.0.0"></script>
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="form-check mb-3">
+                      <input class="form-check-input" type="checkbox" id="pref-email-reports" checked>
+                      <label class="form-check-label" for="pref-email-reports">
+                        <strong>Reportes semanales</strong>
+                        <small class="d-block text-secondary">Recibe un resumen semanal de ventas y movimientos</small>
+                      </label>
+                    </div>
+                  </div>
+                </div>
 
-	<script>
-		// Avatar preview
-		document.getElementById('avatar-input').addEventListener('change', function(e){
-			const file = e.target.files[0];
-			if(!file) return;
-			const reader = new FileReader();
-			reader.onload = function(ev){ document.getElementById('avatar-preview').src = ev.target.result; }
-			reader.readAsDataURL(file);
-		});
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="form-check mb-3">
+                      <input class="form-check-input" type="checkbox" id="pref-email-alerts">
+                      <label class="form-check-label" for="pref-email-alerts">
+                        <strong>Alertas de stock bajo</strong>
+                        <small class="d-block text-secondary">Notificaciones cuando el stock de un producto cae por debajo del mínimo</small>
+                      </label>
+                    </div>
+                  </div>
+                </div>
 
-		function scrollToTab(tab){
-			const tabEl = document.querySelector('#' + tab + '-tab');
-			if(tabEl) tabEl.click();
-			window.scrollTo({ top: 0, behavior: 'smooth' });
-		}
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="form-check mb-4">
+                      <input class="form-check-input" type="checkbox" id="pref-email-security">
+                      <label class="form-check-label" for="pref-email-security">
+                        <strong>Alertas de seguridad</strong>
+                        <small class="d-block text-secondary">Notificaciones de intentos de acceso y cambios de seguridad</small>
+                      </label>
+                    </div>
+                  </div>
+                </div>
 
-		function resetProfile(){
-			// simple reset behaviour: reload page
-			location.reload();
-		}
+                <div class="form-section-title" style="margin-top: 30px;">Preferencias de Interfaz</div>
+                <div class="row">
+                  <div class="col-md-6 mb-3">
+                    <label class="form-label font-weight-semibold">Idioma</label>
+                    <select class="form-control" id="pref-language">
+                      <option value="es">Español</option>
+                      <option value="en">English</option>
+                      <option value="pt">Português</option>
+                    </select>
+                  </div>
+                  <div class="col-md-6 mb-3">
+                    <label class="form-label font-weight-semibold">Zona Horaria</label>
+                    <select class="form-control" id="pref-timezone">
+                      <option value="america/lima">Lima (UTC -5)</option>
+                      <option value="america/caracas">Caracas (UTC -4)</option>
+                      <option value="america/bogota">Bogotá (UTC -5)</option>
+                    </select>
+                  </div>
+                </div>
 
-		document.getElementById('profile-form').addEventListener('submit', function(e){
-			e.preventDefault();
-			alert('Perfil actualizado');
-		});
+                <div class="d-flex gap-2 mt-4">
+                  <button class="btn btn-dark" onclick="savePreferences()">
+                    <i class="fa fa-save me-2"></i>Guardar Preferencias
+                  </button>
+                  <button class="btn btn-white" onclick="resetPreferencesForm()">
+                    <i class="fa fa-undo me-2"></i>Cancelar
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
-		document.getElementById('security-form').addEventListener('submit', function(e){
-			e.preventDefault();
-			alert('Seguridad actualizada');
-		});
-	</script>
+      <!-- DANGER ZONE -->
+      <div class="row mt-4">
+        <div class="col-lg-12">
+          <div class="card shadow-xs border" style="border-color: #dc3545;">
+            <div class="card-header border-bottom pb-3" style="background-color: #fff5f5;">
+              <h6 class="font-weight-semibold text-danger mb-0">
+                <i class="fa fa-exclamation-triangle me-2"></i>Zona de Peligro
+              </h6>
+            </div>
+            <div class="card-body p-4">
+              <p class="text-muted mb-3">
+                Acciones irreversibles. Por favor, procede con cuidado.
+              </p>
+              <button class="btn btn-outline-danger" onclick="deleteAccount()">
+                <i class="fa fa-trash me-2"></i>Eliminar mi Cuenta
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer class="footer pt-3">
+      <div class="container-fluid">
+        <div class="row align-items-center justify-content-lg-between">
+          <div class="col-lg-6 mb-lg-0 mb-4">
+            <div class="copyright text-center text-xs text-muted text-lg-start">
+              Copyright © <script>document.write(new Date().getFullYear())</script> D'Cesar - Todos los derechos reservados
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </main>
+
+  <script src="../assets/js/core/popper.min.js"></script>
+  <script src="../assets/js/core/bootstrap.min.js"></script>
+  <script src="../assets/js/plugins/perfect-scrollbar.min.js"></script>
+  <script src="../assets/js/plugins/smooth-scrollbar.min.js"></script>
+  <script src="../assets/js/corporate-ui-dashboard.min.js?v=1.0.0"></script>
+
+  <script>
+    // ========== STATE ==========
+    let currentUser = {
+      name: 'Juan Díaz Martínez',
+      email: 'juan.diaz@empresa.com',
+      phone: '+51 999 123 456',
+      role: 'Administrador',
+      status: 'Activo',
+      address: 'Av. Principal 123, Lima, Perú',
+      joined: '2024-01-15',
+      avatar: 'https://via.placeholder.com/120?text=JD',
+      currentPassword: 'password123'
+    };
+
+    let preferences = {
+      emailNews: true,
+      emailReports: true,
+      emailAlerts: false,
+      emailSecurity: true,
+      language: 'es',
+      timezone: 'america/lima'
+    };
+
+    // ========== INITIALIZATION ==========
+    document.addEventListener('DOMContentLoaded', function() {
+      setupSidebar();
+      loadProfileData();
+      setupFormListeners();
+    });
+
+    function setupSidebar() {
+      const icon = document.getElementById('iconSidenav');
+      const backdrop = document.getElementById('sidenav-backdrop');
+
+      if(icon) {
+        icon.addEventListener('click', function(){
+          document.body.classList.toggle('my-sidenav-open');
+        });
+      }
+
+      if(backdrop) {
+        backdrop.addEventListener('click', function(){
+          document.body.classList.remove('my-sidenav-open');
+        });
+      }
+    }
+
+    function loadProfileData() {
+      document.getElementById('profile-name').textContent = currentUser.name;
+      document.getElementById('profile-role').textContent = currentUser.role;
+      document.getElementById('profile-avatar').src = currentUser.avatar;
+      document.getElementById('stat-status').textContent = currentUser.status;
+      document.getElementById('stat-phone').textContent = currentUser.phone || '—';
+      document.getElementById('stat-email').textContent = currentUser.email;
+      document.getElementById('stat-joined').textContent = new Date(currentUser.joined).toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' });
+
+      // Load form
+      document.getElementById('info-name').value = currentUser.name;
+      document.getElementById('info-email').value = currentUser.email;
+      document.getElementById('info-phone').value = currentUser.phone;
+      document.getElementById('info-role').value = currentUser.role;
+      document.getElementById('info-address').value = currentUser.address;
+
+      // Load preferences
+      document.getElementById('pref-email-news').checked = preferences.emailNews;
+      document.getElementById('pref-email-reports').checked = preferences.emailReports;
+      document.getElementById('pref-email-alerts').checked = preferences.emailAlerts;
+      document.getElementById('pref-email-security').checked = preferences.emailSecurity;
+      document.getElementById('pref-language').value = preferences.language;
+      document.getElementById('pref-timezone').value = preferences.timezone;
+    }
+
+    function setupFormListeners() {
+      document.getElementById('info-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        saveProfileInfo();
+      });
+
+      document.getElementById('security-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        changePassword();
+      });
+    }
+
+    // ========== TAB SWITCHING ==========
+    function switchTab(tab) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+      document.getElementById(tab).classList.add('active');
+      document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+      event.target.classList.add('active');
+    }
+
+    // ========== INFORMACIÓN PERSONAL ==========
+    function previewAvatar(event) {
+      const file = event.target.files[0];
+      if(!file) return;
+
+      if(file.size > 2 * 1024 * 1024) {
+        showError('info-error', 'La imagen no puede exceder 2MB');
+        event.target.value = '';
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const preview = document.getElementById('avatar-preview');
+        preview.src = e.target.result;
+        document.getElementById('avatar-preview-container').style.display = 'block';
+        currentUser.avatar = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function saveProfileInfo() {
+      const name = document.getElementById('info-name').value.trim();
+      const email = document.getElementById('info-email').value.trim();
+      const phone = document.getElementById('info-phone').value.trim();
+      const address = document.getElementById('info-address').value.trim();
+
+      if(!name || !email) {
+        showError('info-error', 'Completa todos los campos obligatorios');
+        return;
+      }
+
+      const emailRegex = /^[\w\.\-]+@[\w\.\-]+\.\w+$/;
+      if(!emailRegex.test(email)) {
+        showError('info-error', 'El correo no es válido');
+        return;
+      }
+
+      currentUser.name = name;
+      currentUser.email = email;
+      currentUser.phone = phone;
+      currentUser.address = address;
+
+      loadProfileData();
+      showSuccess('info-success');
+    }
+
+    function resetInfoForm() {
+      document.getElementById('info-form').reset();
+      loadProfileData();
+    }
+
+    // ========== SEGURIDAD ==========
+    function calculatePasswordStrength() {
+      const pwd = document.getElementById('security-new').value;
+      const bar = document.getElementById('strength-bar');
+      const text = document.getElementById('strength-text');
+
+      let strength = 0;
+      if(pwd.length >= 8) strength++;
+      if(/[A-Z]/.test(pwd)) strength++;
+      if(/[0-9]/.test(pwd)) strength++;
+      if(/[!@#$%^&*]/.test(pwd)) strength++;
+
+      bar.className = 'password-strength';
+      text.className = 'strength-text';
+
+      if(strength <= 1) {
+        bar.classList.add('weak');
+        text.classList.add('weak');
+        text.textContent = '⚠ Contraseña débil';
+      } else if(strength === 2 || strength === 3) {
+        bar.classList.add('medium');
+        text.classList.add('medium');
+        text.textContent = '◐ Contraseña media';
+      } else {
+        bar.classList.add('strong');
+        text.classList.add('strong');
+        text.textContent = '✓ Contraseña fuerte';
+      }
+    }
+
+    function changePassword() {
+      const current = document.getElementById('security-current').value;
+      const newPwd = document.getElementById('security-new').value;
+      const confirm = document.getElementById('security-confirm').value;
+
+      if(!current || !newPwd || !confirm) {
+        showError('security-error', 'Completa todos los campos');
+        return;
+      }
+
+      if(current !== currentUser.currentPassword) {
+        showError('security-error', 'La contraseña actual es incorrecta');
+        return;
+      }
+
+      const pwdRegex = /^(?=.*[A-Z])(?=.*[0-9]).{8,}$/;
+      if(!pwdRegex.test(newPwd)) {
+        showError('security-error', 'La nueva contraseña no cumple los requisitos');
+        return;
+      }
+
+      if(newPwd !== confirm) {
+        showError('security-error', 'Las contraseñas no coinciden');
+        return;
+      }
+
+      currentUser.currentPassword = newPwd;
+      document.getElementById('security-form').reset();
+      document.getElementById('strength-bar').className = 'password-strength';
+      document.getElementById('strength-text').textContent = '';
+      showSuccess('security-success');
+    }
+
+    function resetSecurityForm() {
+      document.getElementById('security-form').reset();
+      document.getElementById('strength-bar').className = 'password-strength';
+      document.getElementById('strength-text').textContent = '';
+    }
+
+    function logoutOtherSessions() {
+      if(confirm('¿Cerrar todas las demás sesiones?')) {
+        alert('✓ Sesiones cerradas correctamente');
+      }
+    }
+
+    // ========== PREFERENCIAS ==========
+    function savePreferences() {
+      preferences.emailNews = document.getElementById('pref-email-news').checked;
+      preferences.emailReports = document.getElementById('pref-email-reports').checked;
+      preferences.emailAlerts = document.getElementById('pref-email-alerts').checked;
+      preferences.emailSecurity = document.getElementById('pref-email-security').checked;
+      preferences.language = document.getElementById('pref-language').value;
+      preferences.timezone = document.getElementById('pref-timezone').value;
+
+      showSuccess('prefs-success');
+    }
+
+    function resetPreferencesForm() {
+      loadProfileData();
+    }
+
+    // ========== DANGER ZONE ==========
+    function deleteAccount() {
+      const confirmed = confirm('⚠️ ¿Estás seguro? Esta acción es IRREVERSIBLE.\n\nEscribe "ELIMINAR" para confirmar');
+      if(confirmed) {
+        const text = prompt('Para confirmar, escribe: ELIMINAR');
+        if(text === 'ELIMINAR') {
+          alert('Tu cuenta ha sido eliminada. Serás redirigido...');
+          window.location.href = 'sign-in.html';
+        } else {
+          alert('Cancelado: Texto incorrecto');
+        }
+      }
+    }
+
+    // ========== UTILITIES ==========
+    function showSuccess(elementId) {
+      const el = document.getElementById(elementId);
+      el.style.display = 'block';
+      setTimeout(() => {
+        el.style.display = 'none';
+      }, 4000);
+    }
+
+    function showError(elementId, message) {
+      const el = document.getElementById(elementId);
+      el.textContent = '✗ ' + message;
+      el.style.display = 'block';
+      setTimeout(() => {
+        el.style.display = 'none';
+      }, 4000);
+    }
+
+    function logout() {
+      if(confirm('¿Cerrar sesión?')) {
+        window.location.href = 'sign-in.html';
+      }
+    }
+  </script>
 
 </body>
 
