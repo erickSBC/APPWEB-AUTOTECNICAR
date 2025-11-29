@@ -314,6 +314,11 @@
   <label><input type="checkbox" class="cat-filter" value="7"> Piñas</label>
   <label><input type="checkbox" class="cat-filter" value="8"> Solenoides</label>
 </div>
+<h3>Focos</h3>
+<div class="filter-group">
+  <label><input type="checkbox" class="cat-filter" value="9"> Halogenos</label>
+  <label><input type="checkbox" class="cat-filter" value="10"> LED</label>
+</div>
 
 
     </aside>
@@ -410,6 +415,7 @@ function renderProducts(items) {
   items.forEach(p => {
     const card = document.createElement("div");
     card.classList.add("product-card");
+    card.dataset.id = p.id_producto;
 
     card.innerHTML = `
       <img src="https://img.freepik.com/vector-premium/icono-marco-fotos-foto-vacia-blanco-vector-sobre-fondo-transparente-aislado-eps-10_399089-1290.jpg"
@@ -482,6 +488,7 @@ searchInput.addEventListener("keypress", (e) => {
 loadProducts();
 </script>
   <script src="./components/header-logic.js"></script>
+  <script src="./assets/js/site-cart.js"></script>
 
 </body>
 </html>

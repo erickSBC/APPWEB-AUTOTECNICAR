@@ -1,0 +1,330 @@
+<!-- ===== SIDEBAR GENERAL D'CESAR ===== -->
+ <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
+<link rel="stylesheet" href="../assets/css/corporate-ui-dashboard.css?v=1.0.0">
+
+<style>
+  :root {
+    --sb-bg: #1e293b;
+    --sb-bg-alt: #0b1020;
+    --sb-border: #151a2a;
+    --sb-text: #e5e7eb;
+    --sb-muted: #9ca3af;
+    --sb-active-bg: #111827;
+    --sb-accent: blue;
+    --sb-accent-soft: rgba(124, 58, 237, 0.18);
+    --sb-radius-lg: 18px;
+    --sb-radius-md: 12px;
+    --sb-transition: all 0.18s ease;
+    --negro: #111;
+    --rojo: #d32f2f;
+    --azul: #0057ff;
+    --gris: #f4f4f4;
+  }
+
+  /* Layout general: sidebar + contenido */
+  .app-layout {
+    display: flex;
+    min-height: 100vh;
+    background: #f3f4f6;
+    font-family: "Open Sans", sans-serif;
+    height: 100%;
+    font-weight: 600;
+
+  }
+
+  /* ===== SIDEBAR ===== */
+
+  .app-sidebar {
+    width: 260px;
+    height: 100%;
+    z-index: 500;
+    background: var(--sb-bg);
+    color: var(--sb-text);
+    padding: 20px 18px;
+    border-right: 1px solid var(--sb-border);
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+  }
+
+  .app-sidebar__brand {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 8px 10px;
+  }
+
+  .app-sidebar__logo {
+    width: 32px;
+    height: 32px;
+    border-radius: 999px;
+  }
+
+  .app-sidebar__title {
+    font-weight: 700;
+    font-size: 20px;
+    letter-spacing: 0.03em;
+  }
+
+  .app-sidebar__title span {
+    color: var(--rojo);
+  }
+
+  .app-sidebar__nav {
+    flex: 1;
+    overflow-y: auto;
+    padding-right: 4px;
+  }
+
+  /* Scrollbar sutil */
+  .app-sidebar__nav::-webkit-scrollbar {
+    width: 6px;
+  }
+  .app-sidebar__nav::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .app-sidebar__nav::-webkit-scrollbar-thumb {
+    background: #4b5563;
+    border-radius: 999px;
+  }
+
+  .sb-menu {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .sb-section-label {
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--sb-muted);
+    padding: 14px 10px 6px;
+  }
+
+  .sb-item {
+    position: relative;
+  }
+
+  .sb-link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 10px;
+    border-radius: var(--sb-radius-md);
+    color: var(--sb-text);
+    font-size: 14px;
+    text-decoration: none;
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: var(--sb-transition);
+  }
+
+  .sb-link:hover {
+    background: var(--sb-active-bg);
+    border-color: rgba(148, 163, 184, 0.4);
+  }
+
+  .sb-link__icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 10px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(148, 163, 184, 0.12);
+    font-size: 15px;
+  }
+
+  .sb-link__label {
+    flex: 1;
+    white-space: nowrap;
+  }
+
+  .sb-link__chevron {
+    font-size: 11px;
+    opacity: 0.6;
+    transition: transform 0.18s ease, opacity 0.18s ease;
+  }
+
+  /* Activo */
+  .sb-item.is-active > .sb-link {
+    background: var(--sb-accent-soft);
+    border-color: var(--sb-accent-soft);
+  }
+
+  .sb-item.is-active > .sb-link .sb-link__icon {
+    background: rgba(15, 23, 42, 0.9);;
+    color: #f9fafb;
+  }
+
+  /* ===== Submenús ===== */
+
+  .sb-item.has-submenu > .sb-link {
+    justify-content: flex-start;
+  }
+
+  .sb-submenu {
+    list-style: none;
+    margin: 0;
+    padding: 4px 0 4px 38px;
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transform-origin: top;
+    transform: scaleY(0.9);
+    border-left: 1px solid whitesmoke;
+    transition: max-height 0.2s ease, opacity 0.18s ease, transform 0.18s ease;
+  }
+
+  .sb-submenu__item a {
+    display: block;
+    padding: 6px 8px;
+    font-size: 16px;
+    color: var(--sb-muted);
+    text-decoration: none;
+    border-radius: 8px;
+    transition: var(--sb-transition);
+    font-weight: 500;
+  }
+
+  .sb-submenu__item a:hover {
+    color: var(--sb-text);
+    background: rgba(15, 23, 42, 0.9);
+  }
+
+  /* Submenú abierto */
+  .sb-item.is-open > .sb-submenu {
+    max-height: 200px;
+    opacity: 1;
+    transform: scaleY(1);
+  }
+
+  .sb-item.is-open > .sb-link .sb-link__chevron {
+    transform: rotate(90deg);
+    opacity: 1;
+  }
+
+ 
+
+  /* ===== Contenido principal al lado ===== */
+
+  .app-main {
+    flex: 1;
+    padding: 24px 28px;
+  }
+
+  /* Responsive básico */
+  @media (max-width: 900px) {
+    .app-layout {
+      flex-direction: column;
+    }
+
+    .app-sidebar {
+      width: 100%;
+      flex-direction: row;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 12px 16px;
+      overflow-x: auto;
+      overflow-y: hidden;
+    }
+
+    .app-sidebar__nav {
+      max-height: 60px;
+      overflow-x: auto;
+      overflow-y: hidden;
+      white-space: nowrap;
+    }
+
+    .sb-section-label,
+    .sb-submenu {
+      display: none;
+    }
+
+    .app-main {
+      padding: 18px 16px;
+    }
+  }
+</style>
+
+<div class="app-layout">
+  <!-- SIDEBAR -->
+  <aside class="app-sidebar">
+    <!-- Marca -->
+    <div class="app-sidebar__brand">
+      <div class="app-sidebar__logo"></div>
+      <div class="app-sidebar__title">Auto<span>tecnicar</span></div>
+    </div>
+
+    <!-- Navegación -->
+    <nav class="app-sidebar__nav">
+      <ul class="sb-menu">
+
+        <li class="sb-item is-active">
+          <a href="dashboard.html" class="sb-link">
+            <span class="sb-link__icon">
+              <!-- Usa FontAwesome si quieres: <i class="fa-solid fa-table-columns"></i> -->
+              📊
+            </span>
+            <span class="sb-link__label">Dashboard</span>
+          </a>
+        </li>
+
+        <!-- Account pages -->
+
+        <li class="sb-item has-submenu is-open">
+          <a href="#" class="sb-link" data-sb-toggle="submenu">
+            <span class="sb-link__icon">🧑‍💻</span>
+            <span class="sb-link__label">Cuenta</span>
+            <span class="sb-link__chevron">▶</span>
+          </a>
+          <ul class="sb-submenu">
+            <li class="sb-submenu__item">
+              <a href="perfil.html">Perfil</a>
+            </li>
+            <li class="sb-submenu__item">
+              <a href="#" id="logoutBtn">Cerrar sesión</a>
+            </li>
+          </ul>
+        </li>
+
+
+        <li class="sb-item has-submenu is-open">
+          <a href="#" class="sb-link" data-sb-toggle="submenu">
+            <span class="sb-link__icon">📄</span>
+            <span class="sb-link__label">Módulos</span>
+            <span class="sb-link__chevron">▶</span>
+          </a>
+          <ul class="sb-submenu">
+            <li class="sb-submenu__item">
+              <a href="clientes.html">Clientes</a>
+            </li>
+            <!-- <li class="sb-submenu__item">
+              <a href="notificaciones.html">Notificaciones</a>
+            </li> -->
+            <li class="sb-submenu__item">
+              <a href="productos.html">Productos</a>
+            </li>
+             <li class="sb-submenu__item">
+              <a href="categorias.html">Categorias</a>
+            </li>
+          </ul>
+        </li>
+
+      </ul>
+    </nav>
+
+  
+  </aside>
+
+  <!-- CONTENIDO PRINCIPAL
+       En cada página cambia solo este <main> -->
+  <!-- <main class="app-main"> -->
+    <!-- Aquí va el contenido de dashboard.html / productos.html / clientes.html, etc. -->
+    <!-- <h1>Contenido de ejemplo</h1>
+  </main> -->
+</div>

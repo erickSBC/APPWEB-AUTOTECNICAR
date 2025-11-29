@@ -1,165 +1,279 @@
 /* ===========================================================
-   CARRITO GLOBAL - AUTOTECNICAR / AUTOMAS
-   Persistencia con localStorage
-   Compatible con header.html (mini-cart)
-   Compatible con tienda.html y carrito.html
+   CARRITO GLOBAL - SOLO BACKEND
+   Requiere:
+   - token JWT en localStorage ("token")
+   - id_cliente en localStorage ("clienteId")
+   Endpoints (ajusta si tu API cambia nombres):
+   - POST   /carrito                       -> crear carrito para cliente
+   - GET    /carrito/:id_carrito/detalles  -> listar detalles del carrito
+   - POST   /carrito/:id_carrito/detalles  -> agregar producto
+   - PUT    /carrito/detalles/:id_detalle  -> actualizar cantidad
+   - DELETE /carrito/detalles/:id_detalle  -> eliminar detalle
 =========================================================== */
 
-const CART_KEY = "automas_cart";
+const API_BASE = "http://localhost:3000";
+const CART_BACKEND_ID_KEY = "automas_carrito_id";
+const LOGIN_URL = "../sign-in.html"; // ajusta ruta si es distinta
 
-// ==========================================================
-// UTILIDADES DE LOCALSTORAGE
-// ==========================================================
-function obtenerCarrito() {
-    return JSON.parse(localStorage.getItem(CART_KEY)) || [];
+// -------------------- AUTH HELPERS --------------------
+function getToken() {
+  return localStorage.getItem("token") || null;
+  
 }
 
-function guardarCarrito(cart) {
-    localStorage.setItem(CART_KEY, JSON.stringify(cart));
-    actualizarMiniCarrito();
+function getClienteId() {
+  token = getToken();
+  const payload = token? JSON.parse(atob(token.split(".")[1])) : null;
+   console.log(payload.sub)
+  return Number(payload.sub);
 }
 
-// ==========================================================
-// AÑADIR PRODUCTO
-// ==========================================================
-function addToCart(id, nombre, precio, imagen, cantidad = 1) {
-    const cart = obtenerCarrito();
-
-    const item = cart.find(p => p.id === id);
-
-    if (item) {
-        item.cantidad += cantidad;
-    } else {
-        cart.push({
-            id,
-            nombre,
-            precio: parseFloat(precio),
-            imagen,
-            cantidad
-        });
-    }
-
-    guardarCarrito(cart);
+function requireLogin() {
+  const token = getToken();
+  const idCliente = getClienteId();
+  if (!token || !idCliente) {
+    alert("Para usar el carrito debes iniciar sesión como cliente.");
+    window.location.href = LOGIN_URL;
+    return null;
+  }
+  return { token, idCliente };
 }
 
-// ==========================================================
-// ACTUALIZAR CANTIDAD
-// ==========================================================
-function actualizarCantidad(id, cantidad) {
-    const cart = obtenerCarrito();
-
-    const item = cart.find(p => p.id === id);
-    if (item) {
-        item.cantidad = Math.max(1, cantidad);
-    }
-
-    guardarCarrito(cart);
+function authHeaders() {
+  const token = getToken();
+  return {
+    "Content-Type": "application/json",
+    ...(token ? { Authorization: "Bearer " + token } : {})
+  };
 }
 
-// ==========================================================
-// ELIMINAR PRODUCTO
-// ==========================================================
-function eliminarProducto(id) {
-    let cart = obtenerCarrito();
+// -------------------- BACKEND CARRITO --------------------
 
-    cart = cart.filter(p => p.id !== id);
+// Crea o devuelve carrito activo del cliente
+async function getOrCreateBackendCart() {
+  const auth = requireLogin();
+  if (!auth) return null;
 
-    guardarCarrito(cart);
-}
+  let idCarrito = localStorage.getItem(CART_BACKEND_ID_KEY);
 
-// ==========================================================
-// CALCULAR SUBTOTAL
-// ==========================================================
-function calcularSubtotal() {
-    const cart = obtenerCarrito();
-    return cart.reduce((acc, p) => acc + p.precio * p.cantidad, 0).toFixed(2);
-}
-
-// ==========================================================
-// MINI-CARRITO EN EL HEADER
-// ==========================================================
-function actualizarMiniCarrito() {
-    const cart = obtenerCarrito();
-
-    // contador
-    const badge = document.querySelector(".cart-count");
-    if (badge) badge.textContent = cart.length;
-
-    // menú desplegable
-    const mc = document.querySelector(".mini-cart .mc-items");
-    if (!mc) return;
-
-    mc.innerHTML = "";
-
-    if (cart.length === 0) {
-        mc.innerHTML = `<div class="mc-empty">El carrito está vacío</div>`;
-        document.querySelector("#miniCartTotal").textContent = "S/ 0.00";
-        return;
-    }
-
-    cart.forEach(item => {
-        const row = document.createElement("div");
-        row.classList.add("mc-item");
-
-        row.innerHTML = `
-            <img src="${item.imagen}" alt="">
-            
-            <div classs="mc-info">
-                <div class="mc-name">${item.nombre}</div>
-                <div class="mc-details">
-                    ${item.cantidad} × S/ ${item.precio.toFixed(2)}
-                </div>
-            </div>
-
-            <div class="mc-total">
-                S/ ${(item.precio * item.cantidad).toFixed(2)}
-            </div>
-
-            <button class="remove-btn" data-id="${item.id}">✕</button>
-        `;
-
-
-
-        mc.appendChild(row);
+  if (!idCarrito) {
+    const res = await fetch(`${API_BASE}/carrito`, {
+      method: "POST",
+      headers: authHeaders(),
+      body: JSON.stringify({ id_cliente: auth.idCliente })
     });
+    if (!res.ok) {
+      console.error("Error creando carrito:", await res.text());
+      return null;
+    }
+    const data = await res.json();
+    // Ajusta la propiedad según tu respuesta
+    idCarrito = data.id_carrito ?? data.id ?? data.carrito?.id_carrito;
+    localStorage.setItem(CART_BACKEND_ID_KEY, idCarrito);
+  }
 
-    // total
-    document.querySelector("#miniCartTotal").textContent = "S/ " + calcularSubtotal();
-
-    // eliminar desde mini-cart
-    document.querySelectorAll(".remove-btn").forEach(btn => {
-        btn.addEventListener("click", () => {
-            eliminarProducto(btn.dataset.id);
-        });
-    });
+  return Number(idCarrito);
 }
 
-// ==========================================================
-// INICIALIZAR MINI-CARRITO SI EXISTE
-// ==========================================================
+// Obtiene detalles del carrito desde backend
+async function fetchBackendCart() {
+  const idCarrito = await getOrCreateBackendCart();
+  if (!idCarrito) return null;
+
+  const res = await fetch(`${API_BASE}/carrito/${idCarrito}/detalles`, {
+    method: "GET",
+    headers: authHeaders()
+  });
+
+  if (!res.ok) {
+    console.error("Error obteniendo detalles de carrito:", await res.text());
+    return null;
+  }
+
+  const data = await res.json();
+  return { id_carrito: idCarrito, raw: data };
+}
+
+// -------------------- API PÚBLICA DEL CARRITO --------------------
+
+// Añadir producto desde tienda/producto
+async function addToCart(idProducto, nombre, precio, imagen, cantidad = 1) {
+  const idCarrito = await getOrCreateBackendCart();
+  if (!idCarrito) return;
+
+  const body = {
+    id_producto: idProducto,
+    cantidad: cantidad
+    // si tu endpoint pide más campos, añádelos aquí
+  };
+
+  const res = await fetch(`${API_BASE}/carrito/${idCarrito}/detalles`, {
+    method: "POST",
+    headers: authHeaders(),
+    body: JSON.stringify(body)
+  });
+
+  if (!res.ok) {
+    console.error("Error agregando al carrito:", await res.text());
+    alert("No se pudo agregar el producto al carrito.");
+    return;
+  }
+
+  actualizarMiniCarrito();
+}
+
+// Actualizar cantidad (por ahora solo usado desde carrito.html)
+async function actualizarCantidadDetalle(idDetalleBackend, nuevaCantidad) {
+  const auth = requireLogin();
+  if (!auth || !idDetalleBackend) return;
+
+  const res = await fetch(`${API_BASE}/carrito/detalles/${idDetalleBackend}`, {
+    method: "PUT",
+    headers: authHeaders(),
+    body: JSON.stringify({ cantidad: nuevaCantidad })
+  });
+
+  if (!res.ok) {
+    console.error("Error actualizando cantidad:", await res.text());
+    return;
+  }
+
+  actualizarMiniCarrito();
+}
+
+// Eliminar un detalle
+async function eliminarDetalle(idDetalleBackend) {
+  const auth = requireLogin();
+  if (!auth || !idDetalleBackend) return;
+
+  const res = await fetch(`${API_BASE}/carrito/detalles/${idDetalleBackend}`, {
+    method: "DELETE",
+    headers: authHeaders()
+  });
+
+  if (!res.ok && res.status !== 204) {
+    console.error("Error eliminando detalle:", await res.text());
+    return;
+  }
+
+  actualizarMiniCarrito();
+}
+
+// -------------------- MINI CARRITO HEADER --------------------
+async function actualizarMiniCarrito() {
+  const badge = document.querySelector(".cart-count");
+  const mc = document.querySelector(".mini-cart .mc-items");
+  const totalSpan = document.querySelector("#miniCartTotal");
+  console.log("badge",badge);
+  console.log("mc",mc);
+  console.log("totalSpan",totalSpan);
+  if (!badge || !mc || !totalSpan) return;
+  
+  const backend = await fetchBackendCart();
+  if (!backend) {
+    badge.textContent = "0";
+    mc.innerHTML = `<div class="mc-empty">Inicia sesión para ver tu carrito.</div>`;
+    totalSpan.textContent = "S/ 0.00";
+    return;
+  }
+
+  // Tolerante a distintas formas de respuesta: array directo o {detalles:[]}
+  const detallesRaw = Array.isArray(backend.raw)
+    ? backend.raw
+    : (backend.raw.detalles || []);
+
+  if (!detallesRaw.length) {
+    badge.textContent = "0";
+    mc.innerHTML = `<div class="mc-empty">El carrito está vacío.</div>`;
+    totalSpan.textContent = "S/ 0.00";
+    return;
+  }
+
+  // Normalizar detalles a un formato común
+  const detalles = detallesRaw.map(d => {
+    const producto = d.producto || d.producto_detalle || {};
+    const precio = parseFloat(d.precio_unitario ?? producto.precio ?? d.precio ?? 0);
+    const cantidad = d.cantidad ?? d.cant ?? 1;
+
+    return {
+      idDetalle: d.id_detalle ?? d.id ?? d.id_detalle_carrito,
+      idProducto: producto.id_producto ?? d.id_producto,
+      nombre: producto.nombre ?? d.nombre_producto ?? "Producto",
+      cantidad,
+      precio,
+      imagen:
+        producto.imagen ||
+        producto.imagen_url ||
+        "https://via.placeholder.com/60x60?text=IMG",
+      subtotal: parseFloat(d.subtotal ?? precio * cantidad)
+    };
+  });
+
+  // Pintar
+  badge.textContent = String(detalles.length);
+  mc.innerHTML = "";
+
+  let subtotalGeneral = 0;
+
+  detalles.forEach(item => {
+    subtotalGeneral += item.subtotal;
+
+    const row = document.createElement("div");
+    row.classList.add("mc-item");
+
+    row.innerHTML = `
+      <img src="${item.imagen}" alt="">
+      <div class="mc-info">
+        <div class="mc-name">${item.nombre}</div>
+        <div class="mc-details">${item.cantidad} × S/ ${item.precio.toFixed(2)}</div>
+      </div>
+      <div class="mc-total">S/ ${item.subtotal.toFixed(2)}</div>
+      <button class="remove-btn" data-detalle="${item.idDetalle}">✕</button>
+    `;
+
+    mc.appendChild(row);
+  });
+
+  totalSpan.textContent = "S/ " + subtotalGeneral.toFixed(2);
+
+  // listeners para eliminar
+  mc.querySelectorAll(".remove-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const idDetalle = btn.dataset.detalle;
+      eliminarDetalle(idDetalle);
+    });
+  });
+}
+
+// -------------------- HOOKS GLOBALES --------------------
+
+// Al cargar la página, refrescar mini-carrito si hay sesión
 document.addEventListener("DOMContentLoaded", () => {
+  if (getToken() && getClienteId()) {
     actualizarMiniCarrito();
+  }
 });
 
-// ==========================================================
-// USO EN TIENDA.HTML
-// Botón: <button class="btn-add" data-id="..." ... >
-// ==========================================================
+// Captura global de clicks en botones "Agregar al carrito"
 document.addEventListener("click", (e) => {
-    if (e.target.classList.contains("btn-add")) {
+  if (e.target.classList.contains("btn-add")) {
+    const card = e.target.closest(".product-card");
+    if (!card) return;
 
-        const card = e.target.closest(".product-card");
+    const idProducto = card.dataset.id || card.getAttribute("data-id");
+    const nombre = card.querySelector(".product-title")?.textContent?.trim() || "";
+    const precio = parseFloat(
+      card
+        .querySelector(".product-price")
+        ?.textContent.replace("S/", "")
+        .trim() || "0"
+    );
+    const imagen = card.querySelector("img")?.src || "";
+    const cantidad = parseInt(
+      card.querySelector(".qty-box input")?.value || "1",
+      10
+    );
 
-        const id = card.dataset.id || Math.random().toString(36).substring(2);
-        const nombre = card.querySelector(".product-title").textContent;
-        const precio = parseFloat(
-            card.querySelector(".product-price").textContent.replace("S/", "")
-        );
-        const imagen = card.querySelector("img").src;
-        const cantidad = parseInt(
-            card.querySelector(".qty-box input").value
-        );
-
-        addToCart(id, nombre, precio, imagen, cantidad);
-    }
+    addToCart(idProducto, nombre, precio, imagen, cantidad);
+  }
 });

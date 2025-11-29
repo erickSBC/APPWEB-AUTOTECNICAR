@@ -5,4 +5,5 @@ export class UpdateAdministradorDto {
   password?: string;
   direccion?: string;
   telefono?: string;
+  estado?: string;
 }

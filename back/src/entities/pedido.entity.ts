@@ -1,7 +1,8 @@
 // src/pedidos/pedido.entity.ts
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, ManyToOne, OneToMany, JoinColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, ManyToOne, OneToMany, JoinColumn, RelationId } from 'typeorm';
 import { Cliente } from '../entities/cliente.entity';
 import { PedidoDetalle } from '../entities/pedido-detalle.entity';
+import { Administrador } from './administrador.entity';
 
 export enum PedidoEstado {
   pendiente = 'pendiente',
@@ -32,7 +33,13 @@ export class Pedido {
 
   @OneToMany(() => PedidoDetalle, (detalle) => detalle.pedido, { cascade: true })
   detalles: PedidoDetalle[];
+@ManyToOne(() => Administrador, { nullable: true })
+  @JoinColumn({ name: 'id_admin_venta' })
+  administradorVenta?: Administrador;
 
+  // ✅ FK expuesta para consultas rápidas o DTOs (Opcional, pero recomendado)
+  @RelationId((pedido: Pedido) => pedido.administradorVenta)
+  id_admin_venta?: number;
   @CreateDateColumn()
   fecha_creacion: Date;
 

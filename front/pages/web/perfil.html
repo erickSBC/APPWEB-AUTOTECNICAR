@@ -12,6 +12,7 @@
     body {
       margin: 0;
       padding: 0;
+      margin-top: 90px;
       font-family: "Open Sans", sans-serif;
       background: #f5f5f5;
     }
@@ -69,11 +70,7 @@
       font-weight: 600;
     }
 
-    .btn-edit {
-      background: #111;
-      color: white;
-      border: none;
-    }
+   
 
     .info-row {
       margin-top: 20px;
@@ -201,8 +198,6 @@
       <p id="correoTxt">@correo</p>
       <p id="telefonoTxt">Teléfono</p>
 
-      <button class="btn-block">Cambiar foto</button>
-      <button class="btn-block btn-edit">Editar perfil</button>
 
       <div class="info-row">
         <div>
@@ -277,7 +272,7 @@
   <script>
     const token = localStorage.getItem("token");  
     //const token = true;
-    if (!token) window.location.href = "sign-in.html";
+    if (!token) window.location.href = "home.html";
 
     const payload = JSON.parse(atob(token.split(".")[1]));
     const clienteId = payload.sub;
@@ -358,6 +353,7 @@
       }
     };
   </script>
-
+<script src="./components/header-logic.js"></script>
+  <script src="./assets/js/site-cart.js"></script>
 </body>
 </html>

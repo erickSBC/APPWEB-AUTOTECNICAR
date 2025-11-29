@@ -105,17 +105,15 @@
 **Response (201 Created):**
 ```json
 {
-  "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
-  "cliente": {
-    "id_cliente": 5,
-    "correo": "newcliente@example.com",
-    "nombre": "Carlos",
-    "apellido": "García",
-    "telefono": "+34912345678",
-    "direccion": "Avenida Secundaria 456",
+    "id_cliente": "4",
+    "nombre": "Ricardo",
+    "apellido": "Gomes",
+    "correo": "ricardo@gmail.com",
+    "telefono": "45123123",
     "dni": "12345678A",
-    "fecha_creacion": "2025-11-20T10:35:00Z"
-  }
+    "direccion": "Cultural Mayor 10",
+    "fecha_creacion": "2025-11-28T16:24:55.705Z",
+    "fecha_actualizacion": "2025-11-28T16:24:55.705Z"
 }
 ```
 

@@ -1,0 +1,215 @@
+Este módulo gestiona carritos de compra por cliente y los detalles (productos dentro del carrito).
+
+Incluye:
+
+-Crear carrito (evita duplicados por cliente con estado activo)
+
+-Agregar productos al carrito
+
+-Actualizar cantidades
+
+-Eliminar productos
+
+-Listar y obtener carritos
+
+1) Crear carrito
+POST /carrito
+
+Crea un carrito solo si el cliente no tiene uno activo.
+
+Body
+{
+  "id_cliente": 15
+}
+
+Respuesta (200 OK o 201 Created)
+
+
+Si ya existe un carrito activo:
+{
+  "id_carrito": 12,
+  "estado": "activo",
+  "cliente": {
+    "id_cliente": 15,
+    "nombre": "Carlos"
+  },
+  "detalles": []
+}
+
+
+Si se crea un nuevo carrito:
+
+{
+  "id_carrito": 33,
+  "estado": "activo",
+  "cliente": { "id_cliente": 15 }
+}
+
+2) Listar todos los carritos
+GET /carrito
+Respuesta
+[
+  {
+    "id_carrito": 33,
+    "estado": "activo",
+    "cliente": { "id_cliente": 15 },
+    "detalles": [
+      {
+        "id_detalle": 90,
+        "cantidad": 2,
+        "precio_unitario": 85,
+        "subtotal": 170,
+        "producto": {
+          "id_producto": 5,
+          "nombre": "Alternador Toyota",
+          "imagen": "img/alt.jpg",
+          "precio": 85
+        }
+      }
+    ]
+  }
+]
+
+3) Obtener un carrito por ID
+GET /carrito/:id
+Ejemplo
+
+GET /carrito/33
+
+Respuesta
+{
+  "id_carrito": 33,
+  "estado": "activo",
+  "cliente": { "id_cliente": 15 },
+  "detalles": []
+}
+
+Errores
+
+codigo: 404 Not Found	causa: Carrito no encontrado
+
+4) Actualizar carrito
+PUT /carrito/:id
+Body ejemplo
+{
+  "estado": "cerrado"
+}
+
+Respuesta
+{
+  "id_carrito": 33,
+  "estado": "cerrado",
+  "cliente": { "id_cliente": 15 },
+  "detalles": []
+}
+
+5) Eliminar carrito
+DELETE /carrito/:id
+Respuesta (200 OK)
+{ "deleted": true }
+
+
+🧩 Endpoints de Detalles del Carrito
+6) Agregar producto al carrito
+POST /carrito/:id/detalles
+Body
+{
+  "id_producto": 10,
+  "cantidad": 2
+}
+
+Comportamiento
+
+Si el producto ya está en el carrito → incrementa la cantidad
+
+Si no existe → lo agrega
+
+Respuesta si se actualiza un detalle existente
+{
+  "id_detalle": 91,
+  "cantidad": 5,
+  "precio_unitario": 85,
+  "subtotal": 425,
+  "producto": {
+    "id_producto": 10,
+    "nombre": "Solenoide TD27",
+    "imagen_url": "img/solenoide.jpg",
+    "stock": 20,
+    "precio_unitario": 85
+  }
+}
+
+Respuesta si se crea un nuevo detalle
+{
+  "id_detalle": 92,
+  "cantidad": 2,
+  "precio_unitario": 85,
+  "subtotal": 170,
+  "producto": {
+    "id_producto": 10,
+    "nombre": "Solenoide TD27",
+    "imagen_url": "img/solenoide.jpg",
+    "stock": 20,
+    "precio_unitario": 85
+  }
+}
+
+7) Listar productos dentro del carrito
+GET /carrito/:id/detalles
+Respuesta
+[
+  {
+    "id_detalle": 92,
+    "cantidad": 2,
+    "precio_unitario": 85,
+    "subtotal": 170,
+    "producto": {
+      "id_producto": 10,
+      "nombre": "Solenoide TD27",
+      "imagen": "img/solenoide.jpg",
+      "precio": 85
+    }
+  }
+]
+
+8) Actualizar un producto dentro del carrito
+PUT /carrito/detalles/:id_detalle
+Body
+{
+  "id_producto": 10,
+  "cantidad": 5
+}
+
+Comportamiento especial
+
+Si cantidad = 0 → elimina el detalle automáticamente
+
+Si cantidad < 0 → ❌ error
+
+▶ Respuesta si se actualiza correctamente
+{
+  "id_detalle": 92,
+  "cantidad": 5,
+  "precio_unitario": 85,
+  "subtotal": 425,
+  "producto": {
+    "id_producto": 10,
+    "nombre": "Solenoide TD27",
+    "imagen_url": "img/solenoide.jpg",
+    "stock": 20,
+    "precio_unitario": 85
+  }
+}
+
+▶ Respuesta si cantidad = 0
+{
+  "message": "Producto 10 eliminado del carrito 33."
+}
+
+9) Eliminar un detalle del carrito
+DELETE /carrito/detalles/:id_detalle
+
+Retorna 204 No Content.
+
+Respuesta
+(no body)

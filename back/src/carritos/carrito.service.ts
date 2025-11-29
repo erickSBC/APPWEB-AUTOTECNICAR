@@ -83,7 +83,6 @@ export class CarritosService {
         });
         // 💡 Paso 3: LÓGICA DE ACTUALIZACIÓN O CREACIÓN
         if (detalleExistente) {
-            console.log("detalle existe")
 
             // Asume que el precio unitario del DTO es el precio actual del producto.
             // Si no usas el precio del DTO, usa 'producto.precio_actual'
@@ -91,8 +90,8 @@ export class CarritosService {
 
             // Actualizar el detalle existente
             detalleExistente.cantidad = nuevaCantidad;
-            detalleExistente.precio_unitario = dto.precio_unitario; // Actualizar por si el precio cambió
-            detalleExistente.subtotal = nuevaCantidad * dto.precio_unitario;
+            detalleExistente.precio_unitario = producto.precio; // Actualizar por si el precio cambió
+            detalleExistente.subtotal = nuevaCantidad * producto.precio;
 
             const guardado = await this.detalleRepo.save(detalleExistente);
             // Recargar para asegurar que la relación producto esté presente
@@ -108,20 +107,20 @@ export class CarritosService {
                     nombre: detalleConProducto.producto.nombre,
                     imagen_url: detalleConProducto.producto.imagen,
                     stock: detalleConProducto.producto.stock,
-                    precio_unitario: detalleConProducto.producto.precio 
+                    precio_unitario: detalleConProducto.producto.precio
                 },
             };
 
         } else {
             // --- CREAR NUEVO ---
 
-            const subtotal = Number(dto.cantidad) * Number(dto.precio_unitario);
+            const subtotal = Number(dto.cantidad) * Number(producto.precio);
 
             const nuevoDetalle = this.detalleRepo.create({
                 carrito: { id_carrito } as any,
                 producto: { id_producto: dto.id_producto } as any,
                 cantidad: dto.cantidad,
-                precio_unitario: dto.precio_unitario,
+                precio_unitario: producto.precio,
                 subtotal,
             });
             const guardado = await this.detalleRepo.save(nuevoDetalle);
@@ -137,7 +136,7 @@ export class CarritosService {
                     nombre: detalleConProducto.producto.nombre,
                     imagen_url: detalleConProducto.producto.imagen,
                     stock: detalleConProducto.producto.stock,
-                    precio_unitario: detalleConProducto.producto.precio 
+                    precio_unitario: detalleConProducto.producto.precio
                 },
             };
 
@@ -155,67 +154,70 @@ export class CarritosService {
     // En tu CarritosService
 
     async updateDetalle(id_carrito: number, dto: CreateUpdateCarritoDetalleDto) {
-    // 1. Validar la Cantidad
-    if (dto.cantidad < 0) {
-        throw new BadRequestException('La cantidad no puede ser negativa.');
+        // 1. Validar la Cantidad
+        if (dto.cantidad < 0) {
+            throw new BadRequestException('La cantidad no puede ser negativa.');
+        }
+
+        // 2. Buscar Detalle Existente - ¡CORRECCIÓN AQUÍ! 
+        let detalleExistente = await this.detalleRepo.findOne({
+            where: {
+                carrito: { id_carrito },
+                // ✅ CORRECTO: Anidar el id_producto dentro del objeto 'producto'
+                producto: { id_producto: dto.id_producto }
+            } as any,
+        });
+
+        if (!detalleExistente) {
+            // Esto indica que el producto que se intenta actualizar NO está en el carrito.
+            throw new NotFoundException(`Producto con ID ${dto.id_producto} no encontrado en el carrito ${id_carrito}.`);
+        }
+
+        // --- (El resto de la lógica sigue siendo correcta) ---
+
+        // 💡 3. Lógica de Eliminación (Resetear a cero)
+        if (dto.cantidad === 0) {
+            await this.removeDetalle(detalleExistente.id_detalle);
+            return { message: `Producto ${dto.id_producto} eliminado del carrito ${id_carrito}.` };
+        }
+
+        // 💡 4. Lógica de Actualización (Nueva Cantidad > 0)
+        const producto = await this.productoRepo.findOne({
+            where: { id_producto: dto.id_producto } as any
+        });
+        if (!producto) throw new NotFoundException('Producto no encontrado');
+        // Actualizar las propiedades del detalle
+        detalleExistente.cantidad = dto.cantidad;
+        detalleExistente.precio_unitario = producto.precio;
+        detalleExistente.subtotal = dto.cantidad * producto.precio;
+
+        // Guardar los cambios (TypeORM actualiza el registro)
+        const guardado = await this.detalleRepo.save(detalleExistente);
+
+        // Se recomienda incluir 'relations: ["producto"]' directamente en el findOne para
+        // evitar el riesgo de cargar datos incorrectos si el objeto 'guardado' no incluye la relación
+        const detalleConProducto = await this.detalleRepo.findOne({
+            where: { id_detalle: guardado.id_detalle },
+            relations: ['producto']
+        });
+
+        if (!detalleConProducto) throw new NotFoundException('Detalle not found after save');
+
+        // ... (Tu objeto de retorno) ...
+        return {
+            id_detalle: detalleConProducto.id_detalle,
+            cantidad: detalleConProducto.cantidad,
+            precio_unitario: detalleConProducto.precio_unitario,
+            subtotal: detalleConProducto.subtotal,
+            producto: {
+                id_producto: detalleConProducto.producto.id_producto,
+                nombre: detalleConProducto.producto.nombre,
+                imagen_url: detalleConProducto.producto.imagen,
+                stock: detalleConProducto.producto.stock,
+                precio_unitario: detalleConProducto.producto.precio
+            },
+        };
     }
-
-    // 2. Buscar Detalle Existente - ¡CORRECCIÓN AQUÍ! 
-    let detalleExistente = await this.detalleRepo.findOne({
-        where: {
-            carrito: { id_carrito },
-            // ✅ CORRECTO: Anidar el id_producto dentro del objeto 'producto'
-            producto: { id_producto: dto.id_producto } 
-        } as any,
-    });
-
-    if (!detalleExistente) {
-        // Esto indica que el producto que se intenta actualizar NO está en el carrito.
-        throw new NotFoundException(`Producto con ID ${dto.id_producto} no encontrado en el carrito ${id_carrito}.`);
-    }
-
-    // --- (El resto de la lógica sigue siendo correcta) ---
-    
-    // 💡 3. Lógica de Eliminación (Resetear a cero)
-    if (dto.cantidad === 0) {
-        await this.removeDetalle(detalleExistente.id_detalle);
-        return { message: `Producto ${dto.id_producto} eliminado del carrito ${id_carrito}.` };
-    }
-
-    // 💡 4. Lógica de Actualización (Nueva Cantidad > 0)
-
-    // Actualizar las propiedades del detalle
-    detalleExistente.cantidad = dto.cantidad;
-    detalleExistente.precio_unitario = dto.precio_unitario;
-    detalleExistente.subtotal = dto.cantidad * dto.precio_unitario;
-
-    // Guardar los cambios (TypeORM actualiza el registro)
-    const guardado = await this.detalleRepo.save(detalleExistente);
-    
-    // Se recomienda incluir 'relations: ["producto"]' directamente en el findOne para
-    // evitar el riesgo de cargar datos incorrectos si el objeto 'guardado' no incluye la relación
-    const detalleConProducto = await this.detalleRepo.findOne({ 
-        where: { id_detalle: guardado.id_detalle }, 
-        relations: ['producto'] 
-    });
-
-    if (!detalleConProducto) throw new NotFoundException('Detalle not found after save');
-    
-    // ... (Tu objeto de retorno) ...
-    return {
-        id_detalle: detalleConProducto.id_detalle,
-        cantidad: detalleConProducto.cantidad,
-        precio_unitario: detalleConProducto.precio_unitario,
-        subtotal: detalleConProducto.subtotal,
-        producto: {
-            id_producto: detalleConProducto.producto.id_producto,
-            nombre: detalleConProducto.producto.nombre,
-            imagen_url: detalleConProducto.producto.imagen,
-            stock: detalleConProducto.producto.stock,
-            precio_unitario: detalleConProducto.producto.precio 
-        },
-    };
-}
     async listDetalles(id_carrito: number) {
         const carrito = await this.findOne(id_carrito);
         return carrito.detalles;

@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Gestión de Clientes - D'Cesar</title>
+
+  <style>
+    :root {
+      --bg-page: #f3f4f6;
+      --bg-card: #ffffff;
+      --border-soft: #e5e7eb;
+      --text-main: #111827;
+      --text-muted: #6b7280;
+      --accent: rgba(79, 70, 229, 0.08);;
+      --accent-soft: rgba(79, 70, 229, 0.08);
+      --danger: #ef4444;
+      --radius-lg: 14px;
+      --radius-md: 10px;
+      --shadow-soft: 0 18px 45px rgba(15, 23, 42, 0.08);
+      --transition: all 0.18s ease;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg-page);
+      color: var(--text-main);
+    }
+
+    /* Layout general: sidebar (izq) + contenido (der) */
+    .app-layout {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    .app-main {
+      flex: 1;
+      padding: 24px 28px 40px;
+      overflow-x: hidden;
+    }
+
+    /* ===== HEADER DE PÁGINA ===== */
+
+    .page-breadcrumb {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+
+    .page-breadcrumb span {
+      color: var(--text-main);
+      font-weight: 500;
+    }
+
+    .page-title-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 12px;
+    }
+
+    .page-title {
+      font-size: 24px;
+      font-weight: 700;
+      margin: 0;
+    }
+
+    .page-header-actions {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .search-box {
+      position: relative;
+      min-width: 230px;
+    }
+
+    .search-box input {
+      width: 100%;
+      border-radius: 999px;
+      border: 5px solid var(--border-soft);
+      padding: 9px 14px;
+      padding-left: 34px;
+      font-size: 14px;
+      outline: none;
+      background: #ffffff;
+      transition: var(--transition);
+    }
+
+    .search-box input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 1px var(--accent-soft);
+    }
+
+    .search-box::before {
+      content: "🔎";
+      position: absolute;
+      font-size: 14px;
+      left: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      opacity: 0.6;
+    }
+
+    .btn {
+      appearance: none;
+      border: none;
+      border-radius: 999px;
+      font-size: 14px;
+      padding: 9px 18px;
+      cursor: pointer;
+      font-weight: 500;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: var(--transition);
+      white-space: nowrap;
+    }
+
+    .btn-primary {
+      background-color: #111827;
+      color: #f9fafb;
+      box-shadow: 0 10px 30px rgba(15, 23, 42, 0.28);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 16px 45px rgba(15, 23, 42, 0.32);
+    }
+
+    /* ===== SECCIÓN PRINCIPAL ===== */
+
+    .clients-page-title {
+      font-size: 26px;
+      margin: 22px 0 18px;
+      font-weight: 700;
+    }
+
+    .clients-layout {
+      
+      gap: 20px;
+      align-items: flex-start;
+    }
+
+    @media (max-width: 1024px) {
+      .clients-layout {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .card {
+      background: var(--bg-card);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border-soft);
+      box-shadow: var(--shadow-soft);
+      padding: 18px 18px 14px;
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 6px;
+      gap: 12px;
+    }
+
+    .card-header-title {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 2px;
+    }
+
+    .card-subtitle {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .card-header-meta {
+      font-size: 13px;
+      color: var(--text-muted);
+      text-align: right;
+    }
+
+    /* ===== TABLA CLIENTES ===== */
+
+    .clients-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 12px;
+      font-size: 14px;
+    }
+
+    .clients-table thead tr {
+      border-bottom: 1px solid var(--border-soft);
+    }
+
+    .clients-table th,
+    .clients-table td {
+      padding: 10px 8px;
+      text-align: left;
+    }
+
+    .clients-table th {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    .clients-table tbody tr {
+      border-bottom: 1px solid #f3f4f6;
+    }
+
+    .clients-table tbody tr:last-child {
+      border-bottom: none;
+    }
+
+    .client-cell {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .client-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 999px;
+      background: #e5e7eb;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 600;
+      color: #374151;
+    }
+
+    .client-name {
+      font-weight: 600;
+      margin-bottom: 2px;
+    }
+
+    .client-email {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .cell-actions {
+      display: flex;
+      gap: 6px;
+    }
+
+    .btn-sm {
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      box-shadow: none;
+    }
+
+    .btn-outline {
+      border: 1px solid var(--border-soft);
+      background: #ffffff;
+      color: var(--text-main);
+    }
+
+    .btn-outline:hover {
+      background: #f3f4f6;
+    }
+
+    .btn-danger {
+      background: var(--danger);
+      color: #ffffff;
+    }
+
+    .btn-danger:hover {
+      filter: brightness(0.95);
+      transform: translateY(-1px);
+    }
+
+    /* ===== FORM NUEVO/EDITAR CLIENTE (card lateral) ===== */
+
+    .form-title {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .form-subtitle {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 14px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+
+    @media (min-width: 640px) {
+      .form-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    .form-field {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      font-size: 13px;
+    }
+
+    .form-field label {
+      color: var(--text-muted);
+    }
+
+    .form-field input {
+      padding: 8px 10px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-soft);
+      font-size: 14px;
+      outline: none;
+      background: #f9fafb;
+      transition: var(--transition);
+    }
+
+    .form-field input:focus {
+      background: #ffffff;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 1px var(--accent-soft);
+    }
+
+    .form-footer {
+      margin-top: 12px;
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+
+    .btn-ghost {
+      background: transparent;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      color: var(--text-muted);
+    }
+
+    .btn-ghost:hover {
+      border-color: var(--border-soft);
+      background: #f9fafb;
+    }
+
+    /* ===== MODAL (para crear / editar) ===== */
+
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.55);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 999;
+    }
+
+    .modal-overlay.is-open {
+      display: flex;
+    }
+
+    .modal {
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 20px 20px 16px;
+      max-width: 480px;
+      width: 100%;
+      box-shadow: 0 24px 65px rgba(15, 23, 42, 0.35);
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .modal-title {
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    .modal-close {
+      background: transparent;
+      border: none;
+      font-size: 20px;
+      cursor: pointer;
+      color: var(--text-muted);
+    }
+
+    .modal-body {
+      font-size: 14px;
+      margin-bottom: 2px;
+    }
+
+    .modal-description {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+    }
+
+    .modal-footer {
+      margin-top: 12px;
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+
+    /* Responsive header */
+    @media (max-width: 640px) {
+      .page-title-row {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .page-header-actions {
+        width: 100%;
+        justify-content: flex-start;
+      }
+      .search-box {
+        flex: 1;
+      }
+    }
+    /* === FORZAR ESTILOS DEL MODAL DE CLIENTES === */
+
+/* Overlay específico del modal de clientes */
+#clientModal {
+  position: fixed;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+/* Cuando está abierto */
+#clientModal.is-open {
+  display: flex !important;
+}
+
+/* Contenedor del contenido del modal */
+#clientModal .modal {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 20px 20px 16px;
+  max-width: 480px;
+  width: 100%;
+  box-shadow: 0 24px 65px rgba(15, 23, 42, 0.35);
+  display: block !important;   /* por si algún CSS lo pone en none */
+  position: relative;
+  z-index: 10000;
+  height: auto;
+}
+
+  </style>
+</head>
+<body>
+
+<div class="app-layout">
+<div id="sdbar"></div>
+  <script>
+    fetch("components/sidebar.html")
+      .then((r) => r.text())
+      .then((h) => (document.getElementById("sdbar").innerHTML = h));
+  </script>
+  <!-- CONTENIDO PRINCIPAL -->
+  <main class="app-main">
+    <!-- Header -->
+    <div class="page-breadcrumb">
+      Dashboard / <span>Clientes</span>
+    </div>
+
+    <div class="page-title-row">
+      <h1 class="page-title">Gestión de Clientes</h1>
+
+      <div class="page-header-actions">
+        <div class="search-box">
+          <input id="searchInput" type="text" placeholder="Buscar cliente" />
+        </div>
+        <button id="btnNewClient" class="btn btn-primary">
+          + Nuevo Cliente
+        </button>
+      </div>
+    </div>
+
+    <!-- Título principal -->
+    <h2 class="clients-page-title">Lista de Clientes</h2>
+
+    <div class="clients-layout">
+      <!-- Lista de clientes -->
+      <section class="card">
+        <div class="card-header">
+          <div>
+            <div class="card-header-title">Clientes Registrados</div>
+            <div class="card-subtitle">
+              Total: <span id="totalClientes">0</span> clientes
+            </div>
+          </div>
+          <div class="card-header-meta">
+            Última actualización: <span id="lastUpdate">-</span>
+          </div>
+        </div>
+
+        <table class="clients-table">
+          <thead>
+            <tr>
+              <th>Cliente</th>
+              <th>Email</th>
+              <th>Teléfono</th>
+              <th>Dirección</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody id="clientsTbody">
+            <!-- Filas generadas por JS -->
+          </tbody>
+        </table>
+      </section>
+
+    </div>
+  </main>
+</div>
+
+<!-- MODAL CREAR / EDITAR CLIENTE -->
+<div id="clientModal" class="modal-overlay">
+  <div class="modal">
+    <div class="modal-header">
+      <div>
+        <div id="modalTitle" class="modal-title">Nuevo Cliente</div>
+        <div id="modalSubtitle" class="modal-description">
+          Completa los datos del cliente.
+        </div>
+      </div>
+      <button class="modal-close" type="button" id="btnCloseModal">&times;</button>
+    </div>
+
+    <div class="modal-body">
+      <form id="clientForm">
+        <input type="hidden" id="clienteId" />
+
+        <div class="form-grid">
+          <div class="form-field">
+            <label for="nombre">Nombre</label>
+            <input type="text" id="nombre" required placeholder="Ej: Pedro" />
+          </div>
+          <div class="form-field">
+            <label for="apellido">Apellido</label>
+            <input type="text" id="apellido" required placeholder="Ej: Mendoza" />
+          </div>
+          <div class="form-field">
+            <label for="correo">Correo</label>
+            <input type="email" id="correo" required placeholder="correo@ejemplo.com" />
+          </div>
+          <div class="form-field">
+            <label for="telefono">Teléfono</label>
+            <input type="text" id="telefono" placeholder="+51 9XXXXXXXX" />
+          </div>
+          <div class="form-field">
+            <label for="direccion">Dirección</label>
+            <input type="text" id="direccion" placeholder="Ciudad / Dirección" />
+          </div>
+          <div class="form-field">
+            <label for="password">Password (opcional)</label>
+            <input type="password" id="password" placeholder="Si se deja vacío no se cambia" />
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-ghost btn-sm" id="btnCancelModal">
+            Cancelar
+          </button>
+          <button type="submit" class="btn btn-primary btn-sm">
+            Guardar
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+  // === CONFIGURACIÓN API ===
+  const API_BASE = 'http://localhost:3000'; // cambia si tu backend está en otro host/puerto
+  const API_CLIENTES = API_BASE + '/clientes';
+
+  // === REFERENCIAS DOM ===
+  const clientsTbody = document.getElementById('clientsTbody');
+  const totalClientesSpan = document.getElementById('totalClientes');
+  const lastUpdateSpan = document.getElementById('lastUpdate');
+  const searchInput = document.getElementById('searchInput');
+  const btnNewClient = document.getElementById('btnNewClient');
+
+  const clientModal = document.getElementById('clientModal');
+  const modalTitle = document.getElementById('modalTitle');
+  const modalSubtitle = document.getElementById('modalSubtitle');
+  const btnCloseModal = document.getElementById('btnCloseModal');
+  const btnCancelModal = document.getElementById('btnCancelModal');
+  const clientForm = document.getElementById('clientForm');
+
+  const inputId = document.getElementById('clienteId');
+  const inputNombre = document.getElementById('nombre');
+  const inputApellido = document.getElementById('apellido');
+  const inputCorreo = document.getElementById('correo');
+  const inputTelefono = document.getElementById('telefono');
+  const inputDireccion = document.getElementById('direccion');
+  const inputPassword = document.getElementById('password');
+
+  let modalMode = 'create'; // 'create' | 'edit'
+
+  // === UTILIDADES ===
+  function openModal(mode, cliente) {
+    modalMode = mode;
+
+    if (mode === 'create') {
+      modalTitle.textContent = 'Nuevo Cliente';
+      modalSubtitle.textContent = 'Completa los datos para registrar un nuevo cliente.';
+      clientForm.reset();
+      inputId.value = '';
+    } else if (mode === 'edit' && cliente) {
+      modalTitle.textContent = 'Editar Cliente';
+      modalSubtitle.textContent = 'Actualiza los datos del cliente seleccionado.';
+      inputId.value = cliente.id_cliente;
+      inputNombre.value = cliente.nombre ?? '';
+      inputApellido.value = cliente.apellido ?? '';
+      inputCorreo.value = cliente.correo ?? '';
+      inputTelefono.value = cliente.telefono ?? '';
+      inputDireccion.value = cliente.direccion ?? '';
+      inputPassword.value = '';
+    }
+
+    clientModal.classList.add('is-open');
+  }
+
+  function closeModal() {
+    clientModal.classList.remove('is-open');
+  }
+
+  function avatarIniciales(nombre, apellido) {
+    const n = (nombre || '').trim().split(' ')[0] || '';
+    const a = (apellido || '').trim().split(' ')[0] || '';
+    const i1 = n.charAt(0).toUpperCase();
+    const i2 = a.charAt(0).toUpperCase();
+    return (i1 + i2) || 'CL';
+  }
+
+  function formatDateShort(date) {
+    const d = new Date(date);
+    if (Number.isNaN(d.getTime())) return '-';
+    const h = d.getHours().toString().padStart(2, '0');
+    const m = d.getMinutes().toString().padStart(2, '0');
+    return `${d.toLocaleDateString()} ${h}:${m}`;
+  }
+
+  // === RENDERIZADO TABLA ===
+  function renderClientes(clientes) {
+    clientsTbody.innerHTML = '';
+
+    clientes.forEach(cliente => {
+      const tr = document.createElement('tr');
+      tr.dataset.id = cliente.id_cliente;
+
+      tr.innerHTML = `
+        <td>
+          <div class="client-cell">
+            <div class="client-avatar">${avatarIniciales(cliente.nombre, cliente.apellido)}</div>
+            <div>
+              <div class="client-name">${cliente.nombre ?? ''} ${cliente.apellido ?? ''}</div>
+              <div class="client-email">${cliente.correo ?? ''}</div>
+            </div>
+          </div>
+        </td>
+        <td>${cliente.correo ?? ''}</td>
+        <td>${cliente.telefono ?? ''}</td>
+        <td>${cliente.direccion ?? ''}</td>
+        <td>
+          <div class="cell-actions">
+            <button class="btn btn-outline btn-sm btn-edit" type="button">Editar</button>
+            <button class="btn btn-danger btn-sm btn-delete" type="button">Eliminar</button>
+          </div>
+        </td>
+      `;
+
+      clientsTbody.appendChild(tr);
+    });
+
+    totalClientesSpan.textContent = clientes.length;
+    lastUpdateSpan.textContent = formatDateShort(new Date());
+  }
+
+  // === LLAMADAS API ===
+  async function fetchClientes(nombreFiltro) {
+    try {
+      let url = API_CLIENTES;
+
+      if (nombreFiltro && nombreFiltro.trim().length > 0) {
+        const encoded = encodeURIComponent(nombreFiltro.trim());
+        url = `${API_CLIENTES}/buscar?nombre=${encoded}`;
+      }
+
+      const res = await fetch(url);
+      if (!res.ok) throw new Error('Error al obtener clientes');
+
+      const data = await res.json();
+      renderClientes(data);
+    } catch (err) {
+      console.error(err);
+      alert('No se pudieron cargar los clientes.');
+    }
+  }
+
+  async function fetchClientePorId(id) {
+    const res = await fetch(`${API_CLIENTES}/${id}`);
+    if (!res.ok) throw new Error('No se pudo obtener el cliente');
+    return res.json();
+  }
+
+  async function crearCliente(payload) {
+    const res = await fetch(API_CLIENTES, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+    if (!res.ok) {
+      const msg = await res.text();
+      throw new Error(msg || 'Error al crear cliente');
+    }
+    return res.json();
+  }
+
+  async function actualizarCliente(id, payload) {
+    const res = await fetch(`${API_CLIENTES}/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+    if (!res.ok) {
+      const msg = await res.text();
+      throw new Error(msg || 'Error al actualizar cliente');
+    }
+    return res.json();
+  }
+
+  async function eliminarCliente(id) {
+    const res = await fetch(`${API_CLIENTES}/${id}`, {
+      method: 'DELETE',
+    });
+    if (!res.ok) {
+      const msg = await res.text();
+      throw new Error(msg || 'Error al eliminar cliente');
+    }
+    return res.json();
+  }
+
+  // === EVENTOS ===
+
+  // Abrir modal nuevo cliente
+  btnNewClient.addEventListener('click', () => {
+    openModal('create');
+  });
+
+  // Cerrar modal
+  btnCloseModal.addEventListener('click', closeModal);
+  btnCancelModal.addEventListener('click', closeModal);
+
+  // Cerrar modal haciendo click fuera
+  clientModal.addEventListener('click', (e) => {
+    if (e.target === clientModal) {
+      closeModal();
+    }
+  });
+
+  // Submit del formulario (crear / editar)
+  clientForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const payload = {
+      nombre: inputNombre.value.trim(),
+      apellido: inputApellido.value.trim(),
+      correo: inputCorreo.value.trim(),
+      telefono: inputTelefono.value.trim(),
+      direccion: inputDireccion.value.trim(),
+    };
+
+    // Solo enviar password si el usuario escribió algo
+    if (inputPassword.value.trim().length > 0) {
+      payload.password = inputPassword.value.trim();
+    }
+
+    try {
+      if (modalMode === 'create') {
+        await crearCliente(payload);
+      } else if (modalMode === 'edit') {
+        const id = inputId.value;
+        await actualizarCliente(id, payload);
+      }
+
+      closeModal();
+      await fetchClientes(searchInput.value); // recargar lista respetando filtro actual
+    } catch (err) {
+      console.error(err);
+      alert(err.message || 'Error al guardar el cliente.');
+    }
+  });
+
+  // Click en Editar / Eliminar (delegado desde tbody)
+  clientsTbody.addEventListener('click', async (e) => {
+    const row = e.target.closest('tr');
+    if (!row) return;
+    const id = row.dataset.id;
+
+    if (e.target.classList.contains('btn-edit')) {
+      // EDITAR
+      try {
+        const cliente = await fetchClientePorId(id);
+        openModal('edit', cliente);
+      } catch (err) {
+        console.error(err);
+        alert('No se pudo cargar la información del cliente.');
+      }
+    }
+
+    if (e.target.classList.contains('btn-delete')) {
+      // ELIMINAR
+      const ok = confirm('¿Seguro que deseas eliminar este cliente?');
+      if (!ok) return;
+
+      try {
+        await eliminarCliente(id);
+        await fetchClientes(searchInput.value);
+      } catch (err) {
+        console.error(err);
+        alert('No se pudo eliminar el cliente.');
+      }
+    }
+  });
+
+  // Buscar por nombre (al tipear)
+  let searchTimeout = null;
+  searchInput.addEventListener('input', () => {
+    clearTimeout(searchTimeout);
+    searchTimeout = setTimeout(() => {
+      fetchClientes(searchInput.value);
+    }, 300); // pequeño debounce
+  });
+
+  // === INICIALIZAR ===
+  fetchClientes();
+</script>
+<script src="./components/sidebar.html"></script>
+<script src="./components/sidebar.js"></script>
+</body>
+</html>

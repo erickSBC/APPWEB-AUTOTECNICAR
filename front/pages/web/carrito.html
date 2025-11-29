@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content3="width=device-width, initial-scale=1" />
+    <title>Carrito - AutoMas</title>
+    <link href="../../assets/css/corporate-ui-dashboard.css" rel="stylesheet" />
+    <style>
+      :root{--red:#e3342f;--accent:#0b68c6}
+body {
+      margin: 0;
+      margin-top: 100px;
+      padding: 0;
+      font-family: "Open Sans", sans-serif;
+      background: #f5f5f5;
+    }
+
+      .logo{font-weight:700;color:var(--red);font-size:22px}
+      .nav-links a{color:#ddd;margin-left:18px;text-decoration:none}
+
+      .page-title{display:flex;align-items:center;gap:12px;justify-content:center;margin:22px 0}
+      .page-title h1{margin:0;font-size:28px;color:#222}
+
+      .cart-wrap{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 360px;gap:28px}
+
+      /* LEFT: list */
+      .cart-list{padding:22px;background:#fff;border-radius:14px;box-shadow:0 10px 30px rgba(0,0,0,0.06)}
+      .cart-item{display:flex;gap:20px;align-items:center;padding:22px;background:#fff;border-radius:14px;margin-bottom:18px;box-shadow:0 8px 24px rgba(0,0,0,0.04)}
+      .cart-item img{width:140px;height:100px;object-fit:contain}
+      .cart-item .info{flex:1}
+      .cart-item .title{font-weight:700;color:#333;font-size:15px}
+      .cart-item .meta{color:#666;font-size:13px}
+      .cart-item .price{font-weight:700;color:var(--red);font-size:18px;margin-top:6px}
+      .cart-item .qty{display:flex;align-items:center;gap:12px;margin-top:10px}
+      .qty button{background:var(--red);color:#fff;border:none;width:36px;height:36px;border-radius:50%;cursor:pointer;font-size:18px}
+      .qty input{width:56px;text-align:center;padding:8px;border-radius:6px;border:1px solid #eee}
+
+      /* RIGHT: summary */
+      .cart-summary{padding:22px;background:#fff;border-radius:14px;box-shadow:0 10px 30px rgba(0,0,0,0.06);height:fit-content}
+      .cart-summary h3{margin:0 0 8px 0;font-size:18px}
+      .summary-row{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid #f5f5f5}
+      .summary-row .label{color:#666}
+      #summary-subtotal{color:var(--accent);font-weight:700}
+      #summary-total{color:var(--red);font-weight:900;font-size:20px}
+      .checkout-btn{display:block;width:100%;padding:14px;background:var(--red);color:#fff;border-radius:40px;border:none;cursor:pointer;font-weight:800;margin-top:16px}
+
+      .empty{padding:40px;text-align:center;color:#777}
+
+      /* Mi Cuenta Dropdown */
+      .account-dropdown {
+          position: relative;
+          margin: 0 12px;
+      }
+
+      .account-label {
+          color: white;
+          font-weight: 500;
+          font-size: 14px;
+          cursor: pointer;
+          padding: 8px 12px;
+          border-radius: 6px;
+          transition: 0.2s;
+      }
+
+      .account-label:hover {
+          background: rgba(255,255,255,0.1);
+      }
+
+      .account-menu {
+          position: absolute;
+          top: 100%;
+          right: 0;
+          background: white;
+          border-radius: 8px;
+          box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+          min-width: 280px;
+          display: none;
+          z-index: 10000;
+          margin-top: 8px;
+          overflow: hidden;
+      }
+
+      .account-menu.active {
+          display: block;
+      }
+
+      .account-menu-header {
+          background: #2b2b2b;
+          color: white;
+          padding: 16px;
+          font-weight: 600;
+          font-size: 16px;
+          text-align: center;
+          border-bottom: 2px solid #e3342f;
+      }
+
+      .account-menu-content {
+          padding: 20px;
+      }
+
+      .account-form-section {
+          margin-bottom: 24px;
+      }
+
+      .account-form-section:last-child {
+          margin-bottom: 0;
+      }
+
+      .account-form-section h3 {
+          font-size: 16px;
+          font-weight: 700;
+          color: #222;
+          margin-bottom: 12px;
+      }
+
+      .account-form-group {
+          margin-bottom: 12px;
+      }
+
+      .account-form-group label {
+          display: block;
+          font-size: 13px;
+          font-weight: 600;
+          color: #333;
+          margin-bottom: 6px;
+      }
+
+      .account-form-group input {
+          width: 100%;
+          padding: 10px;
+          border: 1px solid #ddd;
+          border-radius: 6px;
+          font-size: 13px;
+          font-family: Poppins,system-ui,Arial,Helvetica,sans-serif;
+          box-sizing: border-box;
+      }
+
+      .account-form-group input:focus {
+          outline: none;
+          border-color: var(--red);
+          box-shadow: 0 0 0 3px rgba(227, 52, 47, 0.1);
+      }
+
+      .account-checkbox {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          font-size: 12px;
+          color: #666;
+          margin: 10px 0;
+      }
+
+      .account-checkbox input[type="checkbox"] {
+          width: auto;
+          cursor: pointer;
+      }
+
+      .account-btn {
+          width: 100%;
+          padding: 12px;
+          background: #222;
+          color: white;
+          border: none;
+          border-radius: 6px;
+          font-weight: 700;
+          font-size: 14px;
+          cursor: pointer;
+          transition: 0.2s;
+      }
+
+      .account-btn:hover {
+          background: var(--red);
+      }
+
+      .account-link {
+          font-size: 12px;
+          color: var(--accent);
+          text-decoration: none;
+          cursor: pointer;
+      }
+
+      .account-link:hover {
+          text-decoration: underline;
+      }
+
+      .account-privacy {
+          font-size: 12px;
+          color: #666;
+          line-height: 1.4;
+      }
+
+      .account-privacy a {
+          color: var(--accent);
+          text-decoration: none;
+      }
+
+      @media (max-width:960px){
+        .cart-wrap{grid-template-columns:1fr}
+        .cart-summary{order:2}
+      }
+    </style>
+  </head>
+  <body>
+    <div id="header"></div>
+  <script>
+    fetch("components/header.html")
+      .then(r => r.text())
+      .then(h => {
+
+        document.getElementById("header").innerHTML = h
+      });
+  </script>
+
+    <div class="page-title">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3h2l.4 2M7 13h10l4-8H5.4"></path><circle cx="10" cy="20" r="1.6"></circle><circle cx="18" cy="20" r="1.6"></circle></svg>
+      <h1>Tu Carrito</h1>
+    </div>
+
+    <div class="cart-wrap">
+      <div class="cart-list" id="cart-list-area">
+        <div id="cart-items-container">
+          <!-- Rendered by site-cart.js -->
+        </div>
+      </div>
+
+      <aside class="cart-summary">
+        <h3>Resumen</h3>
+        <div class="summary-row"><div class="label">Productos</div><div id="summary-subtotal">S/ 0.00</div></div>
+        <div class="summary-row"><div class="label">Envío</div><div id="summary-shipping">S/ 0.00</div></div>
+        <div class="summary-row" style="border-bottom:none; margin-top:8px"><div class="label">Total</div><div id="summary-total">S/ 0.00</div></div>
+        <button id="checkout-btn" class="checkout-btn">Proceder</button>
+
+        <a href="index.html" style="display:block;margin-top:12px;text-decoration:none;color:var(--red)">Ver más productos</a>
+      </aside>
+    </div>
+
+ <script src="./components/header-logic.js"></script>
+  <script src="./assets/js/site-cart.js"></script>
+  </body>
+</html>

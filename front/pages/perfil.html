@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Perfil de Usuario - AutoTecnicar</title>
+
+  <style>
+    :root {
+      --bg-page: #f3f4f6;
+      --bg-card: #ffffff;
+      --border-soft: #e5e7eb;
+      --text-main: #111827;
+      --text-muted: #6b7280;
+      --accent: #1e293b;        /* azul */
+      --accent-soft: #e0f2fe;
+      --accent-dark: #111827;
+      --success: #16a34a;
+      --radius-lg: 16px;
+      --radius-md: 10px;
+      --shadow-soft: 0 18px 45px rgba(15, 23, 42, 0.08);
+      --transition: all 0.18s ease;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg-page);
+      color: var(--text-main);
+    }
+
+    .app-layout {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    .app-main {
+      flex: 1;
+      padding: 24px 28px 40px;
+    }
+
+    /* ===== HEADER DE PÁGINA ===== */
+
+    .page-breadcrumb {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+    .page-breadcrumb span {
+      color: var(--text-main);
+      font-weight: 500;
+    }
+
+    .page-header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 18px;
+    }
+
+    .page-title {
+      font-size: 24px;
+      font-weight: 700;
+      margin: 0;
+    }
+
+    .btn {
+      appearance: none;
+      border: none;
+      border-radius: 999px;
+      font-size: 14px;
+      padding: 9px 18px;
+      cursor: pointer;
+      font-weight: 500;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: var(--transition);
+      white-space: nowrap;
+    }
+
+    .btn-outline {
+      border: 1px solid var(--border-soft);
+      background: #ffffff;
+      color: var(--text-main);
+    }
+    .btn-outline:hover {
+      background: #f9fafb;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #f9fafb;
+      box-shadow: 0 10px 30px rgba(15, 23, 42, 0.28);
+    }
+    .btn-primary:hover {
+      background: var(--accent-dark);
+      transform: translateY(-1px);
+      box-shadow: 0 16px 45px rgba(15, 23, 42, 0.32);
+    }
+
+    .btn-ghost {
+      background: transparent;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      color: var(--text-muted);
+    }
+    .btn-ghost:hover {
+      border-color: var(--border-soft);
+      background: #f9fafb;
+    }
+
+    .btn-sm {
+      padding: 6px 14px;
+      font-size: 13px;
+    }
+
+    /* ===== BANNER PERFIL ===== */
+
+    .profile-banner {
+      background: linear-gradient(90deg, var(--accent));
+      border-radius: 20px;
+      padding: 26px 26px 24px;
+      color: #f9fafb;
+      margin-bottom: 18px;
+      box-shadow: var(--shadow-soft);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .profile-banner::after {
+      content: "";
+      position: absolute;
+      right: -40px;
+      top: -40px;
+      width: 160px;
+      height: 160px;
+      background: radial-gradient(circle, rgba(15,23,42,0.2), transparent 60%);
+      opacity: 0.8;
+    }
+
+    .profile-header {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .profile-avatar {
+      width: 80px;
+      height: 80px;
+      border-radius: 999px;
+      background: #e5e7eb;
+      border: 4px solid rgba(255,255,255,0.55);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      font-weight: 700;
+      color: #0f172a;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .profile-avatar-label {
+      position: absolute;
+      bottom: 4px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(15, 23, 42, 0.8);
+      color: #e5e7eb;
+      font-size: 10px;
+      padding: 2px 8px;
+      border-radius: 999px;
+    }
+
+    .profile-header-info {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .profile-name {
+      font-size: 22px;
+      font-weight: 700;
+    }
+
+    .profile-role {
+      font-size: 14px;
+      opacity: 0.9;
+    }
+
+    /* ===== CARDS RESUMEN ===== */
+
+    .profile-summary {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    @media (max-width: 900px) {
+      .profile-summary {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+    @media (max-width: 600px) {
+      .profile-summary {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .summary-card {
+      background: var(--bg-card);
+      border-radius: 14px;
+      border: 1px solid var(--border-soft);
+      padding: 12px 14px;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .summary-label {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+    }
+
+    .summary-value {
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    .summary-value.success {
+      color: var(--success);
+    }
+
+    /* ===== TABS (solo una activa pero mostramos las otras como UI) ===== */
+
+    .profile-tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 0;
+    }
+
+    .tab-btn {
+      border-radius: 10px 10px 0 0;
+      border: 1px solid transparent;
+      padding: 8px 14px;
+      font-size: 14px;
+      cursor: default;
+      background: #f9fafb;
+      color: var(--text-muted);
+    }
+
+    .tab-btn.active {
+      background: var(--accent);
+      color: #f9fafb;
+      border-color: var(--accent-dark);
+    }
+
+    .tab-btn.disabled {
+      opacity: 0.7;
+    }
+
+    /* ===== CARD SECCIÓN INFORMACIÓN ===== */
+
+    .card-section {
+      background: var(--bg-card);
+      border-radius: 0 16px 16px 16px;
+      border: 1px solid var(--border-soft);
+      box-shadow: var(--shadow-soft);
+      padding: 18px 18px 20px;
+    }
+
+    .section-title {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    .section-divider {
+      height: 1px;
+      background: linear-gradient(90deg, var(--accent), transparent);
+      margin-bottom: 14px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px 18px;
+    }
+
+    @media (max-width: 800px) {
+      .form-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .form-field {
+      display: flex;
+      flex-direction: column;
+      font-size: 13px;
+      gap: 4px;
+    }
+
+    .form-field label {
+      color: var(--text-muted);
+    }
+
+    .form-field input,
+    .form-field select {
+      padding: 8px 10px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-soft);
+      font-size: 14px;
+      outline: none;
+      background: #f9fafb;
+      transition: var(--transition);
+    }
+
+    .form-field input:focus,
+    .form-field select:focus {
+      background: #ffffff;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 1px var(--accent-soft);
+    }
+
+    .form-footer {
+      margin-top: 16px;
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+
+    /* Mensaje de estado */
+    .status-toast {
+      position: fixed;
+      right: 20px;
+      bottom: 20px;
+      background: #ecfdf5;
+      color: #15803d;
+      padding: 10px 14px;
+      border-radius: 999px;
+      box-shadow: 0 14px 35px rgba(22, 163, 74, 0.35);
+      font-size: 13px;
+      display: none;
+      align-items: center;
+      gap: 6px;
+      z-index: 999;
+    }
+    .status-toast.show {
+      display: inline-flex;
+    }
+
+    @media (max-width: 640px) {
+      .page-header-row {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="app-layout">
+  <!-- SIDEBAR (opcional, como en las otras páginas) -->
+  <div id="sdbar"></div>
+  <script>
+    fetch("components/sidebar.html")
+      .then(r => r.text())
+      .then(h => (document.getElementById("sdbar").innerHTML = h));
+  </script>
+
+  <!-- CONTENIDO PERFIL -->
+  <main class="app-main">
+    <div class="page-breadcrumb">
+      Dashboard / <span>Mi Perfil</span>
+    </div>
+
+    <div class="page-header-row">
+      <h1 class="page-title">Perfil de Usuario</h1>
+     
+    </div>
+
+    <!-- BANNER -->
+    <section class="profile-banner">
+      <div class="profile-header">
+        <div class="profile-avatar" id="profileAvatar">
+          <span id="avatarInitials">JD</span>
+        </div>
+        <div class="profile-header-info">
+          <div class="profile-name" id="profileName">Nombre Apellido</div>
+          <div class="profile-role" id="profileRole">Administrador</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CARDS RESUMEN -->
+    <section class="profile-summary">
+      <div class="summary-card">
+        <div class="summary-label">Estado</div>
+        <div class="summary-value success" id="summaryEstado">Activo</div>
+      </div>
+      <div class="summary-card">
+        <div class="summary-label">Teléfono</div>
+        <div class="summary-value" id="summaryTelefono">-</div>
+      </div>
+      <div class="summary-card">
+        <div class="summary-label">Correo</div>
+        <div class="summary-value" style="font-size:15px" id="summaryCorreo">
+          -
+        </div>
+      </div>
+      <div class="summary-card">
+        <div class="summary-label">Miembro desde</div>
+        <div class="summary-value" style="font-size:15px" id="summaryMiembro">
+          -
+        </div>
+      </div>
+    </section>
+
+    <!-- TABS -->
+    <div class="profile-tabs">
+      <button class="tab-btn active" type="button">Información Personal</button>
+      <button class="tab-btn disabled" type="button">Seguridad</button>
+      <button class="tab-btn disabled" type="button">Preferencias</button>
+    </div>
+
+    <!-- INFORMACIÓN PERSONAL -->
+    <section class="card-section">
+      <h2 class="section-title">Datos Personales</h2>
+      <div class="section-divider"></div>
+
+      <form id="profileForm">
+        <div class="form-grid">
+          <div class="form-field">
+            <label for="nombre">Nombre</label>
+            <input type="text" id="nombre" required />
+          </div>
+          <div class="form-field">
+            <label for="apellido">Apellido</label>
+            <input type="text" id="apellido" required />
+          </div>
+          <div class="form-field">
+            <label for="correo">Correo electrónico</label>
+            <input type="email" id="correo" required />
+          </div>
+          <div class="form-field">
+            <label for="telefono">Teléfono</label>
+            <input type="text" id="telefono" placeholder="+51 ..." />
+          </div>
+    
+          <div class="form-field">
+            <label for="estado">Estado</label>
+            <select id="estado">
+              <option value="activo">Activo</option>
+              <option value="inactivo">Inactivo</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-footer">
+          <button type="button" class="btn btn-ghost btn-sm">Cancelar</button>
+          <button type="submit" class="btn btn-primary btn-sm">
+            Guardar cambios
+          </button>
+        </div>
+      </form>
+    </section>
+  </main>
+</div>
+
+<!-- Toast de éxito -->
+<div id="statusToast" class="status-toast">
+  ✅ Cambios guardados correctamente
+</div>
+
+<script>
+  const API_BASE = 'http://localhost:3000'; // ajusta si tu backend está en otro host/puerto
+  const API_ADMIN = API_BASE + '/administrador';
+  const ADMIN_ID = localStorage.getItem('adminId') || 1; // cámbialo según tu login
+
+  // DOM
+  const profileNameEl = document.getElementById('profileName');
+  const profileRoleEl = document.getElementById('profileRole');
+  const avatarInitialsEl = document.getElementById('avatarInitials');
+  const summaryEstadoEl = document.getElementById('summaryEstado');
+  const summaryTelefonoEl = document.getElementById('summaryTelefono');
+  const summaryCorreoEl = document.getElementById('summaryCorreo');
+  const summaryMiembroEl = document.getElementById('summaryMiembro');
+
+  const form = document.getElementById('profileForm');
+  const inputNombre = document.getElementById('nombre');
+  const inputApellido = document.getElementById('apellido');
+  const inputCorreo = document.getElementById('correo');
+  const inputTelefono = document.getElementById('telefono');
+  const selectEstado = document.getElementById('estado');
+
+  const toast = document.getElementById('statusToast');
+
+  function showToast() {
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 2500);
+  }
+
+  function formatFecha(fecha) {
+    if (!fecha) return '-';
+    const d = new Date(fecha);
+    if (Number.isNaN(d.getTime())) return '-';
+    const opciones = { day: '2-digit', month: 'long', year: 'numeric' };
+    return d.toLocaleDateString('es-PE', opciones);
+  }
+
+  function initials(nombre, apellido) {
+    const n = (nombre || '').trim().split(' ')[0] || '';
+    const a = (apellido || '').trim().split(' ')[0] || '';
+    const i1 = n.charAt(0).toUpperCase();
+    const i2 = a.charAt(0).toUpperCase();
+    return (i1 + i2) || 'AD';
+  }
+
+  function mapEstadoText(estado) {
+    if (!estado) return 'Activo';
+    else{
+      return 'Inactivo'
+    }
+  }
+
+  async function loadPerfil() {
+    try {
+      const res = await fetch(`${API_ADMIN}/${ADMIN_ID}`);
+      if (!res.ok) throw new Error('No se pudo obtener el perfil');
+      const admin = await res.json();
+
+      const nombre = admin.nombre || '';
+      const apellido = admin.apellido || '';
+      const correo = admin.correo || '';
+      const telefono = admin.telefono || '';
+      const rol = 'Administrador';
+      const estado = admin.estado==='activo' ? 'Activo':'Inactivo';
+      const fechaCreacion = admin.fecha_creacion || admin.fechaCreacion;
+
+      // Banner
+      profileNameEl.textContent = `${nombre} ${apellido}`.trim() || 'Administrador';
+      profileRoleEl.textContent = rol;
+      avatarInitialsEl.textContent = initials(nombre, apellido);
+
+      summaryEstadoEl.textContent = estado;
+      summaryTelefonoEl.textContent = telefono || '-';
+      summaryCorreoEl.textContent = correo || '-';
+      summaryMiembroEl.textContent = formatFecha(fechaCreacion);
+
+      // Form
+      inputNombre.value = nombre;
+      inputApellido.value = apellido;
+      inputCorreo.value = correo;
+      inputTelefono.value = telefono;
+      selectEstado.value = estado.toLowerCase().startsWith('inac') ? 'inactivo' : 'activo';
+    } catch (err) {
+      console.error(err);
+      alert('No se pudo cargar el perfil de usuario.');
+    }
+  }
+
+  async function updatePerfil(payload) {
+    const res = await fetch(`${API_ADMIN}/${ADMIN_ID}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+    if (!res.ok) {
+      const msg = await res.text();
+      throw new Error(msg || 'Error al actualizar perfil');
+    }
+    return res.json();
+  }
+
+  // Guardar cambios
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const payload = {
+      nombre: inputNombre.value.trim(),
+      apellido: inputApellido.value.trim(),
+      correo: inputCorreo.value.trim(),
+      telefono: inputTelefono.value.trim(),
+      estado: selectEstado.value.startsWith('inac')? false: true,
+    };
+
+    if (!payload.nombre || !payload.apellido || !payload.correo) {
+      alert('Nombre, Apellido y Correo son obligatorios.');
+      return;
+    }
+
+    try {
+      await updatePerfil(payload);
+      await loadPerfil();  // refrescar datos
+      showToast();
+    } catch (err) {
+      console.error(err);
+      alert(err.message || 'Error al guardar los cambios.');
+    }
+  });
+
+  // Inicializar
+  loadPerfil();
+</script>
+<script src="./components/sidebar.js"></script>
+</body>
+</html>

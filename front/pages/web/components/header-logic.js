@@ -1,53 +1,57 @@
 
-
 document.addEventListener("DOMContentLoaded", () => {
-    // 1. Verificar que el header se haya cargado ANTES de ejecutar la lógica.
-    // Usamos setTimeout para dar tiempo al fetch del header de home.html.
     setTimeout(() => {
 
         const token = localStorage.getItem("token");
-        // const token = true;
+        const payload = token? JSON.parse(atob(token.split(".")[1])) : null;
         const cuentaBtn = document.getElementById("cuentaBtn");
         const cuentaMenu = document.getElementById("cuentaMenu");
+        const nombreUsuario = document.getElementById("nombreUsuario");
         const logoutBtn = document.getElementById("logoutBtn");
 
-        /* SI NO ESTÁ LOGUEADO → IR A SIGN-IN */
-        if (!token) {
-            cuentaBtn.onclick = () => {
+        const cartBtn = document.getElementById("cartBtn");
+        const miniCart = cartBtn.querySelector(".mini-cart");
+
+        /* SI ESTÁ LOGUEADO MOSTRAR NOMBRE */
+        if (token && payload?.rol != 'cliente') {
+            window.location.href = "../dashboard.html";
+        }
+        if (token && payload?.nombre) {
+            nombreUsuario.textContent = payload.nombre;
+        }
+
+        /* CLICK EN CUENTA */
+        cuentaBtn.onclick = (e) => {
+            if (!token) {
                 window.location.href = "../sign-in.html";
-            };
-        }
-        else {
-            /* SI ESTÁ LOGUEADO → MOSTRAR MENÚ */
-            cuentaBtn.onclick = (e) => {
-                e.stopPropagation();
-                cuentaMenu.style.display =
-                    cuentaMenu.style.display === "block" ? "none" : "block";
-            };
-
-            /* CERRAR MENÚ SI SE HACE CLICK AFUERA */
-            document.body.onclick = () => {
-                cuentaMenu.style.display = "none";
-            };
-
-            /* CERRAR SESIÓN */
-            logoutBtn.onclick = () => {
-                localStorage.removeItem("token");
-                location.reload();
-            };
-        }
-        document.addEventListener("click", (e) => {
-            const cartIcon = document.querySelector(".cart-icon");
-            const miniCart = document.querySelector(".mini-cart");
-
-            if (cartIcon.contains(e.target)) {
-                // toggle
-                miniCart.style.display = miniCart.style.display === "block" ? "none" : "block";
+                return;
             }
-            else if (!miniCart.contains(e.target) && !cartIcon.contains(e.target) ) {
-                miniCart.style.display = "none";
-            }
+            e.stopPropagation();
+            cuentaMenu.style.display =
+                cuentaMenu.style.display === "block" ? "none" : "block";
+            miniCart.style.display = "none"; // cerrar carrito si está abierto
+        };
+
+        /* CLICK EN CARRITO */
+        cartBtn.onclick = (e) => {
+            e.stopPropagation();
+            miniCart.style.display =
+                miniCart.style.display === "block" ? "none" : "block";
+            cuentaMenu.style.display = "none";
+        };
+
+        /* CLICK FUERA → CERRAR */
+        document.addEventListener("click", () => {
+            cuentaMenu.style.display = "none";
+            miniCart.style.display = "none";
         });
 
-    }, 300); // Pequeña espera para asegurar que el fetch ha terminado.
+        /* LOGOUT */
+        logoutBtn.onclick = () => {
+            localStorage.removeItem("token");
+            window.location.href = "home.html";
+        };
+
+    }, 300);
 });
+

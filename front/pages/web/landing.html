@@ -109,26 +109,222 @@
                 font-size: 18px;
             }
 
-            .cart-count {
-                background: #e60000;
-                color: white;
-                font-size: 12px;
-                padding: 2px 6px;
-                border-radius: 999px;
-                position: absolute;
-                top: -6px;
-                right: -10px;
-            }
+        .cart-count {
+            background: #e60000;
+            color: white;
+            font-size: 12px;
+            padding: 2px 6px;
+            border-radius: 999px;
+            position: absolute;
+            top: -6px;
+            right: -10px;
+        }
 
-            /* Responsive */
-            @media (max-width: 880px) {
-                .search-bar { display: none; }
-                .nav-links { display: none; position: absolute; top: 64px; left: 0; right:0; background: #111; flex-direction: column; gap:0; padding: 12px 20px; }
-                .nav-links a { padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.03); }
-                .menu-toggle { display: inline-block; }
-            }
+        /* Mi Cuenta (Account Section) */
+        .account-section {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin: 0 12px;
+        }
 
-        /* HERO */
+        .account-section .account-label {
+            font-size: 13px;
+            color: #fff;
+            font-weight: 500;
+        }
+
+        .account-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .account-buttons a, .account-buttons button {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: 0.2s;
+        }
+
+        .btn-acceso {
+            background: transparent;
+            color: #fff;
+            border: 1px solid #fff;
+        }
+
+        .btn-acceso:hover {
+            background: rgba(255,255,255,0.1);
+        }
+
+        .btn-registrarse {
+            background: #e60000;
+            color: #fff;
+        }
+
+        .btn-registrarse:hover {
+            background: #c40000;
+        }
+
+        /* Mi Cuenta Dropdown */
+        .account-dropdown {
+            position: relative;
+            margin: 0 12px;
+        }
+
+        .account-label {
+            color: white;
+            font-weight: 500;
+            font-size: 14px;
+            cursor: pointer;
+            padding: 8px 12px;
+            border-radius: 6px;
+            transition: 0.2s;
+        }
+
+        .account-label:hover {
+            background: rgba(255,255,255,0.1);
+        }
+
+        .account-menu {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+            min-width: 280px;
+            display: none;
+            z-index: 10000;
+            margin-top: 8px;
+            overflow: hidden;
+        }
+
+        .account-menu.active {
+            display: block;
+        }
+
+        .account-menu-header {
+            background: #2b2b2b;
+            color: white;
+            padding: 16px;
+            font-weight: 600;
+            font-size: 16px;
+            text-align: center;
+            border-bottom: 2px solid #e3342f;
+        }
+
+        .account-menu-content {
+            padding: 20px;
+        }
+
+        .account-form-section {
+            margin-bottom: 24px;
+        }
+
+        .account-form-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .account-form-section h3 {
+            font-size: 16px;
+            font-weight: 700;
+            color: #222;
+            margin-bottom: 12px;
+        }
+
+        .account-form-group {
+            margin-bottom: 12px;
+        }
+
+        .account-form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 6px;
+        }
+
+        .account-form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 13px;
+            font-family: 'Poppins', sans-serif;
+            box-sizing: border-box;
+        }
+
+        .account-form-group input:focus {
+            outline: none;
+            border-color: #e3342f;
+            box-shadow: 0 0 0 3px rgba(227, 52, 47, 0.1);
+        }
+
+        .account-checkbox {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+            color: #666;
+            margin: 10px 0;
+        }
+
+        .account-checkbox input[type="checkbox"] {
+            width: auto;
+            cursor: pointer;
+        }
+
+        .account-btn {
+            width: 100%;
+            padding: 12px;
+            background: #222;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .account-btn:hover {
+            background: #e3342f;
+        }
+
+        .account-link {
+            font-size: 12px;
+            color: #0b68c6;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .account-link:hover {
+            text-decoration: underline;
+        }
+
+        .account-privacy {
+            font-size: 12px;
+            color: #666;
+            line-height: 1.4;
+        }
+
+        .account-privacy a {
+            color: #0b68c6;
+            text-decoration: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 880px) {
+            .search-bar { display: none; }
+            .account-section { display: none; }
+            .nav-links { display: none; position: absolute; top: 64px; left: 0; right:0; background: #111; flex-direction: column; gap:0; padding: 12px 20px; }
+            .nav-links a { padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.03); }
+            .menu-toggle { display: inline-block; }
+        }        /* HERO */
         .hero {
             background: url('https://img.freepik.com/free-photo/car-mechanic-holds-wrench-hand-repair-shop_1150-9168.jpg') center/cover no-repeat;
             height: 420px;
@@ -265,8 +461,11 @@
             <a href="index.html">Inicio</a>
             <a href="landing.html">Landing</a>
             <a href="producto.html">Productos</a>
-            <a href="../profile.html">Perfil</a>
+            <a href="profile.html">Perfil</a>
         </nav>
+
+        <!-- Mi Cuenta Link -->
+        <a href="micuenta.html" style="color: white; text-decoration: none; font-weight: 500; margin: 0 12px;">Mi Cuenta</a>
 
         <div class="search-and-cart">
             <form class="search-bar" role="search" action="#" onsubmit="event.preventDefault();">
@@ -312,30 +511,7 @@
         </div>
     </div>
 
-    <!-- SECCIÓN ESTILO EMMA (Registro) -->
-    <div class="emma-block">
-
-        <div class="emma-left">
-            <img src="https://cdn.dribbble.com/users/1162077/screenshots/3848914/programmer.gif" alt="">
-        </div>
-
-        <div class="emma-right">
-            <div class="emma-title">
-                <h2>Regístrate ahora</h2>
-                <p>Únete a AutoMas y recibe ofertas exclusivas.</p>
-            </div>
-
-            <input type="text" placeholder="Nombre completo">
-            <input type="email" placeholder="Correo electrónico">
-            <input type="text" placeholder="Teléfono">
-            <input type="text" placeholder="Empresa (opcional)">
-
-            <button>Crear cuenta</button>
-
-        </div>
-
-    </div>
-
+    
         <footer class="site-footer">
             <div class="footer-inner">
                 <div class="footer-contact">
@@ -343,16 +519,14 @@
                     <div>Av. Jorge Basadre Grohmann Asoc. de comerciantes 4 de nov puesto 01, Tacna, Perú</div>
                     <div>Horario: Lun–Vie: 9:00 AM – 1:00 PM y 2:30 PM – 6:30 PM. Sáb: 9:00 AM – 1:30 PM</div>
                     <div>Tel: (052) 242713</div>
+                    <div style="margin-top: 12px; font-size: 12px; display: flex; gap: 16px;">
+                        <a href="privacy.html" style="color: #fff; text-decoration: none;">Privacidad</a>
+                        <a href="terms.html" style="color: #fff; text-decoration: none;">Términos</a>
+                        <a href="faq.html" style="color: #fff; text-decoration: none;">FAQs</a>
+                    </div>
                 </div>
 
-                <div class="footer-whatsapp">
-                    <a href="https://wa.me/51987092808?text=Hola%20quiero%20informaci%C3%B3n%20sobre%20un%20producto" target="_blank" rel="noopener noreferrer" aria-label="Contactar por WhatsApp">
-                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                            <path d="M20.52 3.48A11.94 11.94 0 0012 0C5.373 0 .004 5.372.004 12 0 13.994.418 15.88 1.198 17.552L0 24l6.606-1.193A11.944 11.944 0 0012 24c6.627 0 12-5.372 12-12 0-3.205-1.25-6.206-3.48-8.52z" fill="#25D366"/>
-                            <path d="M17.1 14.32c-.31-.16-1.84-.91-2.12-1.02-.28-.11-.48-.16-.68.16-.2.31-.78 1.02-.96 1.23-.18.2-.36.22-.67.08-.31-.14-1.31-.48-2.49-1.53-.92-.82-1.54-1.84-1.72-2.16-.18-.31-.02-.48.14-.63.14-.14.31-.36.47-.54.16-.18.21-.31.31-.52.1-.2.05-.38-.03-.54-.08-.16-.68-1.64-.93-2.26-.24-.58-.49-.5-.68-.51l-.58-.01c-.2 0-.52.07-.8.36-.28.29-1.06 1.03-1.06 2.5 0 1.47 1.09 2.89 1.24 3.08.14.2 2.14 3.46 5.18 4.85 3.04 1.4 3.04.93 3.59.87.55-.06 1.84-.75 2.1-1.48.26-.73.26-1.36.18-1.48-.07-.12-.28-.2-.59-.36z" fill="#fff"/>
-                        </svg>
-                    </a>
-                </div>
+                
             </div>
             <div class="footer-bottom">© 2025 AutoMas – Todos los derechos reservados.</div>
         </footer>

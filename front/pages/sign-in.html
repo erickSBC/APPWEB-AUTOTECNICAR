@@ -24,11 +24,12 @@
       align-items: center;
     }
 
+    /* Modificación 1: Quitar borde circular (border-radius: 0) */
     .login-card {
       width: 100%;
       max-width: 420px;
       background: rgba(255, 255, 255, 0.92);
-      border-radius: 18px;
+      border-radius: 0; /* Eliminado el borde circular */
       padding: 35px;
       box-shadow: 0px 10px 40px rgba(0, 0, 0, 0.25);
       backdrop-filter: blur(8px);
@@ -59,17 +60,36 @@
       color: #006600;
       border-left: 4px solid #009900;
     }
+
+    /* Nuevo estilo para la línea decorativa */
+    .decorative-line {
+      height: 3px;
+      width: 100%; /* Ajusta el ancho según lo desees */
+      background-color: #dc3545; /* Color rojo (puedes usar otro código si lo prefieres) */
+      margin: 10px auto 25px auto; /* Centrado y espacio inferior y superior */
+    }
+    .back-link {
+    display: inline;
+    text-align: left;
+    font-size: 14px;
+    margin-bottom: 5px;
+    padding: 0;
+    border-bottom-style:ridge;
+  }
   </style>
 </head>
 
 <body>
 
   <div class="login-card">
-
+<a href="web/home.html" class="text-dark font-weight-bold back-link">
+  <i class="fas fa-arrow-left me-1"></i> < Volver
+</a>
     <h3 class="text-dark font-weight-bold mb-2 text-center">Bienvenido</h3>
-    <p class="text-muted text-center mb-4">Inicia sesión para continuar</p>
+    <p class="text-muted text-center mb-0">Inicia sesión para continuar</p>
+    
+    <div class="decorative-line"></div>
 
-    <!-- Mensajes -->
     <div id="errorBox" class="error-msg"></div>
     <div id="successBox" class="success-msg"></div>
 
@@ -99,6 +119,18 @@
   </div>
 
   <script>
+    const token = localStorage.getItem("token");
+
+    if (token!==null)  {
+  
+           window.location.href = "./home.html";
+        
+              
+    }
+    
+
+
+
     const correoInput = document.getElementById("correo");
     const passInput = document.getElementById("password");
     const correoError = document.getElementById("correoError");
@@ -170,7 +202,6 @@
         localStorage.setItem("token", data.access_token);
 
         const payload = JSON.parse(atob(data.access_token.split(".")[1]));
-        alert("role",payload.rol)
         // Espera elegante
         setTimeout(() => {
           if (payload.rol === "admin") {

@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Preguntas Frecuentes - AutoMas</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Poppins', sans-serif; background: #f5f5f5; margin-top: 80px; }
+        
+        header {
+            background: #111; color: white; padding: 12px 20px; display: flex;
+            align-items: center; justify-content: space-between; position: fixed;
+            top: 0; left: 0; width: 100%; z-index: 9999;
+        }
+        .logo { font-size: 24px; font-weight: 700; color: #e60000; }
+        .nav-links { display: flex; gap: 16px; }
+        .nav-links a { color: white; text-decoration: none; font-weight: 500; }
+        .nav-links a:hover { color: #e60000; }
+
+        /* Mi Cuenta Dropdown */
+        .account-dropdown {
+            position: relative;
+            margin: 0 12px;
+        }
+
+        .account-label {
+            color: white;
+            font-weight: 500;
+            font-size: 14px;
+            cursor: pointer;
+            padding: 8px 12px;
+            border-radius: 6px;
+            transition: 0.2s;
+        }
+
+        .account-label:hover {
+            background: rgba(255,255,255,0.1);
+        }
+
+        .account-menu {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+            min-width: 280px;
+            display: none;
+            z-index: 10000;
+            margin-top: 8px;
+            overflow: hidden;
+        }
+
+        .account-menu.active {
+            display: block;
+        }
+
+        .account-menu-header {
+            background: #111;
+            color: white;
+            padding: 16px;
+            font-weight: 600;
+            font-size: 16px;
+            text-align: center;
+            border-bottom: 2px solid #e60000;
+        }
+
+        .account-menu-content {
+            padding: 20px;
+        }
+
+        .account-form-section {
+            margin-bottom: 24px;
+        }
+
+        .account-form-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .account-form-section h3 {
+            font-size: 16px;
+            font-weight: 700;
+            color: #222;
+            margin-bottom: 12px;
+        }
+
+        .account-form-group {
+            margin-bottom: 12px;
+        }
+
+        .account-form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 6px;
+        }
+
+        .account-form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 13px;
+            font-family: 'Poppins', sans-serif;
+            box-sizing: border-box;
+        }
+
+        .account-form-group input:focus {
+            outline: none;
+            border-color: #e60000;
+            box-shadow: 0 0 0 3px rgba(230, 0, 0, 0.1);
+        }
+
+        .account-checkbox {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+            color: #666;
+            margin: 10px 0;
+        }
+
+        .account-checkbox input[type="checkbox"] {
+            width: auto;
+            cursor: pointer;
+        }
+
+        .account-btn {
+            width: 100%;
+            padding: 12px;
+            background: #222;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .account-btn:hover {
+            background: #e60000;
+        }
+
+        .account-link {
+            font-size: 12px;
+            color: #0b68c6;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .account-link:hover {
+            text-decoration: underline;
+        }
+
+        .account-privacy {
+            font-size: 12px;
+            color: #666;
+            line-height: 1.4;
+        }
+
+        .account-privacy a {
+            color: #0b68c6;
+            text-decoration: none;
+        }
+        
+        .container { max-width: 1000px; margin: 30px auto; padding: 0 20px; }
+        
+        .faq-header { text-align: center; margin-bottom: 40px; }
+        .faq-header h1 { font-size: 36px; color: #333; margin-bottom: 10px; }
+        .faq-header p { color: #666; font-size: 16px; margin-bottom: 20px; }
+        
+        .search-box { position: relative; margin-bottom: 30px; }
+        .search-box input { width: 100%; padding: 15px 45px 15px 20px; border: 2px solid #ddd;
+            border-radius: 8px; font-size: 16px; font-family: 'Poppins', sans-serif; }
+        .search-box input:focus { outline: none; border-color: #667eea; }
+        .search-box i { position: absolute; right: 15px; top: 18px; color: #999; }
+        
+        .category-tabs { display: flex; gap: 10px; margin-bottom: 30px; flex-wrap: wrap; }
+        .category-btn { padding: 10px 20px; background: white; border: 2px solid #ddd;
+            border-radius: 6px; cursor: pointer; font-weight: 500; transition: 0.3s; }
+        .category-btn:hover { border-color: #667eea; color: #667eea; }
+        .category-btn.active { background: #667eea; color: white; border-color: #667eea; }
+        
+        .faq-item { background: white; margin-bottom: 15px; border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1); overflow: hidden; }
+        .faq-question { padding: 20px; cursor: pointer; display: flex; justify-content: space-between;
+            align-items: center; transition: 0.3s; }
+        .faq-question:hover { background: #f9f9f9; }
+        .faq-question h3 { font-size: 16px; color: #333; margin: 0; }
+        .faq-icon { color: #667eea; font-size: 20px; transition: 0.3s; }
+        .faq-item.open .faq-icon { transform: rotate(180deg); }
+        
+        .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.3s ease;
+            background: #f9f9f9; padding: 0 20px; }
+        .faq-item.open .faq-answer { max-height: 500px; padding: 0 20px 20px 20px; }
+        .faq-answer p { color: #666; line-height: 1.6; margin-bottom: 10px; }
+        .faq-answer ul { margin-left: 20px; color: #666; }
+        .faq-answer li { margin-bottom: 8px; line-height: 1.6; }
+        
+        .contact-card { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white; padding: 40px; border-radius: 8px; text-align: center; margin-top: 40px; }
+        .contact-card h3 { font-size: 22px; margin-bottom: 15px; }
+        .contact-card p { opacity: 0.9; margin-bottom: 20px; }
+        .contact-links { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; }
+        .contact-links a { color: white; text-decoration: none; padding: 10px 20px;
+            background: rgba(255,255,255,0.2); border-radius: 6px; transition: 0.3s; }
+        .contact-links a:hover { background: rgba(255,255,255,0.3); }
+        
+        @media (max-width: 600px) {
+            .faq-header h1 { font-size: 24px; }
+            .category-tabs { justify-content: center; }
+            .contact-links { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div style="display: flex; align-items: center; gap: 10px;">
+            <button onclick="goBack()" style="background: none; border: none; color: white; font-size: 20px; cursor: pointer;">←</button>
+            <div class="logo">AutoMas</div>
+        </div>
+        <nav class="nav-links">
+            <a href="index.html">Inicio</a>
+            <a href="landing.html">Nosotros</a>
+            <a href="producto.html">Productos</a>
+            <a href="profile.html">Perfil</a>
+            <a href="faq.html">Ayuda</a>
+        </nav>
+
+        <!-- Mi Cuenta Link -->
+        <a href="micuenta.html" style="color: white; text-decoration: none; font-weight: 500; margin: 0 12px;">Mi Cuenta</a>
+    </header>
+
+    <div class="container">
+        <div class="faq-header">
+            <h1>Preguntas Frecuentes</h1>
+            <p>Encuentra respuestas a las preguntas más comunes</p>
+        </div>
+
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="Buscar en preguntas frecuentes..." onkeyup="filterFAQ()">
+            <i class="fas fa-search"></i>
+        </div>
+
+        <div class="category-tabs">
+            <button class="category-btn active" onclick="filterByCategory('all')">Todas</button>
+            <button class="category-btn" onclick="filterByCategory('shipping')">Envío</button>
+            <button class="category-btn" onclick="filterByCategory('payments')">Pagos</button>
+            <button class="category-btn" onclick="filterByCategory('returns')">Devoluciones</button>
+            <button class="category-btn" onclick="filterByCategory('products')">Productos</button>
+        </div>
+
+        <!-- ENVÍO -->
+        <div class="faq-item" data-category="shipping" onclick="toggleFAQ(this)">
+            <div class="faq-question">
+                <h3>¿Cuáles son los tiempos de envío?</h3>
+                <i class="fas fa-chevron-down faq-icon"></i>
+            </div>
+            <div class="faq-answer">
+                <p>Contamos con tres opciones de envío:</p>
+                <ul>
+                    <li><strong>Estándar:</strong> 5-7 días laborales (Gratis)</li>
+                    <li><strong>Express:</strong> 2-3 días laborales (S/ 25.00)</li>
+                    <li><strong>Entrega al día siguiente:</strong> 1 día laboral (S/ 50.00)</li>
+                </ul>
+                <p>Los tiempos comienzan a contar desde que confirmamos tu compra.</p>
+            </div>
+        </div>
+
+        <div class="faq-item" data-category="shipping" onclick="toggleFAQ(this)">
+            <div class="faq-question">
+                <h3>¿Puedo rastrear mi pedido?</h3>
+                <i class="fas fa-chevron-down faq-icon"></i>
+            </div>
+            <div class="faq-answer">
+                <p>Sí, todos nuestros pedidos incluyen un número de rastreo. Lo recibirás en tu correo de confirmación.</p>
+                <p>Puedes usar este número para rastrear tu paquete en tiempo real en nuestro sitio web o en el del transportista.</p>
+            </div>
+        </div>
+
+        <div class="faq-item" data-category="shipping" onclick="toggleFAQ(this)">
+            <div class="faq-question">
+                <h3>¿Envían a todo el país?</h3>
+                <i class="fas fa-chevron-down faq-icon"></i>
+            </div>
+            <div class="faq-answer">
+                <p>Sí, realizamos envíos a toda la república. Sin embargo, para algunas zonas rurales o alejadas pueden aplicarse costos adicionales.</p>
+                <p>Durante el proceso de checkout, verás el costo exacto de envío según tu ubicación.</p>
+            </div>
+        </div>
+
+        <!-- PAGOS -->
+        <div class="faq-item" data-category="payments" onclick="toggleFAQ(this)">
+            <div class="faq-question">
+                <h3>¿Qué métodos de pago aceptan?</h3>
+                <i class="fas fa-chevron-down faq-icon"></i>
+            </div>
+            <div class="faq-answer">
+                <p>Aceptamos los siguientes métodos de pago:</p>
+                <ul>
+                    <li>Tarjetas de crédito y débito (Visa, MasterCard, Diners)</li>
+                    <li>PayPal</li>
+                    <li>Transferencia bancaria</li>
+                    <li>Depósito en cuenta bancaria</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="faq-item" data-category="payments" onclick="toggleFAQ(this)">
+            <div class="faq-question">
+                <h3>¿Mi información de pago está segura?</h3>
+                <i class="fas fa-chevron-down faq-icon"></i>
+            </div>
+            <div class="faq-answer">
+                <p>Sí, utilizamos encriptación SSL 256-bit y cumplimos con los estándares PCI DSS para proteger tus datos financieros.</p>
+                <p>Nunca almacenamos los datos completos de tu tarjeta en nuestros servidores.</p>
+            </div>
+        </div>
+
+        <div class="faq-item" data-category="payments" onclick="toggleFAQ(this)">
+            <div class="faq-question">
+                <h3>¿Puedo cambiar mi método de pago después de confirmar?</h3>
+                <i class="fas fa-chevron-down faq-icon"></i>
+            </div>
+            <div class="faq-answer">
+                <p>Una vez que has confirmado tu compra, no puedes cambiar el método de pago.</p>
+                <p>Si necesitas usar otro método, puedes contactarnos para cancelar y reemitir tu orden.</p>
+            </div>
+        </div>
+
+        <!-- DEVOLUCIONES -->
+        <div class="faq-item" data-category="returns" onclick="toggleFAQ(this)">
+            <div class="faq-question">
+                <h3>¿Cuál es la política de devoluciones?</h3>
+                <i class="fas fa-chevron-down faq-icon"></i>
+            </div>
+            <div class="faq-answer">
+                <p>Ofrecemos devoluciones dentro de 30 días después de recibir tu pedido si:</p>
+                <ul>
+                    <li>El producto está sin usar y en su embalaje original</li>
+                    <li>No ha sido alterado o modificado</li>
+                    <li>Incluye todos los accesorios originales</li>
+                    <li>La factura de compra está incluida</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="faq-item" data-category="returns" onclick="toggleFAQ(this)">
+            <div class="faq-question">
+                <h3>¿Cómo solicito una devolución?</h3>
+                <i class="fas fa-chevron-down faq-icon"></i>
+            </div>
+            <div class="faq-answer">
+                <p>Para solicitar una devolución:</p>
+                <ul>
+                    <li>Contacta a nuestro equipo de soporte en soporte@automas.com</li>
+                    <li>Proporciona el número de orden y el motivo de la devolución</li>
+                    <li>Recibirás instrucciones de envío y una etiqueta de devolución</li>
+                    <li>Una vez recibido y verificado, procesaremos tu reembolso</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="faq-item" data-category="returns" onclick="toggleFAQ(this)">
+            <div class="faq-question">
+                <h3>¿Cuánto tiempo tarda el reembolso?</h3>
+                <i class="fas fa-chevron-down faq-icon"></i>
+            </div>
+            <div class="faq-answer">
+                <p>El reembolso se procesa dentro de 5-10 días hábiles después de que recibimos y verificamos tu devolución.</p>
+                <p>El dinero aparecerá en tu cuenta bancaria o tarjeta según el método de pago original.</p>
+            </div>
+        </div>
+
+        <!-- PRODUCTOS -->
+        <div class="faq-item" data-category="products" onclick="toggleFAQ(this)">
+            <div class="faq-question">
+                <h3>¿Los productos tienen garantía?</h3>
+                <i class="fas fa-chevron-down faq-icon"></i>
+            </div>
+            <div class="faq-answer">
+                <p>Sí, todos nuestros productos incluyen garantía del fabricante:</p>
+                <ul>
+                    <li>Focos LED: 2 años</li>
+                    <li>Alternadores: 3 años</li>
+                    <li>Reguladores: 2 años</li>
+                    <li>Accesorios variados: 1 año</li>
+                </ul>
+                <p>La garantía cubre defectos de fabricación, no daños por uso inadecuado.</p>
+            </div>
+        </div>
+
+        <div class="faq-item" data-category="products" onclick="toggleFAQ(this)">
+            <div class="faq-question">
+                <h3>¿Cómo sé si un producto es compatible con mi vehículo?</h3>
+                <i class="fas fa-chevron-down faq-icon"></i>
+            </div>
+            <div class="faq-answer">
+                <p>Cada producto incluye una sección de "Compatibilidad" en su página detallada.</p>
+                <p>También puedes contactar a nuestro equipo de soporte con la marca y modelo de tu vehículo para verificar compatibilidad antes de comprar.</p>
+            </div>
+        </div>
+
+        <div class="faq-item" data-category="products" onclick="toggleFAQ(this)">
+            <div class="faq-question">
+                <h3>¿Puedo comprar productos al por mayor?</h3>
+                <i class="fas fa-chevron-down faq-icon"></i>
+            </div>
+            <div class="faq-answer">
+                <p>Sí, ofrecemos precios especiales para compras al por mayor.</p>
+                <p>Contáctanos en soporte@automas.com con el detalle de tu orden para recibir una cotización personalizada.</p>
+            </div>
+        </div>
+
+        <!-- CARD DE CONTACTO -->
+        <div class="contact-card">
+            <h3>¿No encontraste lo que buscas?</h3>
+            <p>Nuestro equipo de soporte está disponible para ayudarte</p>
+            <div class="contact-links">
+                <a href="mailto:soporte@automas.com">
+                    <i class="fas fa-envelope"></i> soporte@automas.com
+                </a>
+                <a href="tel:+51987654321">
+                    <i class="fas fa-phone"></i> +51 987 654 321
+                </a>
+                <a href="javascript:void(0)">
+                    <i class="fas fa-comments"></i> Chat en Vivo
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleFAQ(element) {
+            element.classList.toggle('open');
+        }
+
+        function filterByCategory(category) {
+            document.querySelectorAll('.category-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            const items = document.querySelectorAll('.faq-item');
+            items.forEach(item => {
+                if(category === 'all' || item.dataset.category === category) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+
+        function filterFAQ() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const items = document.querySelectorAll('.faq-item');
+            
+            items.forEach(item => {
+                const question = item.querySelector('h3').textContent.toLowerCase();
+                const answer = item.querySelector('.faq-answer').textContent.toLowerCase();
+                
+                if(question.includes(searchTerm) || answer.includes(searchTerm)) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+
+        function goBack() {
+            window.history.back();
+        }
+    </script>
+</body>
+</html>

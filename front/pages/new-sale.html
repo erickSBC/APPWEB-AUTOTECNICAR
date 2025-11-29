@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
+  <link rel="icon" type="image/png" href="../assets/img/favicon.png">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <title>Nueva Venta</title>
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700|Noto+Sans:300,400,500,600,700,800|PT+Mono:300,400,500,600,700" rel="stylesheet" />
+  <link href="../assets/css/nucleo-icons.css" rel="stylesheet" />
+  <link href="../assets/css/nucleo-svg.css" rel="stylesheet" />
+  <script src="https://kit.fontawesome.com/349ee9c857.js" crossorigin="anonymous"></script>
+  <link id="pagestyle" href="../assets/css/corporate-ui-dashboard.css?v=1.0.0" rel="stylesheet" />
+  <style>
+    @media (min-width:1200px){
+      aside.sidenav{ width:260px; }
+      main.main-content{ transition: margin-left .25s ease; margin-left:260px; }
+      body.my-sidenav-collapsed main.main-content{ margin-left:0 !important; }
+    }
+    #sidenav-backdrop{ display:none; position:fixed; inset:0; background:rgba(0,0,0,0.45); z-index:1040; }
+    body.my-sidenav-open #sidenav-backdrop{ display:block; }
+    @media (min-width:1200px){ #sidenav-backdrop{ display:none !important; } }
+    .total-summary { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 20px; border-radius: 8px; }
+    .total-row { display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 14px; }
+    .total-row.final { border-top: 1px solid rgba(255,255,255,0.3); padding-top: 10px; margin-top: 10px; font-size: 18px; font-weight: 700; }
+  </style>
+</head>
+
+<body class="g-sidenav-show bg-gray-100">
+  <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 bg-slate-900 fixed-start" id="sidenav-main">
+    <div class="sidenav-header">
+      <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
+      <a class="navbar-brand d-flex align-items-center m-0" href="dashboard.html">
+        <span class="font-weight-bold text-lg">D'Cesar</span>
+      </a>
+    </div>
+    <div class="collapse navbar-collapse px-4 w-auto" id="sidenav-collapse-main">
+      <ul class="navbar-nav">
+        <li class="nav-item"><a class="nav-link" href="dashboard.html"><div class="icon icon-shape icon-sm px-0 text-center d-flex align-items-center justify-content-center"><i class="fas fa-th text-lg text-white"></i></div><span class="nav-link-text ms-1">Dashboard</span></a></li>
+        
+        <li class="nav-item"><a class="nav-link collapsed" data-bs-toggle="collapse" href="#ventas-submenu" role="button" aria-expanded="true"><div class="icon icon-shape icon-sm px-0 text-center d-flex align-items-center justify-content-center"><i class="fas fa-store text-lg text-white"></i></div><span class="nav-link-text ms-1">Ventas</span><i class="fas fa-chevron-down ms-auto text-white"></i></a>
+          <div class="collapse show" id="ventas-submenu">
+            <ul class="nav ms-2">
+              <li class="nav-item"><a class="nav-link active" href="new-sale.html"><span class="nav-link-text">Nueva Venta</span></a></li>
+              <li class="nav-item"><a class="nav-link" href="sales-list.html"><span class="nav-link-text">Lista de Ventas</span></a></li>
+              <li class="nav-item"><a class="nav-link" href="pay.html"><span class="nav-link-text">Pagos</span></a></li>
+            </ul>
+          </div>
+        </li>
+
+        <li class="nav-item"><a class="nav-link" href="productos.html"><div class="icon icon-shape icon-sm px-0 text-center d-flex align-items-center justify-content-center"><i class="fas fa-box text-lg text-white"></i></div><span class="nav-link-text ms-1">Inventario</span></a></li>
+        
+        <li class="nav-item"><a class="nav-link" href="users-list.html"><div class="icon icon-shape icon-sm px-0 text-center d-flex align-items-center justify-content-center"><i class="fas fa-users text-lg text-white"></i></div><span class="nav-link-text ms-1">Usuarios</span></a></li>
+        
+        <li class="nav-item"><a class="nav-link" href="reportes.html"><div class="icon icon-shape icon-sm px-0 text-center d-flex align-items-center justify-content-center"><i class="fas fa-chart-bar text-lg text-white"></i></div><span class="nav-link-text ms-1">Reportes</span></a></li>
+
+        <li class="nav-item"><a class="nav-link" href="notificaciones.html"><div class="icon icon-shape icon-sm px-0 text-center d-flex align-items-center justify-content-center"><i class="fas fa-bell text-lg text-white"></i></div><span class="nav-link-text ms-1">Notificaciones</span></a></li>
+      </ul>
+    </div>
+    <div class="sidenav-footer mx-3 mt-3 pt-3 border-top">
+      <a class="btn btn-dark w-100" href="profile.html"><i class="fas fa-user-circle me-2"></i>Mi Perfil</a>
+    </div>
+  </aside>
+
+  <div id="sidenav-backdrop"></div>
+
+  <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg">
+    <nav class="navbar navbar-main navbar-expand-lg mx-5 px-0 shadow-none rounded" id="navbarBlur" navbar-scroll="true">
+      <div class="container-fluid py-1 px-2">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb bg-transparent mb-1 pb-0 pt-1 px-0 me-sm-6 me-5">
+            <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="dashboard.html">Dashboard</a></li>
+            <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="sales-list.html">Ventas</a></li>
+            <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Nueva Venta</li>
+          </ol>
+          <h6 class="font-weight-bold mb-0">Crear Nueva Venta</h6>
+        </nav>
+      </div>
+    </nav>
+
+    <div class="container-fluid py-4 px-5">
+      <div class="row mb-4">
+        <div class="col-md-12">
+          <h3 class="font-weight-bold">Registrar Nueva Venta</h3>
+          <p class="text-sm text-muted">Selecciona cliente, productos, calcula totales y registra la venta</p>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-lg-8">
+          <!-- SELECCIÓN DE CLIENTE -->
+          <div class="card shadow-xs border mb-4">
+            <div class="card-header border-bottom pb-3">
+              <h6 class="font-weight-semibold mb-0">Información del Cliente</h6>
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-12">
+                  <label class="form-label">Cliente <span class="text-danger">*</span></label>
+                  <select id="clientSelect" class="form-control" required>
+                    <option value="">-- Seleccionar cliente --</option>
+                    <option value="1">Juan Perez</option>
+                    <option value="2">María López</option>
+                    <option value="3">Cliente nuevo</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- BÚSQUEDA Y AÑADIR PRODUCTOS -->
+          <div class="card shadow-xs border mb-4">
+            <div class="card-header border-bottom pb-3">
+              <h6 class="font-weight-semibold mb-0">Agregar Productos</h6>
+            </div>
+            <div class="card-body">
+              <div class="row align-items-end">
+                <div class="col-md-6">
+                  <label class="form-label">Buscar Producto</label>
+                  <input id="productSearch" list="productsList" class="form-control" placeholder="Escribe el nombre del producto..." />
+                  <datalist id="productsList"></datalist>
+                </div>
+                <div class="col-md-3">
+                  <label class="form-label">Cantidad</label>
+                  <input id="productQty" type="number" value="1" min="1" class="form-control" />
+                </div>
+                <div class="col-md-3">
+                  <button class="btn btn-dark w-100" onclick="addProduct()"><i class="fas fa-plus me-2"></i>Añadir</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- TABLA DE ITEMS -->
+          <div class="card shadow-xs border">
+            <div class="card-header border-bottom pb-3">
+              <h6 class="font-weight-semibold mb-0">Detalle de Productos</h6>
+            </div>
+            <div class="card-body px-0 py-0">
+              <div class="table-responsive p-3">
+                <table class="table table-hover align-items-center mb-0" id="itemsTable">
+                  <thead class="bg-light">
+                    <tr>
+                      <th>Producto</th>
+                      <th>Precio Unit.</th>
+                      <th>Cantidad</th>
+                      <th>Subtotal</th>
+                      <th>Acciones</th>
+                    </tr>
+                  </thead>
+                  <tbody></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- RESUMEN Y TOTALES -->
+        <div class="col-lg-4">
+          <div class="card shadow-xs border">
+            <div class="card-header border-bottom pb-3">
+              <h6 class="font-weight-semibold mb-0">Resumen de Venta</h6>
+            </div>
+            <div class="card-body">
+              <div class="total-summary">
+                <div class="total-row">
+                  <span>Subtotal:</span>
+                  <span id="subtotal">S/ 0.00</span>
+                </div>
+                <div class="total-row">
+                  <span>IGV (18%):</span>
+                  <span id="igv">S/ 0.00</span>
+                </div>
+                <div class="total-row final">
+                  <span>Total:</span>
+                  <span id="total">S/ 0.00</span>
+                </div>
+              </div>
+
+              <div class="mt-4">
+                <label class="form-label mt-3">Método de Pago</label>
+                <select id="paymentMethod" class="form-control">
+                  <option value="cash">Al contado</option>
+                  <option value="credit">A crédito</option>
+                  <option value="partial">Parcial</option>
+                </select>
+              </div>
+
+              <div>
+                <label class="form-label mt-3">Estado de la Venta</label>
+                <select id="saleStatus" class="form-control">
+                  <option value="pending">Pendiente</option>
+                  <option value="confirmed">Confirmado</option>
+                  <option value="por_pagar">Por pagar</option>
+                </select>
+              </div>
+
+              <div class="d-flex gap-2 mt-4">
+                <button class="btn btn-dark flex-grow-1" onclick="saveSale()"><i class="fas fa-check me-2"></i>Guardar Venta</button>
+                <a href="sales-list.html" class="btn btn-white flex-grow-1"><i class="fas fa-times me-2"></i>Cancelar</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer class="footer pt-3">
+      <div class="container-fluid">
+        <div class="row align-items-center justify-content-lg-between">
+          <div class="col-lg-6 mb-lg-0 mb-4">
+            <div class="copyright text-center text-xs text-muted text-lg-start">
+              Copyright © <script>document.write(new Date().getFullYear())</script> D'Cesar
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </main>
+
+<script>
+  // Sidebar collapse toggle
+  document.getElementById('iconSidenav')?.addEventListener('click', function(){
+    document.querySelector('body').classList.toggle('my-sidenav-open');
+  });
+
+  // Handle submenu collapse
+  document.querySelectorAll('.nav-link.collapsed').forEach(el => {
+    el.addEventListener('click', function() {
+      const target = document.querySelector(this.getAttribute('href'));
+      if (target) {
+        target.classList.toggle('show');
+        this.setAttribute('aria-expanded', target.classList.contains('show'));
+      }
+    });
+  });
+
+  // Cargar catálogo persistente desde LocalStorage (key: 'products')
+  function loadProducts(){
+    try{
+      const stored = localStorage.getItem('products');
+      if(stored) return JSON.parse(stored);
+    }catch(e){ console.error('loadProducts', e); }
+    // fallback catálogo mínimo
+    return [
+      { sku: 'BUIJ-100', name: 'Bujía X100', price: 25.00, stock: 10 },
+      { sku: 'FARO-12V', name: 'Faro LED 12V', price: 120.00, stock: 5 },
+      { sku: 'BAT-45AH', name: 'Batería 12V 45Ah', price: 220.00, stock: 4 }
+    ];
+  }
+
+  let PRODUCTS = loadProducts();
+  const items = [];
+
+  // poblar datalist
+  const datalist = document.getElementById('productsList');
+  function refreshDatalist(){ 
+    datalist.innerHTML = ''; 
+    PRODUCTS.forEach(p=>{ 
+      const opt = document.createElement('option'); 
+      opt.value = p.name; 
+      opt.dataset.sku = p.sku || p.id || p.sku; 
+      datalist.appendChild(opt); 
+    }); 
+  }
+  refreshDatalist();
+
+  function findProductByName(name){
+    return PRODUCTS.find(p=>p.name.toLowerCase()===name.toLowerCase());
+  }
+
+  function addProduct(){
+    const name = document.getElementById('productSearch').value.trim();
+    const qty = parseInt(document.getElementById('productQty').value) || 1;
+    const prod = findProductByName(name);
+    if(!prod){ alert('Producto no encontrado'); return; }
+    if(qty>prod.stock){ alert('Cantidad mayor al stock disponible'); return; }
+
+    // si ya existe en items, sumar (usamos sku como id)
+    const pid = prod.sku || prod.id || prod.sku;
+    const existing = items.find(i=>i.id===pid);
+    if(existing){
+      if(existing.qty + qty > prod.stock){ alert('Excede stock disponible'); return; }
+      existing.qty += qty;
+      existing.subtotal = existing.qty * existing.price;
+    } else {
+      items.push({id: pid, name: prod.name, price: Number(prod.price||0), qty:qty, subtotal:qty*(Number(prod.price||0))});
+    }
+    renderItems();
+    document.getElementById('productSearch').value='';
+    document.getElementById('productQty').value=1;
+  }
+
+  function renderItems(){
+    const tbody = document.querySelector('#itemsTable tbody'); 
+    tbody.innerHTML='';
+    items.forEach((it,idx)=>{
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td class="text-sm"><strong>${it.name}</strong></td>
+        <td class="text-sm">S/ ${it.price.toFixed(2)}</td>
+        <td class="text-sm text-center">${it.qty}</td>
+        <td class="text-sm font-weight-bold">S/ ${it.subtotal.toFixed(2)}</td>
+        <td class="text-sm"><button class="btn btn-link btn-sm text-danger" onclick="removeItem(${idx})"><i class="fas fa-trash-alt"></i></button></td>
+      `;
+      tbody.appendChild(tr);
+    });
+    recalc();
+  }
+
+  function removeItem(idx){ 
+    items.splice(idx,1); 
+    renderItems(); 
+  }
+
+  function recalc(){
+    const subtotal = items.reduce((s,i)=>s + i.subtotal,0);
+    const igv = subtotal * 0.18;
+    const total = subtotal + igv;
+    document.getElementById('subtotal').innerText = `S/ ${subtotal.toFixed(2)}`;
+    document.getElementById('igv').innerText = `S/ ${igv.toFixed(2)}`;
+    document.getElementById('total').innerText = `S/ ${total.toFixed(2)}`;
+  }
+
+  function saveSale(){
+    if(!document.getElementById('clientSelect').value){ alert('Selecciona un cliente'); return; }
+    if(items.length===0){ alert('Añade al menos un producto'); return; }
+    
+    const clientSelect = document.getElementById('clientSelect');
+    const clientText = clientSelect.options[clientSelect.selectedIndex].text;
+    const subtotal = items.reduce((s,i)=>s + i.subtotal,0);
+    const igv = subtotal * 0.18;
+    const total = subtotal + igv;
+    const saleId = new Date().toISOString().replace(/[^0-9]/g,'').slice(0,14);
+    const sale = {
+      id: saleId,
+      date: new Date().toISOString().slice(0,10),
+      client: clientText,
+      items: items.map(i=>({id:i.id,name:i.name,price:i.price,qty:i.qty,subtotal:i.subtotal})),
+      subtotal: subtotal,
+      tax: igv,
+      total: total,
+      paymentMethod: document.getElementById('paymentMethod').value,
+      status: document.getElementById('saleStatus').value,
+    };
+
+    try{
+      const key = 'sales';
+      const stored = localStorage.getItem(key);
+      const arr = stored ? JSON.parse(stored) : [];
+      arr.unshift(sale);
+      localStorage.setItem(key, JSON.stringify(arr));
+    }catch(e){ console.error('saveSale err', e); }
+
+    // disminuir stock en el catálogo persistente y guardar
+    try{
+      const prodKey = 'products';
+      const storedProd = localStorage.getItem(prodKey);
+      let catalog = storedProd ? JSON.parse(storedProd) : PRODUCTS;
+      items.forEach(it=>{
+        const pindex = catalog.findIndex(x=> (x.sku || x.id || x.sku) == it.id);
+        if(pindex !== -1){
+          catalog[pindex].stock = Math.max(0, (parseInt(catalog[pindex].stock) || 0) - parseInt(it.qty));
+        }
+      });
+      localStorage.setItem(prodKey, JSON.stringify(catalog));
+      PRODUCTS = catalog;
+      refreshDatalist();
+    }catch(e){ console.error('update catalog stock', e); }
+
+    alert('Venta guardada exitosamente.');
+    window.location.href = 'sales-list.html';
+  }
+</script>
+</body>
+</html>

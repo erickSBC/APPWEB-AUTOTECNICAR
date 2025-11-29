@@ -27,7 +27,8 @@ export class Administrador {
 
   @CreateDateColumn({ type: 'timestamp' })
   fecha_creacion: Date;
-
+@Column({ type: 'boolean', default: true })
+estado: boolean;
   @UpdateDateColumn({ type: 'timestamp' })
   fecha_actualizacion: Date;
 }
