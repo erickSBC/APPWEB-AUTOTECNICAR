@@ -253,6 +253,7 @@ async function actualizarMiniCarrito() {
 
 // Al cargar la página, refrescar mini-carrito si hay sesión
 document.addEventListener("DOMContentLoaded", () => {
+  console.log("cargó con logsiyo:",document.querySelector(".cart-count"));
   if (getToken() && getClienteId()) {
     actualizarMiniCarrito();
   }

@@ -1,240 +1,497 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="es">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content3="width=device-width, initial-scale=1" />
-    <title>Carrito - AutoMas</title>
-    <link href="../../assets/css/corporate-ui-dashboard.css" rel="stylesheet" />
-    <style>
-      :root{--red:#e3342f;--accent:#0b68c6}
-body {
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tu carrito - AutoMas</title>
+
+  <link rel="stylesheet" href="../../assets/css/corporate-ui-dashboard.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <style>
+    body {
       margin: 0;
-      margin-top: 100px;
-      padding: 0;
-      font-family: "Open Sans", sans-serif;
-      background: #f5f5f5;
+      margin-top: 120px;
+      font-family: "Open Sans", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #f5f5f7;
     }
 
-      .logo{font-weight:700;color:var(--red);font-size:22px}
-      .nav-links a{color:#ddd;margin-left:18px;text-decoration:none}
+    .page-wrap {
+      max-width: 1100px;
+      margin: 40px auto 60px;
+      padding: 0 16px;
+    }
 
-      .page-title{display:flex;align-items:center;gap:12px;justify-content:center;margin:22px 0}
-      .page-title h1{margin:0;font-size:28px;color:#222}
+    .cart-title {
+      text-align: center;
+      font-size: 28px;
+      font-weight: 500;
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      color: #1f2933;
+    }
 
-      .cart-wrap{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 360px;gap:28px}
+    .cart-title i {
+      color: #e3342f;
+    }
 
-      /* LEFT: list */
-      .cart-list{padding:22px;background:#fff;border-radius:14px;box-shadow:0 10px 30px rgba(0,0,0,0.06)}
-      .cart-item{display:flex;gap:20px;align-items:center;padding:22px;background:#fff;border-radius:14px;margin-bottom:18px;box-shadow:0 8px 24px rgba(0,0,0,0.04)}
-      .cart-item img{width:140px;height:100px;object-fit:contain}
-      .cart-item .info{flex:1}
-      .cart-item .title{font-weight:700;color:#333;font-size:15px}
-      .cart-item .meta{color:#666;font-size:13px}
-      .cart-item .price{font-weight:700;color:var(--red);font-size:18px;margin-top:6px}
-      .cart-item .qty{display:flex;align-items:center;gap:12px;margin-top:10px}
-      .qty button{background:var(--red);color:#fff;border:none;width:36px;height:36px;border-radius:50%;cursor:pointer;font-size:18px}
-      .qty input{width:56px;text-align:center;padding:8px;border-radius:6px;border:1px solid #eee}
+    .cart-layout {
+      display: grid;
+      grid-template-columns: 2fr 0.9fr;
+      gap: 20px;
+    }
 
-      /* RIGHT: summary */
-      .cart-summary{padding:22px;background:#fff;border-radius:14px;box-shadow:0 10px 30px rgba(0,0,0,0.06);height:fit-content}
-      .cart-summary h3{margin:0 0 8px 0;font-size:18px}
-      .summary-row{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid #f5f5f5}
-      .summary-row .label{color:#666}
-      #summary-subtotal{color:var(--accent);font-weight:700}
-      #summary-total{color:var(--red);font-weight:900;font-size:20px}
-      .checkout-btn{display:block;width:100%;padding:14px;background:var(--red);color:#fff;border-radius:40px;border:none;cursor:pointer;font-weight:800;margin-top:16px}
+    /* Card de items */
+    .cart-card {
+      background: #fff;
+      border-radius: 18px;
+      box-shadow: 0 8px 30px rgba(15, 23, 42, 0.08);
+      padding: 18px 20px 8px;
+    }
 
-      .empty{padding:40px;text-align:center;color:#777}
+    .cart-item {
+      display: grid;
+      grid-template-columns: 90px 1.6fr 0.6fr 40px;
+      gap: 18px;
+      align-items: center;
+      padding: 12px 4px;
+      border-bottom: 1px solid #f1f1f1;
+    }
 
-      /* Mi Cuenta Dropdown */
-      .account-dropdown {
-          position: relative;
-          margin: 0 12px;
+    .cart-item:last-child {
+      border-bottom: none;
+    }
+
+    .ci-img {
+      width: 80px;
+      height: 80px;
+      border-radius: 12px;
+      background: #f8fafc;
+      object-fit: contain;
+    }
+
+    .ci-info-title {
+      font-weight: 700;
+      font-size: 15px;
+      margin-bottom: 4px;
+    }
+
+    .ci-price-unit {
+      font-size: 13px;
+      color: #6b7280;
+    }
+
+    .ci-price-unit span {
+      color: #e3342f;
+      font-weight: 700;
+    }
+
+    .ci-qty-label {
+      font-size: 13px;
+      margin-top: 6px;
+      margin-bottom: 4px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .ci-stock {
+      font-size: 11px;
+      color: #9ca3af;
+    }
+
+    .ci-qty-controls {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .qty-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: none;
+      background: #f43f5e;
+      color: white;
+      font-size: 18px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+
+    .qty-btn:hover {
+      filter: brightness(0.95);
+    }
+
+    .qty-input {
+      width: 60px;
+      text-align: center;
+      border-radius: 8px;
+      border: 1px solid #d1d5db;
+      padding: 4px 6px;
+      font-size: 14px;
+    }
+
+    .ci-total {
+      text-align: right;
+      font-weight: 800;
+      color: #e11d48;
+    }
+
+    .ci-remove {
+      border: none;
+      background: none;
+      color: #9ca3af;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    .ci-remove:hover {
+      color: #ef4444;
+    }
+
+    .cart-empty {
+      text-align: center;
+      padding: 30px 10px 40px;
+      color: #6b7280;
+      font-size: 14px;
+    }
+
+    .cart-empty a {
+      color: #e11d48;
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    /* Resumen */
+    .summary-card {
+      background: #fff;
+      border-radius: 18px;
+      box-shadow: 0 8px 30px rgba(15, 23, 42, 0.08);
+      padding: 20px 20px 18px;
+      align-self: flex-start;
+    }
+
+    .summary-title {
+      font-weight: 700;
+      margin-bottom: 16px;
+      font-size: 16px;
+    }
+
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 14px;
+      margin: 6px 0;
+    }
+
+    .summary-row+.summary-row {
+      border-top: 1px solid #f3f4f6;
+      padding-top: 6px;
+    }
+
+    .summary-row span:last-child {
+      font-weight: 600;
+    }
+
+    .summary-total {
+      margin-top: 12px;
+      font-size: 16px;
+      font-weight: 800;
+      color: #e11d48;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .btn-checkout {
+      width: 100%;
+      margin-top: 16px;
+      padding: 12px 0;
+      border-radius: 999px;
+      border: none;
+      background: #e11d48;
+      color: white;
+      font-weight: 700;
+      cursor: pointer;
+      font-size: 15px;
+    }
+
+    .btn-checkout:hover {
+      filter: brightness(0.95);
+    }
+
+    .summary-link {
+      margin-top: 10px;
+      font-size: 13px;
+      color: #6b7280;
+    }
+
+    .summary-link a {
+      color: #e11d48;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    @media (max-width: 900px) {
+      .cart-layout {
+        grid-template-columns: 1fr;
       }
 
-      .account-label {
-          color: white;
-          font-weight: 500;
-          font-size: 14px;
-          cursor: pointer;
-          padding: 8px 12px;
-          border-radius: 6px;
-          transition: 0.2s;
+      .summary-card {
+        order: -1;
       }
 
-      .account-label:hover {
-          background: rgba(255,255,255,0.1);
+      .page-wrap {
+        margin-top: 20px;
       }
+    }
+  </style>
+</head>
 
-      .account-menu {
-          position: absolute;
-          top: 100%;
-          right: 0;
-          background: white;
-          border-radius: 8px;
-          box-shadow: 0 8px 24px rgba(0,0,0,0.15);
-          min-width: 280px;
-          display: none;
-          z-index: 10000;
-          margin-top: 8px;
-          overflow: hidden;
-      }
+<body>
 
-      .account-menu.active {
-          display: block;
-      }
-
-      .account-menu-header {
-          background: #2b2b2b;
-          color: white;
-          padding: 16px;
-          font-weight: 600;
-          font-size: 16px;
-          text-align: center;
-          border-bottom: 2px solid #e3342f;
-      }
-
-      .account-menu-content {
-          padding: 20px;
-      }
-
-      .account-form-section {
-          margin-bottom: 24px;
-      }
-
-      .account-form-section:last-child {
-          margin-bottom: 0;
-      }
-
-      .account-form-section h3 {
-          font-size: 16px;
-          font-weight: 700;
-          color: #222;
-          margin-bottom: 12px;
-      }
-
-      .account-form-group {
-          margin-bottom: 12px;
-      }
-
-      .account-form-group label {
-          display: block;
-          font-size: 13px;
-          font-weight: 600;
-          color: #333;
-          margin-bottom: 6px;
-      }
-
-      .account-form-group input {
-          width: 100%;
-          padding: 10px;
-          border: 1px solid #ddd;
-          border-radius: 6px;
-          font-size: 13px;
-          font-family: Poppins,system-ui,Arial,Helvetica,sans-serif;
-          box-sizing: border-box;
-      }
-
-      .account-form-group input:focus {
-          outline: none;
-          border-color: var(--red);
-          box-shadow: 0 0 0 3px rgba(227, 52, 47, 0.1);
-      }
-
-      .account-checkbox {
-          display: flex;
-          align-items: center;
-          gap: 8px;
-          font-size: 12px;
-          color: #666;
-          margin: 10px 0;
-      }
-
-      .account-checkbox input[type="checkbox"] {
-          width: auto;
-          cursor: pointer;
-      }
-
-      .account-btn {
-          width: 100%;
-          padding: 12px;
-          background: #222;
-          color: white;
-          border: none;
-          border-radius: 6px;
-          font-weight: 700;
-          font-size: 14px;
-          cursor: pointer;
-          transition: 0.2s;
-      }
-
-      .account-btn:hover {
-          background: var(--red);
-      }
-
-      .account-link {
-          font-size: 12px;
-          color: var(--accent);
-          text-decoration: none;
-          cursor: pointer;
-      }
-
-      .account-link:hover {
-          text-decoration: underline;
-      }
-
-      .account-privacy {
-          font-size: 12px;
-          color: #666;
-          line-height: 1.4;
-      }
-
-      .account-privacy a {
-          color: var(--accent);
-          text-decoration: none;
-      }
-
-      @media (max-width:960px){
-        .cart-wrap{grid-template-columns:1fr}
-        .cart-summary{order:2}
-      }
-    </style>
-  </head>
-  <body>
-    <div id="header"></div>
+  <!-- HEADER DINÁMICO -->
+  <div id="header"></div>
   <script>
     fetch("components/header.html")
       .then(r => r.text())
       .then(h => {
+        // 1. Insertamos el HTML del header en la página
+        document.getElementById("header").innerHTML = h;
 
-        document.getElementById("header").innerHTML = h
-      });
+        // 2. UNA VEZ INSERTADO, podemos buscar y actualizar el carrito
+        if (typeof actualizarMiniCarrito === 'function' && getToken() && getClienteId()) {
+          actualizarMiniCarrito();
+        }
+      })
+      .catch(error => console.error("Error al cargar el header:", error));
   </script>
 
-    <div class="page-title">
-      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3h2l.4 2M7 13h10l4-8H5.4"></path><circle cx="10" cy="20" r="1.6"></circle><circle cx="18" cy="20" r="1.6"></circle></svg>
-      <h1>Tu Carrito</h1>
-    </div>
 
-    <div class="cart-wrap">
-      <div class="cart-list" id="cart-list-area">
-        <div id="cart-items-container">
-          <!-- Rendered by site-cart.js -->
+  <main class="page-wrap">
+    <h1 class="cart-title">
+      <i class="fas fa-shopping-cart"></i>
+      Tu Carrito
+    </h1>
+
+    <div class="cart-layout">
+      <!-- LISTA DE ÍTEMS -->
+      <section class="cart-card" id="cartItems">
+        <!-- Se llena por JS -->
+      </section>
+
+      <!-- RESUMEN -->
+      <aside class="summary-card">
+        <div class="summary-title">Resumen</div>
+
+        <div class="summary-row">
+          <span>Productos</span>
+          <span id="summarySubtotal">S/ 0.00</span>
         </div>
-      </div>
 
-      <aside class="cart-summary">
-        <h3>Resumen</h3>
-        <div class="summary-row"><div class="label">Productos</div><div id="summary-subtotal">S/ 0.00</div></div>
-        <div class="summary-row"><div class="label">Envío</div><div id="summary-shipping">S/ 0.00</div></div>
-        <div class="summary-row" style="border-bottom:none; margin-top:8px"><div class="label">Total</div><div id="summary-total">S/ 0.00</div></div>
-        <button id="checkout-btn" class="checkout-btn">Proceder</button>
+        <div class="summary-row">
+          <span>Envío</span>
+          <span id="summaryShipping">S/ 0.00</span>
+        </div>
 
-        <a href="index.html" style="display:block;margin-top:12px;text-decoration:none;color:var(--red)">Ver más productos</a>
+        <div class="summary-total">
+          <span>Total</span>
+          <span id="summaryTotal">S/ 0.00</span>
+        </div>
+
+        <button class="btn-checkout" id="btnCheckout">
+          Proceder con la compra
+        </button>
+
+        <div class="summary-link">
+          <a href="tienda.html">Ver más productos</a>
+        </div>
       </aside>
     </div>
+  </main>
 
- <script src="./components/header-logic.js"></script>
+  <!-- LÓGICA COMPARTIDA DEL CARRITO (solo backend) -->
+  <script src="../../assets/js/site-cart.js"></script>
+
+  <!-- LÓGICA ESPECÍFICA DE carrito.html -->
+  <script>
+    const cartItemsContainer = document.getElementById("cartItems");
+    const summarySubtotal = document.getElementById("summarySubtotal");
+    const summaryShipping = document.getElementById("summaryShipping");
+    const summaryTotal = document.getElementById("summaryTotal");
+    const shippingCost = 0; // puedes cambiarlo si luego calculas envío real
+
+    // Usa fetchBackendCart definido en site-cart.js
+    async function loadCartPage() {
+      const backend = await fetchBackendCart();
+      if (!backend) return;
+
+      const raw = backend.raw;
+      const detallesRaw = Array.isArray(raw) ? raw : (raw.detalles || []);
+
+      if (!detallesRaw.length) {
+        cartItemsContainer.innerHTML = `
+          <div class="cart-empty">
+            Tu carrito está vacío. <br>
+            <a href="tienda.html">Empieza a agregar productos</a>
+          </div>
+        `;
+        summarySubtotal.textContent = "S/ 0.00";
+        summaryTotal.textContent = "S/ 0.00";
+        return;
+      }
+
+      cartItemsContainer.innerHTML = "";
+
+      let subtotalGeneral = 0;
+
+      detallesRaw.forEach(det => {
+        const producto = det.producto || det.producto_detalle || {};
+        const precio = parseFloat(det.precio_unitario ?? producto.precio ?? det.precio ?? 0);
+        const cantidad = det.cantidad ?? det.cant ?? 1;
+        const idDetalle = det.id_detalle ?? det.id ?? det.id_detalle_carrito;
+        const subtotal = parseFloat(det.subtotal ?? precio * cantidad);
+
+        // stock en BD (restante) → máximo que puede llegar a tener este detalle
+        const stockRestante = producto.stock ?? 0; // lo que queda fuera del carrito
+        const maxPermitido = stockRestante + cantidad; // ya reservadas + lo que queda
+
+        subtotalGeneral += subtotal;
+
+        const row = document.createElement("article");
+        row.classList.add("cart-item");
+        row.dataset.detalleId = idDetalle;
+        row.dataset.maxCantidad = maxPermitido;
+
+        row.innerHTML = `
+          <div>
+            <img class="ci-img"
+                 src="${producto.imagen || producto.imagen_url ||
+          "https://via.placeholder.com/80x80?text=IMG"
+          }"
+                 alt="${producto.nombre || "Producto"}">
+          </div>
+
+          <div>
+            <div class="ci-info-title">${producto.nombre || "Producto"}</div>
+            <div class="ci-price-unit">P. Unitario <span>S/ ${precio.toFixed(2)}</span></div>
+            <div class="ci-qty-label">
+              <span>Cantidad:</span>
+              <span class="ci-stock">Máx. ${maxPermitido} u.</span>
+            </div>
+            <div class="ci-qty-controls">
+              <button class="qty-btn btn-minus">−</button>
+              <input type="number"
+                     class="qty-input"
+                     min="1"
+                     max="${maxPermitido}"
+                     value="${cantidad}">
+              <button class="qty-btn btn-plus">+</button>
+            </div>
+          </div>
+
+          <div class="ci-total">
+            S/ ${subtotal.toFixed(2)}
+          </div>
+
+          <button class="ci-remove" title="Quitar producto">
+            <i class="fas fa-trash-alt"></i>
+          </button>
+        `;
+
+        cartItemsContainer.appendChild(row);
+      });
+
+      // actualizar resumen
+      summarySubtotal.textContent = "S/ " + subtotalGeneral.toFixed(2);
+      summaryShipping.textContent = "S/ " + shippingCost.toFixed(2);
+      summaryTotal.textContent = "S/ " + (subtotalGeneral + shippingCost).toFixed(2);
+    }
+
+    // Manejar clicks de +, -, eliminar
+    cartItemsContainer.addEventListener("click", async (e) => {
+      const row = e.target.closest(".cart-item");
+      if (!row) return;
+
+      const idDetalle = row.dataset.detalleId;
+      const qtyInput = row.querySelector(".qty-input");
+      let cantidad = parseInt(qtyInput.value || "1", 10);
+      const max = parseInt(qtyInput.max || row.dataset.maxCantidad || "999999", 10);
+
+      // Botón eliminar
+      if (e.target.closest(".ci-remove")) {
+        if (confirm("¿Eliminar este producto del carrito?")) {
+          await eliminarDetalle(idDetalle);
+          loadCartPage();
+        }
+        return;
+      }
+
+      // Botón +
+      if (e.target.closest(".btn-plus")) {
+        if (cantidad >= max) {
+          alert(`Solo hay ${max} unidades disponibles para este producto.`);
+          qtyInput.value = max;
+          return;
+        }
+        cantidad += 1;
+        qtyInput.value = cantidad;
+        await actualizarCantidadDetalle(idDetalle, cantidad);
+        loadCartPage();
+        return;
+      }
+
+      // Botón -
+      if (e.target.closest(".btn-minus")) {
+        if (cantidad > 1) {
+          cantidad -= 1;
+          qtyInput.value = cantidad;
+          await actualizarCantidadDetalle(idDetalle, cantidad);
+          loadCartPage();
+        }
+        return;
+      }
+    });
+
+    // Cambiar cantidad escribiendo en el input (controlando stock)
+    cartItemsContainer.addEventListener("change", async (e) => {
+      if (!e.target.classList.contains("qty-input")) return;
+      const row = e.target.closest(".cart-item");
+      const idDetalle = row.dataset.detalleId;
+
+      const max = parseInt(e.target.max || row.dataset.maxCantidad || "999999", 10);
+      let cantidad = parseInt(e.target.value || "1", 10);
+
+      if (isNaN(cantidad) || cantidad < 1) cantidad = 1;
+      if (cantidad > max) {
+        cantidad = max;
+        alert(`Solo hay ${max} unidades disponibles para este producto.`);
+      }
+
+      e.target.value = cantidad;
+      await actualizarCantidadDetalle(idDetalle, cantidad);
+      loadCartPage();
+    });
+
+    // Botón de checkout (por ahora solo muestra alerta)
+    document.getElementById("btnCheckout").addEventListener("click", () => {
+      window.location.href = "./checkout.html";
+    });
+
+    // Cargar carrito al entrar a la página
+    document.addEventListener("DOMContentLoaded", () => {
+      loadCartPage();
+    });
+  </script>
+  <script src="./components/header-logic.js"></script>
   <script src="./assets/js/site-cart.js"></script>
-  </body>
+</body>
+
 </html>

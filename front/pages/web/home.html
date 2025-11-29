@@ -229,10 +229,16 @@
   <script>
     fetch("components/header.html")
       .then(r => r.text())
-      .then(h => {
+  .then(h => {
+    // 1. Insertamos el HTML del header en la página
+    document.getElementById("header").innerHTML = h;
 
-        document.getElementById("header").innerHTML = h
-      });
+    // 2. UNA VEZ INSERTADO, podemos buscar y actualizar el carrito
+    if (typeof actualizarMiniCarrito === 'function' && getToken() && getClienteId()) {
+      actualizarMiniCarrito();
+    }
+  })
+  .catch(error => console.error("Error al cargar el header:", error));
   </script>
 
   <!-- HERO -->
