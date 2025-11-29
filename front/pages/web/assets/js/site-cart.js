@@ -23,7 +23,7 @@ function getToken() {
 
 function getClienteId() {
   tokenn = getToken();
-  const payload = tokenn? JSON.parse(atob(token.split(".")[1])) : null;
+  const payload = tokenn? JSON.parse(atob(tokenn.split(".")[1])) : null;
    console.log(payload.sub)
   return Number(payload.sub);
 }
