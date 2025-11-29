@@ -98,6 +98,10 @@ async function fetchBackendCart() {
 
 // Añadir producto desde tienda/producto
 async function addToCart(idProducto, nombre, precio, imagen, cantidad = 1) {
+  if(!localStorage.getItem("token")){
+    alert("Inicio de sesion requerido.")
+    return;
+  }
   const idCarrito = await getOrCreateBackendCart();
   if (!idCarrito) return;
 
