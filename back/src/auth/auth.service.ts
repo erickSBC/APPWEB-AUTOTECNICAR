@@ -1,4 +1,4 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { BadRequestException, Injectable, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Administrador } from '../entities/administrador.entity';
@@ -61,9 +61,9 @@ export class AuthService {
   }
 
   async registerCliente(data: Partial<Cliente>) {
-    if (!data.password) throw new Error('Password requerido');
+      if (!data.password) throw new Error('Password requerido');
     const exists = await this.clienteRepo.findOneBy({ correo: data.correo } as any);
-    if (exists) throw new Error('Cliente ya existe');
+    if (exists) throw new BadRequestException("El correo ya ha sido registrado.");
     const hashed = await bcrypt.hash(String(data.password), 10);
     const nuevo = this.clienteRepo.create({ ...data, password: hashed } as any);
     const rawSaved = await this.clienteRepo.save(nuevo);
