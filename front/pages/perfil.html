@@ -589,7 +589,7 @@
       apellido: inputApellido.value.trim(),
       correo: inputCorreo.value.trim(),
       telefono: inputTelefono.value.trim(),
-      estado: selectEstado.value.toLowerCase.startsWith('inac')? false: true,
+      estado: selectEstado.value.toLowerCase().startsWith('inac')? false: true,
     };
 
     if (!payload.nombre || !payload.apellido || !payload.correo) {
