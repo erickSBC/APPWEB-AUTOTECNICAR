@@ -542,7 +542,7 @@
       const correo = admin.correo || '';
       const telefono = admin.telefono || '';
       const rol = 'Administrador';
-      const estado = admin.estado==='activo' ? 'Activo':'Inactivo';
+      const estado = admin.estado? 'Activo':'Inactivo';
       const fechaCreacion = admin.fecha_creacion || admin.fechaCreacion;
 
       // Banner
