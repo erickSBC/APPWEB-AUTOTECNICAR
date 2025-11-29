@@ -280,7 +280,7 @@
     // ==== Cargar datos de cliente ====
     async function cargarPerfil() {
       try {
-        const res = await fetch(`http://localhost:3000/clientes/${clienteId}`, {
+        const res = await fetch(`http://154.38.160.251/api/clientes/${clienteId}`, {
           headers: { "Authorization": "Bearer " + token }
         });
 
@@ -324,7 +324,7 @@
       }
 
       try {
-        const res = await fetch(`http://localhost:3000/clientes/${clienteId}`, {
+        const res = await fetch(`http://154.38.160.251/api/clientes/${clienteId}`, {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",

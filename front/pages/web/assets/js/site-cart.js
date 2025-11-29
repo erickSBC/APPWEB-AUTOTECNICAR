@@ -11,7 +11,7 @@
    - DELETE /carrito/detalles/:id_detalle  -> eliminar detalle
 =========================================================== */
 
-const API_BASE = "http://localhost:3000";
+const API_BASE = "http://154.38.160.251/api";
 const CART_BACKEND_ID_KEY = "automas_carrito_id";
 const LOGIN_URL = "../sign-in.html"; // ajusta ruta si es distinta
 
