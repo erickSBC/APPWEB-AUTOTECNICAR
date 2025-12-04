@@ -231,8 +231,8 @@
       errorBox.style.display = "none";
       successBox.style.display = "none";
 
-      try {//http://154.38.160.251/auth/cliente/register
-        const res = await fetch("http://154.38.160.251/auth/cliente/register", {
+      try {//http://154.38.160.251/api/auth/cliente/register
+        const res = await fetch("http://154.38.160.251/api/auth/cliente/register", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(dataToSend)

@@ -1,5 +1,5 @@
 # API Endpoints Documentation - AutoTecnicar 
-**Base URL:** http://154.38.160.251
+**Base URL:** http://154.38.160.251/api
 ## Tabla de Contenidos
 1. [Autenticación](#autenticación)
 2. [Clientes](#clientes)
@@ -1571,4 +1571,4 @@ GET /productos/buscar?nombre=taladro
 
 **Última actualización:** 20 de noviembre de 2025
 **Versión de API:** 1.0.0
-**Base URL:** http://154.38.160.251
+**Base URL:** http://154.38.160.251/api

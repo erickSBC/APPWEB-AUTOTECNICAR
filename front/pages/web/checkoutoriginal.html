@@ -595,7 +595,7 @@
             // Cargar datos de cliente (si existen en localStorage)
     async function loadShippingInfo() {
        try {
-         const res = await fetch(`http://154.38.160.251/clientes/${clienteId}`, {
+         const res = await fetch(`http://154.38.160.251/api/clientes/${clienteId}`, {
           headers: { "Authorization": "Bearer " + tok }
     });
 
