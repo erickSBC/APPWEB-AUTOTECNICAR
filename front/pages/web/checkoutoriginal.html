@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -365,7 +364,6 @@
       .checkout-layout {
         grid-template-columns: 1fr;
       }
-
       .page-wrap {
         margin-top: 20px;
       }
@@ -533,7 +531,8 @@
               <div class="pay-yape-box">
                 <img
                   src="https://www.shutterstock.com/image-vector/empty-background-style-png-blank-260nw-676832590.jpg"
-                  alt="QR Yape" />
+                  alt="QR Yape"
+                />
                 <small>
                   Escanea el código QR con tu app de Yape.<br />
                   Luego pulsa en “Completar compra”.
@@ -576,67 +575,59 @@
     </div>
   </main>
 
-  <script src="./components/header-logic.js"></script>
-  <script src="./assets/js/site-cart.js "></script>
   <!-- Lógica de carrito backend -->
 
   <script>
-    const API_PEDIDOS = "http://154.38.160.251/pedidos";
-
+    
     const summaryItems = document.getElementById("summaryItems");
     const summarySubtotal = document.getElementById("summarySubtotal");
     const summaryShipping = document.getElementById("summaryShipping");
     const summaryTotal = document.getElementById("summaryTotal");
 
     let subtotalGlobal = 0;
-    let shippingCost = 0; // se actualiza con el método de envío
-    let checkoutCartData = null; // guardamos el carrito usado en el checkout
-
+    let shippingCost = 0; // se actualiza según el método
+    
     const tok = localStorage.getItem("token") || null;
-    const pload = tok ? JSON.parse(atob(tok.split(".")[1])) : null;
-    const clienteId = pload.sub
+    const pload = tok? JSON.parse(atob(tok.split(".")[1])) : null;
+   const clienteId = pload.sub
+     
+
+            // Cargar datos de cliente (si existen en localStorage)
     async function loadShippingInfo() {
-      try {
-        const res = await fetch(`http://154.38.160.251/clientes/${clienteId}`, {
+       try {
+         const res = await fetch(`http://154.38.160.251/clientes/${clienteId}`, {
           headers: { "Authorization": "Bearer " + tok }
-        });
+    });
 
         const c = await res.json();
         document.getElementById("shipName").textContent =
-          (c.nombre || "") + (c.apellido ? " " + c.apellido : "");
-        document.getElementById("shipPhone").textContent = c.telefono || "";
-        document.getElementById("shipAddress").textContent = c.direccion || "";
-        document.getElementById("shipCity").textContent = "Tacna";
-        document.getElementById("shipRegion").textContent = "Tacna";
-        document.getElementById("shipZip").textContent = "23001";
+        (c.nombre || "") + (c.apellido ? " " + c.apellido : "");
+      document.getElementById("shipPhone").textContent = c.telefono || "";
+      document.getElementById("shipAddress").textContent = c.direccion || "";
+      document.getElementById("shipCity").textContent = "Tacna";
+      document.getElementById("shipRegion").textContent =  "Tacna";
+      document.getElementById("shipZip").textContent =  "23001";
       } catch (err) {
         console.error(err);
       }
-
-
+      
+      
     }
 
-    // ==========================
-    //  Resumen de carrito
-    // ==========================
+    // Cargar productos del carrito desde backend (función de site-cart.js)
     async function loadCheckoutCart() {
-      const backend = await fetchBackendCart(); // función de site-cart.js
-      if (!backend) {
-        summaryItems.innerHTML =
-          '<div class="summary-empty">No se pudo cargar el carrito.</div>';
-        subtotalGlobal = 0;
-        updateSummary();
-        return;
-      }
-
-      checkoutCartData = backend; // guardamos carritoId + datos crudos
+      const backend = await fetchBackendCart();
+      if (!backend) return;
 
       const raw = backend.raw;
       const detalles = Array.isArray(raw) ? raw : (raw.detalles || []);
 
       if (!detalles.length) {
-        summaryItems.innerHTML =
-          '<div class="summary-empty">No hay productos en el carrito.</div>';
+        summaryItems.innerHTML = `
+          <div class="summary-empty">
+            No hay productos en el carrito.
+          </div>
+        `;
         subtotalGlobal = 0;
         updateSummary();
         return;
@@ -645,12 +636,10 @@
       summaryItems.innerHTML = "";
       subtotalGlobal = 0;
 
-      detalles.forEach((det) => {
-        const producto = det.producto || {};
-        const precio = parseFloat(
-          det.precio_unitario ?? producto.precio ?? det.precio ?? 0
-        );
-        const cantidad = det.cantidad ?? 1;
+      detalles.forEach(det => {
+        const producto = det.producto || det.producto_detalle || {};
+        const precio = parseFloat(det.precio_unitario ?? producto.precio ?? det.precio ?? 0);
+        const cantidad = det.cantidad ?? det.cant ?? 1;
         const subtotalItem = parseFloat(det.subtotal ?? precio * cantidad);
 
         subtotalGlobal += subtotalItem;
@@ -658,20 +647,20 @@
         const item = document.createElement("div");
         item.classList.add("summary-item");
         item.innerHTML = `
-        <img src="${producto.imagen ||
-          producto.imagen_url ||
-          "https://via.placeholder.com/56x56?text=IMG"
+          <img src="${
+            producto.imagen || producto.imagen_url ||
+            "https://via.placeholder.com/56x56?text=IMG"
           }" alt="${producto.nombre || "Producto"}">
 
-        <div>
-          <div class="summary-item-name">${producto.nombre || "Producto"}</div>
-          <div class="summary-item-qty">Cantidad: ${cantidad}</div>
-        </div>
+          <div>
+            <div class="summary-item-name">${producto.nombre || "Producto"}</div>
+            <div class="summary-item-qty">Cantidad: ${cantidad}</div>
+          </div>
 
-        <div class="summary-item-price">
-          S/ ${subtotalItem.toFixed(2)}
-        </div>
-      `;
+          <div class="summary-item-price">
+            S/ ${subtotalItem.toFixed(2)}
+          </div>
+        `;
         summaryItems.appendChild(item);
       });
 
@@ -681,52 +670,33 @@
     function updateSummary() {
       summarySubtotal.textContent = "S/ " + subtotalGlobal.toFixed(2);
       summaryShipping.textContent = "S/ " + shippingCost.toFixed(2);
-      summaryTotal.textContent =
-        "S/ " + (subtotalGlobal + shippingCost).toFixed(2);
+      summaryTotal.textContent = "S/ " + (subtotalGlobal + shippingCost).toFixed(2);
     }
 
-    // ==========================
-    //  Cambio de envío
-    // ==========================
-    const shippingRadios = document.querySelectorAll(
-      "input[name='shippingMethod']"
-    );
-    shippingRadios.forEach((radio) => {
+    // Cambiar método de envío
+    const shippingRadios = document.querySelectorAll("input[name='shippingMethod']");
+    shippingRadios.forEach(radio => {
       radio.addEventListener("change", () => {
-        shippingRadios.forEach((r) =>
-          r
-            .closest(".shipping-option")
-            .classList.toggle("active", r.checked)
+        shippingRadios.forEach(r =>
+          r.closest(".shipping-option").classList.toggle("active", r.checked)
         );
-
-        const selected = document.querySelector(
-          "input[name='shippingMethod']:checked"
-        );
+        const selected = document.querySelector("input[name='shippingMethod']:checked");
         shippingCost = selected ? parseFloat(selected.dataset.cost || "0") : 0;
         updateSummary();
       });
     });
 
-    // ==========================
-    //  Cambio de método de pago
-    // ==========================
-    const paymentRadios = document.querySelectorAll(
-      "input[name='paymentMethod']"
-    );
+    // Cambiar método de pago (tarjeta / Yape)
+    const paymentRadios = document.querySelectorAll("input[name='paymentMethod']");
     const payCardBox = document.getElementById("payCardBox");
     const payYapeBox = document.getElementById("payYapeBox");
 
-    paymentRadios.forEach((radio) => {
+    paymentRadios.forEach(radio => {
       radio.addEventListener("change", () => {
-        paymentRadios.forEach((r) =>
-          r
-            .closest(".payment-option")
-            .classList.toggle("active", r.checked)
+        paymentRadios.forEach(r =>
+          r.closest(".payment-option").classList.toggle("active", r.checked)
         );
-
-        const selected = document.querySelector(
-          "input[name='paymentMethod']:checked"
-        );
+        const selected = document.querySelector("input[name='paymentMethod']:checked");
         if (!selected) return;
 
         if (selected.value === "card") {
@@ -739,138 +709,17 @@
       });
     });
 
-    // ==========================
-    //  COMPLETAR COMPRA → POST /pedidos
-    // ==========================
-    async function completePurchase() {
-      // 1) Validar que haya carrito
-      if (!checkoutCartData || !checkoutCartData.raw) {
-        alert("No hay carrito cargado. Vuelve a la tienda.");
-        return;
-      }
+    // Completar compra (solo diseño)
+    document.getElementById("btnComplete").addEventListener("click", () => {
+      alert("Flujo de pago aún no implementado. Aquí se confirmaría la compra.");
+    });
 
-      const raw = checkoutCartData.raw;
-      const detalles = Array.isArray(raw) ? raw : (raw.detalles || []);
-
-      if (!detalles.length) {
-        alert("Tu carrito está vacío.");
-        return;
-      }
-
-      // 2) Obtener cliente
-
-      let cliente = null;
-      try {
-        const res = await fetch(`http://154.38.160.251/clientes/${clienteId}`, {
-          headers: { "Authorization": "Bearer " + tok }
-        });
-        const c = await res.json();
-
-        cliente = c
-      } catch (err) {
-        console.error(err);
-      }
-      try {
-        const rawCliente = localStorage.getItem("clienteActual");
-        if (rawCliente) cliente = JSON.parse(rawCliente);
-      } catch (e) {
-        console.warn("Error leyendo clienteActual", e);
-      }
-
-      if (!cliente || !cliente.id_cliente) {
-        alert("Debes iniciar sesión como cliente para completar la compra.");
-        return;
-      }
-
-      const id_cliente = cliente.id_cliente;
-      const dni = cliente.dni || undefined;
-
-      // 3) Método de pago
-      const selectedPay = document.querySelector(
-        "input[name='paymentMethod']:checked"
-      );
-      const metodo_pago =
-        selectedPay && selectedPay.value === "yape" ? "yape" : "tarjeta";
-
-      // 4) Construir detalles para el pedido
-      const pedidoDetalles = detalles.map((det) => {
-        const producto = det.producto || {};
-        return {
-          id_producto: producto.id_producto,
-          cantidad: det.cantidad ?? 1,
-        };
-      });
-
-      // 5) Construir payload CreatePedidoDto
-      const payload = {
-        id_cliente,
-        dni,
-        tipo_pedido: "online",
-        metodo_pago, // "tarjeta" | "yape"
-        detalles: pedidoDetalles,
-      };
-
-      // 6) Token para Authorization (si tu backend lo exige)
-      const token = localStorage.getItem("token") || "";
-      const headers = {
-        "Content-Type": "application/json",
-      };
-      if (token) {
-        headers["Authorization"] = "Bearer " + token;
-      }
-
-      try {
-        const res = await fetch(API_PEDIDOS, {
-          method: "POST",
-          headers,
-          body: JSON.stringify(payload),
-        });
-
-        if (!res.ok) {
-          let msg = "Error al crear el pedido.";
-          try {
-            const errJson = await res.json();
-            if (errJson?.message) {
-              msg += " " + (Array.isArray(errJson.message) ? errJson.message.join(", ") : errJson.message);
-            }
-          } catch (_) { }
-          alert(msg);
-          return;
-        }
-
-        const pedidoCreado = await res.json();
-        console.log("Pedido creado:", pedidoCreado);
-        localStorage.removeItem("automas_carrito_id");
-        alert("Pedido registrado correctamente. Gracias por tu compra.");
-
-        // Guarda la info del pedido sólo para la siguiente página
-        localStorage.setItem("ultimoPedido", JSON.stringify(pedidoCreado));
-
-        // Redirige a la página de confirmación
-        window.location.href = "pedido-confirmado.html";
-      } catch (e) {
-        console.error("Error completando compra", e);
-        alert("Ocurrió un error de red al registrar el pedido.");
-      }
-    }
-
-    // Botón "Completar compra"
-    document
-      .getElementById("btnComplete")
-      .addEventListener("click", (e) => {
-        e.preventDefault();
-        completePurchase();
-      });
-
-    // ==========================
-    //  CARGA INICIAL
-    // ==========================
     document.addEventListener("DOMContentLoaded", () => {
       loadShippingInfo();
       loadCheckoutCart();
     });
   </script>
-
+  <script src="./components/header-logic.js"></script>
+  <script src="./assets/js/site-cart.js "></script>
 </body>
-
 </html>

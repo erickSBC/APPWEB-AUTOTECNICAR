@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ventas - AutoMas</title>
+
+  <!-- CSS general del dashboard -->
+  <link rel="stylesheet" href="../../assets/css/corporate-ui-dashboard.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <style>
+    body{
+        margin-left: 260px !important;
+
+    }
+    /* ==================== ESTILOS AISLADOS PARA VENTAS ==================== */
+    .ventas-page {
+      padding: 24px 26px;
+      font-family: "Open Sans", system-ui, -apple-system, BlinkMacSystemFont,
+        "Segoe UI", sans-serif;
+    }
+
+    .ventas-page .vp-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 18px;
+    }
+
+    .ventas-page .vp-title {
+      font-size: 24px;
+      font-weight: 800;
+      color: #111827;
+    }
+
+    .ventas-page .vp-muted {
+      font-size: 12px;
+      color: #9ca3af;
+      margin-top: 4px;
+    }
+
+    .ventas-page .vp-btn-primary {
+      background: #111827;
+      color: #fff;
+      border: none;
+      padding: 9px 16px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+    }
+
+    .ventas-page .vp-btn-primary:hover {
+      background: #000;
+      color: #fff;
+    }
+
+    .ventas-page .vp-card {
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 10px 35px rgba(15, 23, 42, 0.08);
+      padding: 16px 18px 10px;
+      margin-bottom: 14px;
+    }
+
+    .ventas-page .vp-filters {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .ventas-page .vp-form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      min-width: 180px;
+    }
+
+    .ventas-page .vp-form-group label {
+      font-size: 12px;
+      color: #6b7280;
+    }
+
+    .ventas-page .vp-form-group input,
+    .ventas-page .vp-form-group select {
+      border-radius: 8px;
+      border: 1px solid #d1d5db;
+      padding: 7px 10px;
+      font-size: 13px;
+      outline: none;
+      background: #fff;
+    }
+
+    .ventas-page .vp-btn-small {
+      border-radius: 999px;
+      border: none;
+      padding: 6px 12px;
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .ventas-page .vp-btn-secondary {
+      background: #f3f4f6;
+      color: #111827;
+    }
+
+    .ventas-page .vp-btn-secondary:hover {
+      background: #e5e7eb;
+    }
+
+    /* Tabla */
+    .ventas-page table.vp-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+
+    .ventas-page table.vp-table thead {
+      background: #f9fafb;
+    }
+
+    .ventas-page table.vp-table th,
+    .ventas-page table.vp-table td {
+      padding: 10px 10px;
+      border-bottom: 1px solid #e5e7eb;
+      text-align: left;
+    }
+
+    .ventas-page table.vp-table th {
+      font-size: 11px;
+      text-transform: uppercase;
+      color: #6b7280;
+      letter-spacing: 0.03em;
+      font-weight: 700;
+    }
+
+    .ventas-page table.vp-table tbody tr:hover {
+      background: #f9fafb;
+    }
+
+    .ventas-page .vp-text-right { text-align: right; }
+    .ventas-page .vp-text-center { text-align: center; }
+
+    /* Badges de estado */
+    .ventas-page .vp-badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 3px 8px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 600;
+      gap: 4px;
+    }
+
+    .ventas-page .vp-badge-pendiente {
+      background: #fef3c7;
+      color: #92400e;
+    }
+    .ventas-page .vp-badge-pagado {
+      background: #d1fae5;
+      color: #065f46;
+    }
+    .ventas-page .vp-badge-procesando {
+      background: #e0f2fe;
+      color: #0369a1;
+    }
+    .ventas-page .vp-badge-enviado {
+      background: #e0f2fe;
+      color: #1d4ed8;
+    }
+    .ventas-page .vp-badge-entregado {
+      background: #dcfce7;
+      color: #15803d;
+    }
+    .ventas-page .vp-badge-cancelado {
+      background: #fee2e2;
+      color: #b91c1c;
+    }
+
+    .ventas-page .vp-actions {
+      display: flex;
+      gap: 6px;
+      justify-content: flex-end;
+      align-items: center;
+    }
+
+    .ventas-page .vp-btn-outline {
+      background: transparent;
+      border: 1px solid #d1d5db;
+      color: #374151;
+    }
+
+    .ventas-page .vp-btn-outline:hover {
+      background: #f9fafb;
+    }
+
+    .ventas-page .vp-select-estado {
+      border-radius: 999px;
+      border: 1px solid #d1d5db;
+      padding: 4px 8px;
+      font-size: 11px;
+      outline: none;
+      background: #fff;
+    }
+
+    /* ==================== MODAL DETALLE AISLADO ==================== */
+    .ventas-modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.45);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999; /* por encima de bootstrap */
+    }
+
+    .ventas-modal {
+      background: #fff;
+      border-radius: 16px;
+      max-width: 720px;
+      width: 100%;
+      max-height: 80vh;
+      overflow: auto;
+      box-shadow: 0 24px 80px rgba(15, 23, 42, 0.4);
+      padding: 18px 20px;
+    }
+
+    .ventas-modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .ventas-modal-title {
+      font-size: 18px;
+      font-weight: 800;
+      color: #111827;
+    }
+
+    .ventas-modal-close {
+      border: none;
+      background: transparent;
+      font-size: 20px;
+      cursor: pointer;
+      color: #6b7280;
+    }
+    .ventas-modal-close:hover {
+      color: #111827;
+    }
+
+    .ventas-detalle-info {
+      font-size: 12px;
+      color: #6b7280;
+      margin-bottom: 10px;
+    }
+
+    .ventas-detalle-items {
+      margin-top: 4px;
+      border-top: 1px solid #e5e7eb;
+      padding-top: 10px;
+      font-size: 13px;
+    }
+
+    .ventas-detalle-row {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 6px;
+      padding: 6px 0;
+      border-bottom: 1px dashed #e5e7eb;
+    }
+
+    .ventas-detalle-header {
+      font-size: 11px;
+      text-transform: uppercase;
+      color: #9ca3af;
+      font-weight: 700;
+      border-bottom: 1px solid #e5e7eb;
+      padding-bottom: 6px;
+      margin-bottom: 4px;
+    }
+
+    .ventas-detalle-totales {
+      margin-top: 14px;
+      text-align: right;
+      font-size: 13px;
+    }
+
+    .ventas-detalle-totales div {
+      margin-bottom: 2px;
+    }
+
+    .ventas-detalle-totales span.label {
+      color: #6b7280;
+      margin-right: 6px;
+    }
+    .ventas-detalle-totales span.value {
+      font-weight: 700;
+    }
+
+    @media (max-width: 900px) {
+      .ventas-page {
+        padding: 16px;
+      }
+      .ventas-page .vp-filters {
+        flex-direction: column;
+        align-items: stretch;
+      }
+    }
+  </style>
+</head>
+
+<body class="g-sidenav-show bg-gray-100">
+  <!-- SIDEBAR -->
+  <div id="sdbar"></div>
+
+  <!-- CONTENIDO -->
+  <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg">
+    <div class="ventas-page">
+      <!-- HEADER -->
+      <div class="vp-header">
+        <div>
+          <div class="vp-title">Ventas</div>
+          <div class="vp-muted">Listado de pedidos registrados en el sistema.</div>
+        </div>
+        <a href="registrar-venta.html" class="vp-btn-primary">
+          <i class="fas fa-plus"></i> Registrar venta
+        </a>
+      </div>
+
+      <!-- FILTROS -->
+      <div class="vp-card">
+        <div class="vp-filters">
+          <div class="vp-form-group">
+            <label>Buscar (cliente, DNI, ID)</label>
+            <input type="text" id="searchInput" placeholder="Ej. Juan, 12345678, #15..." />
+          </div>
+
+          <div class="vp-form-group">
+            <label>Estado</label>
+            <select id="estadoFilter">
+              <option value="">Todos</option>
+              <option value="pendiente">Pendiente</option>
+              <option value="pagado">Pagado</option>
+              <option value="procesando">Procesando</option>
+              <option value="enviado">Enviado</option>
+              <option value="entregado">Entregado</option>
+              <option value="cancelado">Cancelado</option>
+            </select>
+          </div>
+
+          <div class="vp-form-group">
+            <label>Método de pago</label>
+            <select id="metodoFilter">
+              <option value="">Todos</option>
+              <option value="tarjeta">Tarjeta</option>
+              <option value="yape">Yape</option>
+            </select>
+          </div>
+
+          <div style="margin-top: 22px;">
+            <button class="vp-btn-small vp-btn-secondary" id="btnLimpiarFiltros">
+              <i class="fas fa-rotate-left"></i> Limpiar
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- TABLA -->
+      <div class="vp-card">
+        <table class="vp-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Fecha</th>
+              <th>Cliente / DNI</th>
+              <th>Tipo</th>
+              <th>Método</th>
+              <th>Estado</th>
+              <th class="vp-text-right">Total (S/)</th>
+              <th class="vp-text-right">Acciones</th>
+            </tr>
+          </thead>
+          <tbody id="ventasBody">
+            <tr>
+              <td colspan="8" class="vp-text-center vp-muted">Cargando ventas...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+
+  <!-- MODAL DETALLE (AISLADO DE BOOTSTRAP) -->
+  <div class="ventas-modal-backdrop" id="detalleModalBackdrop">
+    <div class="ventas-modal">
+      <div class="ventas-modal-header">
+        <div class="ventas-modal-title" id="detalleTitulo">Detalle de venta</div>
+        <button class="ventas-modal-close" id="detalleCloseBtn">&times;</button>
+      </div>
+
+      <div id="detalleInfo" class="ventas-detalle-info"></div>
+
+      <div class="ventas-detalle-items">
+        <div class="ventas-detalle-row ventas-detalle-header">
+          <div>Producto</div>
+          <div>Cantidad</div>
+          <div>P. Unitario</div>
+          <div>Subtotal</div>
+        </div>
+        <div id="detalleItemsContainer"></div>
+      </div>
+
+      <div class="ventas-detalle-totales">
+        <div><span class="label">Subtotal:</span> <span class="value" id="detalleSubtotal">S/ 0.00</span></div>
+        <div><span class="label">IGV:</span> <span class="value" id="detalleIgv">S/ 0.00</span></div>
+        <div><span class="label">Total:</span> <span class="value" id="detalleTotal">S/ 0.00</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cargar sidebar -->
+  <script>
+    fetch("components/sidebar.html")
+      .then(r => r.text())
+      .then(h => (document.getElementById("sdbar").innerHTML = h));
+  </script>
+
+  <!-- LÓGICA -->
+  <script>
+    const API_BASE = "http://154.38.160.251";
+
+    const ventasBody = document.getElementById("ventasBody");
+    const searchInput = document.getElementById("searchInput");
+    const estadoFilter = document.getElementById("estadoFilter");
+    const metodoFilter = document.getElementById("metodoFilter");
+    const btnLimpiarFiltros = document.getElementById("btnLimpiarFiltros");
+
+    const modalBackdrop = document.getElementById("detalleModalBackdrop");
+    const detalleCloseBtn = document.getElementById("detalleCloseBtn");
+    const detalleTitulo = document.getElementById("detalleTitulo");
+    const detalleInfo = document.getElementById("detalleInfo");
+    const detalleItemsContainer = document.getElementById("detalleItemsContainer");
+    const detalleSubtotal = document.getElementById("detalleSubtotal");
+    const detalleIgv = document.getElementById("detalleIgv");
+    const detalleTotal = document.getElementById("detalleTotal");
+
+    let ventasRaw = [];
+
+    function authHeaders() {
+      const token =
+        localStorage.getItem("access_token") ||
+        sessionStorage.getItem("access_token");
+      const headers = { "Content-Type": "application/json" };
+      if (token) headers["Authorization"] = "Bearer " + token;
+      return headers;
+    }
+
+    function formatDate(iso) {
+      if (!iso) return "-";
+      const d = new Date(iso);
+      return d.toLocaleString("es-PE", {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+      });
+    }
+
+    function formatMoney(num) {
+      const n = parseFloat(num || 0);
+      return "S/ " + n.toFixed(2);
+    }
+
+    function estadoBadgeClass(estado) {
+      switch (estado) {
+        case "pagado": return "vp-badge vp-badge-pagado";
+        case "procesando": return "vp-badge vp-badge-procesando";
+        case "enviado": return "vp-badge vp-badge-enviado";
+        case "entregado": return "vp-badge vp-badge-entregado";
+        case "cancelado": return "vp-badge vp-badge-cancelado";
+        default: return "vp-badge vp-badge-pendiente";
+      }
+    }
+
+    async function loadVentas() {
+      ventasBody.innerHTML =
+        '<tr><td colspan="8" class="vp-text-center vp-muted">Cargando ventas...</td></tr>';
+      try {
+        const res = await fetch(`${API_BASE}/pedidos`, {
+          headers: authHeaders(),
+        });
+        const data = await res.json();
+        ventasRaw = Array.isArray(data) ? data : [];
+        renderVentas();
+      } catch (err) {
+        console.error("Error cargando ventas", err);
+        ventasBody.innerHTML =
+          '<tr><td colspan="8" class="vp-text-center vp-muted">Error al cargar ventas.</td></tr>';
+      }
+    }
+
+    function applyFilters() {
+      const term = searchInput.value.trim().toLowerCase();
+      const estado = estadoFilter.value;
+      const metodo = metodoFilter.value;
+
+      return ventasRaw.filter((v) => {
+        if (estado && v.estado !== estado) return false;
+        if (metodo && v.metodo_pago !== metodo) return false;
+
+        if (term) {
+          const idText = String(v.id_pedido || "").toLowerCase();
+          const dniText = (v.dni || "").toLowerCase();
+          const clienteNombre = (v.cliente?.nombre || "").toLowerCase();
+          const clienteApellido = (v.cliente?.apellido || "").toLowerCase();
+          const clienteCorreo = (v.cliente?.correo || "").toLowerCase();
+
+          const hay =
+            idText.includes(term) ||
+            dniText.includes(term) ||
+            clienteNombre.includes(term) ||
+            clienteApellido.includes(term) ||
+            clienteCorreo.includes(term);
+
+          if (!hay) return false;
+        }
+
+        return true;
+      });
+    }
+
+    function renderVentas() {
+      const lista = applyFilters();
+
+      if (!lista.length) {
+        ventasBody.innerHTML =
+          '<tr><td colspan="8" class="vp-text-center vp-muted">No hay ventas para los filtros seleccionados.</td></tr>';
+        return;
+      }
+
+      ventasBody.innerHTML = "";
+
+      lista.forEach((p) => {
+        const tr = document.createElement("tr");
+
+        const clienteNombre = p.cliente
+          ? `${p.cliente.nombre ?? ""} ${p.cliente.apellido ?? ""}`.trim()
+          : "-";
+
+        const metodoLabel = p.metodo_pago
+          ? p.metodo_pago === "tarjeta"
+            ? "Tarjeta"
+            : "Yape"
+          : "-";
+
+        tr.innerHTML = `
+          <td>#${p.id_pedido}</td>
+          <td>${formatDate(p.fecha_creacion)}</td>
+          <td>
+            <div>${clienteNombre || "Sin cliente"}</div>
+            <div class="vp-muted" style="font-size:11px;">DNI: ${p.dni || "-"}</div>
+          </td>
+          <td>${p.tipo_pedido === "local" ? "Local" : "Online"}</td>
+          <td>${metodoLabel}</td>
+          <td>
+            <span class="${estadoBadgeClass(p.estado)}">
+              <i class="fas fa-circle" style="font-size:6px;"></i>
+              ${p.estado}
+            </span>
+          </td>
+          <td class="vp-text-right">${formatMoney(p.total)}</td>
+          <td class="vp-text-right">
+            <div class="vp-actions">
+              <button class="vp-btn-small vp-btn-secondary" data-action="ver" data-id="${p.id_pedido}">
+                <i class="fas fa-eye"></i> Ver
+              </button>
+              <select class="vp-select-estado" data-select-estado="${p.id_pedido}">
+                <option value="pendiente" ${p.estado === "pendiente" ? "selected" : ""}>Pendiente</option>
+                <option value="pagado" ${p.estado === "pagado" ? "selected" : ""}>Pagado</option>
+                <option value="procesando" ${p.estado === "procesando" ? "selected" : ""}>Procesando</option>
+                <option value="enviado" ${p.estado === "enviado" ? "selected" : ""}>Enviado</option>
+                <option value="entregado" ${p.estado === "entregado" ? "selected" : ""}>Entregado</option>
+                <option value="cancelado" ${p.estado === "cancelado" ? "selected" : ""}>Cancelado</option>
+              </select>
+              <button class="vp-btn-small vp-btn-outline" data-action="guardar-estado" data-id="${p.id_pedido}">
+                Guardar
+              </button>
+            </div>
+          </td>
+        `;
+
+        ventasBody.appendChild(tr);
+      });
+    }
+
+    async function updateEstadoPedido(id, estado) {
+      if (!confirm("¿Actualizar estado de esta venta a '" + estado + "'?")) return;
+
+      try {
+        const res = await fetch(`${API_BASE}/pedidos/${id}`, {
+          method: "PUT",
+          headers: authHeaders(),
+          body: JSON.stringify({ estado }),
+        });
+        if (!res.ok) {
+          const txt = await res.text();
+          console.error("Error al actualizar estado", txt);
+          alert("No se pudo actualizar el estado.");
+          return;
+        }
+        await loadVentas();
+      } catch (err) {
+        console.error("Error al actualizar estado", err);
+        alert("Error al actualizar el estado.");
+      }
+    }
+
+    // Delegación de eventos en la tabla
+    ventasBody.addEventListener("click", async (e) => {
+      const btn = e.target.closest("button");
+      if (!btn) return;
+
+      const id = btn.dataset.id;
+      const action = btn.dataset.action;
+      if (!id || !action) return;
+
+      if (action === "ver") {
+        const venta = ventasRaw.find((v) => v.id_pedido === Number(id));
+        if (!venta) return;
+        openDetalleModal(venta);
+      }
+
+      if (action === "guardar-estado") {
+        const select = document.querySelector(`select[data-select-estado="${id}"]`);
+        if (!select) return;
+        const nuevoEstado = select.value;
+        await updateEstadoPedido(id, nuevoEstado);
+      }
+    });
+
+    // ------- Modal detalle -------
+    function openDetalleModal(pedido) {
+      detalleTitulo.textContent = `Venta #${pedido.id_pedido}`;
+
+      const clienteNombre = pedido.cliente
+        ? `${pedido.cliente.nombre ?? ""} ${pedido.cliente.apellido ?? ""}`.trim()
+        : "Sin cliente";
+
+      detalleInfo.innerHTML = `
+        Cliente: <strong>${clienteNombre}</strong> ·
+        DNI: <strong>${pedido.dni || "-"}</strong> ·
+        Fecha: <strong>${formatDate(pedido.fecha_creacion)}</strong> ·
+        Método: <strong>${pedido.metodo_pago || "-"}</strong>
+      `;
+
+      detalleItemsContainer.innerHTML = "";
+
+      const detalles = Array.isArray(pedido.detalles) ? pedido.detalles : [];
+      detalles.forEach((d) => {
+        const row = document.createElement("div");
+        row.className = "ventas-detalle-row";
+
+        const nombreProd = d.producto?.nombre || `Prod. ${d.id_producto || ""}`;
+        const precio = d.precio_unitario ?? d.producto?.precio ?? 0;
+
+        row.innerHTML = `
+          <div>${nombreProd}</div>
+          <div>${d.cantidad}</div>
+          <div>${formatMoney(precio)}</div>
+          <div>${formatMoney(d.subtotal)}</div>
+        `;
+        detalleItemsContainer.appendChild(row);
+      });
+
+      detalleSubtotal.textContent = formatMoney(pedido.subtotal);
+      detalleIgv.textContent = formatMoney(pedido.igv_total);
+      detalleTotal.textContent = formatMoney(pedido.total);
+
+      modalBackdrop.style.display = "flex";
+    }
+
+    function closeDetalleModal() {
+      modalBackdrop.style.display = "none";
+    }
+
+    modalBackdrop.addEventListener("click", (e) => {
+      if (e.target === modalBackdrop) {
+        closeDetalleModal();
+      }
+    });
+    detalleCloseBtn.addEventListener("click", closeDetalleModal);
+
+    // Filtros
+    searchInput.addEventListener("input", renderVentas);
+    estadoFilter.addEventListener("change", renderVentas);
+    metodoFilter.addEventListener("change", renderVentas);
+
+    btnLimpiarFiltros.addEventListener("click", () => {
+      searchInput.value = "";
+      estadoFilter.value = "";
+      metodoFilter.value = "";
+      renderVentas();
+    });
+
+    // Carga inicial
+    loadVentas();
+  </script>
+</body>
+</html>

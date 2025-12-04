@@ -55,7 +55,7 @@ export class ClientesService {
     const likePattern = `%${pattern.replace(/%/g, '\\%')}%`;
     // Use query builder to perform a case-insensitive search that works across DBs
     const qb = this.clienteRepo.createQueryBuilder('p')
-      .where('LOWER(p.nombre) LIKE LOWER(:pattern)', { pattern: likePattern });
+      .where('LOWER(p.nombre) LIKE LOWER(:pattern) or LOWER(p.apellido) LIKE LOWER(:pattern)', { pattern: likePattern });
 
     return qb.getMany();
   }

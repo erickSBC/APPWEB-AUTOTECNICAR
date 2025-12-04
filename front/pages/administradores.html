@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Gestión de Administradores - D'Cesar</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      margin-left: 260px !important;
+
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg-page);
+      color: var(--text-main);
+    }
+
+    /* Layout general */
+    .app-layout {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    .app-main {
+      flex: 1;
+      padding: 24px 28px 40px;
+      overflow-x: hidden;
+    }
+
+    /* ===== HEADER DE PÁGINA ===== */
+    .page-breadcrumb {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+
+    .page-breadcrumb span {
+      color: var(--text-main);
+      font-weight: 500;
+    }
+
+    .page-title-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 12px;
+    }
+
+    .page-title {
+      font-size: 24px;
+      font-weight: 700;
+      margin: 0;
+    }
+
+
+    .page-header-actions {
+      display: flex;
+      gap: 12px;
+      align-items: start;
+    }
+
+    .search-box {
+      position: relative;
+      min-width: 230px;
+    }
+
+    .btn {
+      appearance: none;
+      border: none;
+      border-radius: 999px;
+      font-size: 14px;
+      padding: 9px 18px;
+      cursor: pointer;
+      font-weight: 500;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      white-space: nowrap;
+      transition: background-color 0.15s ease, box-shadow 0.15s ease, transform 0.1s ease;
+    }
+
+    .btn-primary {
+      background: #111827;
+      color: #f9fafb;
+      box-shadow: 0 2px 8px rgba(15, 23, 42, 0.25);
+      border: 1px solid rgba(15, 23, 42, 0.35);
+    }
+
+    .btn-primary:hover {
+      background: #020617;
+      box-shadow: 0 4px 12px rgba(15, 23, 42, 0.35);
+      transform: translateY(-1px);
+    }
+
+    .btn-primary:active {
+      transform: translateY(0);
+      box-shadow: 0 1px 4px rgba(15, 23, 42, 0.25);
+    }
+
+    .btn-sm {
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      box-shadow: none;
+    }
+
+    .btn-outline {
+      border: 1px solid var(--border-soft);
+      background: #ffffff;
+      color: var(--text-main);
+    }
+
+    .btn-outline:hover {
+      background: #f3f4f6;
+    }
+
+    .btn-danger {
+      background: var(--danger);
+      color: #ffffff;
+    }
+
+    .btn-danger:hover {
+      filter: brightness(0.95);
+      transform: translateY(-1px);
+    }
+
+    /* Header – estilos específicos */
+    .page-header-actions .search-box input {
+      width: 100%;
+      border: .5px solid rgb(158, 158, 168);
+      padding: 9px 14px;
+      padding-left: 34px;
+      font-size: 14px;
+      outline: none;
+      background: #ffffff;
+    }
+
+    .page-header-actions .search-box input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 1px var(--accent-soft);
+      background: #ffffff;
+      outline: none;
+    }
+
+    .page-header-actions .search-box::before {
+      content: "🔍";
+      position: absolute;
+      font-size: 14px;
+      left: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      opacity: 0.55;
+    }
+
+    .page-header-actions .btn-primary {
+      height: 36px;
+      padding: 0 18px;
+    }
+
+    /* ===== CONTENIDO ===== */
+    .admins-page-title {
+      font-size: 26px;
+      margin: 22px 0 18px;
+      font-weight: 700;
+    }
+
+    .card {
+      background: var(--bg-card);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border-soft);
+      box-shadow: var(--shadow-soft);
+      padding: 18px 18px 14px;
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 6px;
+      gap: 12px;
+    }
+
+    .card-header-title {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 2px;
+    }
+
+    .card-subtitle {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .card-header-meta {
+      font-size: 13px;
+      color: var(--text-muted);
+      text-align: right;
+    }
+
+    /* ===== TABLA ===== */
+    .admins-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 12px;
+      font-size: 14px;
+    }
+
+    .admins-table thead tr {
+      border-bottom: 1px solid var(--border-soft);
+    }
+
+    .admins-table th,
+    .admins-table td {
+      padding: 10px 8px;
+      text-align: left;
+    }
+
+    .admins-table th {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    .admins-table tbody tr {
+      border-bottom: 1px solid #f3f4f6;
+    }
+
+    .admins-table tbody tr:last-child {
+      border-bottom: none;
+    }
+
+    .admin-cell {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .admin-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 999px;
+      background: #e5e7eb;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 600;
+      color: #374151;
+    }
+
+    .admin-name {
+      font-weight: 600;
+      margin-bottom: 2px;
+    }
+
+    .admin-email {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      padding: 3px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 500;
+      background: #eef2ff;
+      color: #3730a3;
+    }
+
+    .status-pill.inactive {
+      background: #fee2e2;
+      color: #b91c1c;
+    }
+
+    .cell-actions {
+      display: flex;
+      gap: 6px;
+    }
+
+    /* ===== MODAL ===== */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.55);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 999;
+      backdrop-filter: blur(2px);
+    }
+
+    /* Overlay específico del modal de administradores */
+    #adminModal {
+      position: fixed;
+      inset: 0;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+    }
+
+    #adminModal.is-open {
+      display: flex !important;
+    }
+
+    #adminModal .modal {
+      background: #ffffff;
+      border-radius: 18px;
+      padding: 20px 22px 16px;
+      max-width: 480px;
+      width: 100%;
+      box-shadow: 0 24px 60px rgba(15, 23, 42, 0.45);
+      display: block !important;
+      position: relative;
+      z-index: 10000;
+      border-top: 3px solid var(--accent);
+      animation: modalIn 0.18s ease-out;
+    }
+
+    @keyframes modalIn {
+      from {
+        opacity: 0;
+        transform: translateY(8px) scale(0.98);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      gap: 12px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid var(--border-soft);
+    }
+
+    .modal-title {
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    .modal-description {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .modal-close {
+      background: transparent;
+      border: none;
+      font-size: 20px;
+      cursor: pointer;
+      color: var(--text-muted);
+      border-radius: 999px;
+      width: 32px;
+      height: 32px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: background-color 0.15s ease, color 0.15s ease, transform 0.1s ease;
+    }
+
+    .modal-close:hover {
+      background: #f3f4f6;
+      color: var(--text-main);
+      transform: rotate(4deg);
+    }
+
+    .modal-body {
+      font-size: 14px;
+      margin-bottom: 2px;
+    }
+
+    .modal-footer {
+      margin-top: 14px;
+      padding-top: 10px;
+      border-top: 1px solid var(--border-soft);
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+
+    @media (min-width: 640px) {
+      .form-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    .form-field {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      font-size: 13px;
+    }
+
+    .form-field label {
+      color: var(--text-muted);
+    }
+
+    .form-field input {
+      padding: 8px 10px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-soft);
+      font-size: 14px;
+      outline: none;
+      background: #f9fafb;
+      transition: var(--transition);
+    }
+
+    .form-field input:focus {
+      background: #ffffff;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 1px var(--accent-soft);
+    }
+
+    .btn-ghost {
+      background: transparent;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      color: var(--text-muted);
+      padding-inline: 14px;
+    }
+
+    .btn-ghost:hover {
+      border-color: var(--border-soft);
+      background: #f9fafb;
+    }
+
+    @media (max-width: 640px) {
+      .page-title-row {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .page-header-actions {
+        width: 100%;
+        justify-content: flex-start;
+      }
+
+      .search-box {
+        flex: 1;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="app-layout">
+    <div id="sdbar"></div>
+    <script>
+      fetch("components/sidebar.html")
+        .then(r => r.text())
+        .then(h => (document.getElementById("sdbar").innerHTML = h));
+    </script>
+
+    <main class="app-main">
+      <div class="page-breadcrumb">
+        Dashboard / <span>Administradores</span>
+      </div>
+
+      <div class="page-title-row">
+        <h1 class="page-title">Gestión de Administradores</h1>
+
+        <div class="page-header-actions">
+          <div class="search-box">
+            <input id="searchInput" type="text" placeholder="Buscar administrador" />
+          </div>
+          <button id="btnNewAdmin" class="btn btn-primary">
+            + Nuevo Administrador
+          </button>
+        </div>
+      </div>
+
+      <h2 class="admins-page-title">Lista de Administradores</h2>
+
+      <section class="card">
+        <div class="card-header">
+          <div>
+            <div class="card-header-title">Administradores Registrados</div>
+            <div class="card-subtitle">
+              Total: <span id="totalAdmins">0</span> administradores
+            </div>
+          </div>
+          <div class="card-header-meta">
+            Última actualización: <span id="lastUpdate">-</span>
+          </div>
+        </div>
+
+        <table class="admins-table">
+          <thead>
+            <tr>
+              <th>Administrador</th>
+              <th>Email</th>
+              <th>Teléfono</th>
+              <th>Estado</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody id="adminsTbody">
+            <!-- Filas por JS -->
+          </tbody>
+        </table>
+      </section>
+    </main>
+  </div>
+
+  <!-- MODAL CREAR / EDITAR ADMIN -->
+  <div id="adminModal" class="modal-overlay">
+    <div class="modal">
+      <div class="modal-header">
+        <div>
+          <div id="modalTitle" class="modal-title">Nuevo Administrador</div>
+          <div id="modalSubtitle" class="modal-description">
+            Completa los datos del administrador.
+          </div>
+        </div>
+        <button class="modal-close" type="button" id="btnCloseModal">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <form id="adminForm">
+          <input type="hidden" id="adminId" />
+
+          <div class="form-grid">
+            <div class="form-field">
+              <label for="nombre">Nombre</label>
+              <input type="text" id="nombre" required placeholder="Ej: Juan" />
+            </div>
+            <div class="form-field">
+              <label for="apellido">Apellido</label>
+              <input type="text" id="apellido" placeholder="Ej: Pérez" />
+            </div>
+            <div class="form-field">
+              <label for="correo">Correo</label>
+              <input type="email" id="correo" required placeholder="correo@ejemplo.com" />
+            </div>
+            <div class="form-field">
+              <label for="telefono">Teléfono</label>
+              <input type="text" id="telefono" placeholder="+51 9XXXXXXXX" />
+            </div>
+            <div class="form-field">
+              <label for="direccion">Dirección</label>
+              <input type="text" id="direccion" placeholder="Ciudad / Dirección" />
+            </div>
+            <div class="form-field">
+              <label for="password">Password <span id="passwordHint">(requerido al crear)</span></label>
+              <input type="password" id="password" placeholder="Dejar vacío para no cambiar" />
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-ghost btn-sm" id="btnCancelModal">Cancelar</button>
+            <button type="submit" class="btn btn-primary btn-sm">Guardar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const API_BASE = 'http://154.38.160.251';
+    const API_ADMINS = API_BASE + '/administrador';
+
+    const adminsTbody = document.getElementById('adminsTbody');
+    const totalAdminsSpan = document.getElementById('totalAdmins');
+    const lastUpdateSpan = document.getElementById('lastUpdate');
+    const searchInput = document.getElementById('searchInput');
+    const btnNewAdmin = document.getElementById('btnNewAdmin');
+
+    const adminModal = document.getElementById('adminModal');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalSubtitle = document.getElementById('modalSubtitle');
+    const btnCloseModal = document.getElementById('btnCloseModal');
+    const btnCancelModal = document.getElementById('btnCancelModal');
+    const adminForm = document.getElementById('adminForm');
+    const passwordHint = document.getElementById('passwordHint');
+
+    const inputId = document.getElementById('adminId');
+    const inputNombre = document.getElementById('nombre');
+    const inputApellido = document.getElementById('apellido');
+    const inputCorreo = document.getElementById('correo');
+    const inputTelefono = document.getElementById('telefono');
+    const inputDireccion = document.getElementById('direccion');
+    const inputPassword = document.getElementById('password');
+
+    let modalMode = 'create'; // 'create' | 'edit'
+
+    function avatarIniciales(nombre, apellido) {
+      const n = (nombre || '').trim().split(' ')[0] || '';
+      const a = (apellido || '').trim().split(' ')[0] || '';
+      const i1 = n.charAt(0).toUpperCase();
+      const i2 = a.charAt(0).toUpperCase();
+      return (i1 + i2) || 'AD';
+    }
+
+    function formatDateShort(date) {
+      const d = new Date(date);
+      if (Number.isNaN(d.getTime())) return '-';
+      const h = d.getHours().toString().padStart(2, '0');
+      const m = d.getMinutes().toString().padStart(2, '0');
+      return d.toLocaleDateString() + ' ' + h + ':' + m;
+    }
+
+    function renderAdmins(admins) {
+      adminsTbody.innerHTML = '';
+
+      admins.forEach(admin => {
+        const tr = document.createElement('tr');
+        tr.dataset.id = admin.id_admin;
+
+        const estado = admin.estado || '';
+        const estadoLower = (estado || '').toString().toLowerCase();
+        const isInactive = estadoLower === 'inactivo' || estadoLower === 'desactivado';
+
+        tr.innerHTML = `
+        <td>
+          <div class="admin-cell">
+            <div class="admin-avatar">${avatarIniciales(admin.nombre, admin.apellido)}</div>
+            <div>
+              <div class="admin-name">${admin.nombre ?? ''} ${admin.apellido ?? ''}</div>
+              <div class="admin-email">${admin.correo ?? ''}</div>
+            </div>
+          </div>
+        </td>
+        <td>${admin.correo ?? ''}</td>
+        <td>${admin.telefono ?? ''}</td>
+        <td>
+          ${estado
+            ? `<span class="status-pill ${isInactive ? 'inactive' : ''}">${estado}</span>`
+            : '<span class="status-pill inactive">Sin estado</span>'
+          }
+        </td>
+        <td>
+          <div class="cell-actions">
+            <button class="btn btn-outline btn-sm btn-edit" type="button">Editar</button>
+            <button class="btn btn-danger btn-sm btn-delete" type="button">Eliminar</button>
+          </div>
+        </td>
+      `;
+
+        adminsTbody.appendChild(tr);
+      });
+
+      totalAdminsSpan.textContent = admins.length;
+      lastUpdateSpan.textContent = formatDateShort(new Date());
+    }
+
+    async function fetchAdmins(nombreFiltro) {
+      try {
+        let url = API_ADMINS;
+        if (nombreFiltro && nombreFiltro.trim().length > 0) {
+          const encoded = encodeURIComponent(nombreFiltro.trim());
+          url = `${API_ADMINS}/buscar?nombre=${encoded}`;
+        }
+
+        const res = await fetch(url);
+        if (!res.ok) throw new Error('Error al obtener administradores');
+
+        const data = await res.json();
+        renderAdmins(data);
+      } catch (err) {
+        console.error(err);
+        alert('No se pudieron cargar los administradores.');
+      }
+    }
+
+    async function fetchAdminById(id) {
+      const res = await fetch(`${API_ADMINS}/${id}`);
+      if (!res.ok) throw new Error('No se pudo obtener el administrador');
+      return res.json();
+    }
+
+    async function crearAdmin(payload) {
+      const res = await fetch(API_ADMINS, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      if (!res.ok) {
+        const msg = await res.text();
+        throw new Error(msg || 'Error al crear administrador');
+      }
+      return res.json();
+    }
+
+    async function actualizarAdmin(id, payload) {
+      const res = await fetch(`${API_ADMINS}/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      if (!res.ok) {
+        const msg = await res.text();
+        throw new Error(msg || 'Error al actualizar administrador');
+      }
+      return res.json();
+    }
+
+    async function eliminarAdmin(id) {
+      const res = await fetch(`${API_ADMINS}/${id}`, {
+        method: 'DELETE',
+      });
+      if (!res.ok) {
+        const msg = await res.text();
+        throw new Error(msg || 'Error al eliminar administrador');
+      }
+      return res.json();
+    }
+
+    function openModal(mode, admin) {
+      modalMode = mode;
+
+      if (mode === 'create') {
+        modalTitle.textContent = 'Nuevo Administrador';
+        modalSubtitle.textContent = 'Completa los datos para registrar un nuevo administrador.';
+        passwordHint.textContent = '(requerido al crear)';
+        adminForm.reset();
+        inputId.value = '';
+      } else if (mode === 'edit' && admin) {
+        modalTitle.textContent = 'Editar Administrador';
+        modalSubtitle.textContent = 'Actualiza los datos del administrador seleccionado.';
+        passwordHint.textContent = '(opcional, dejar vacío para mantener)';
+        inputId.value = admin.id_admin;
+        inputNombre.value = admin.nombre ?? '';
+        inputApellido.value = admin.apellido ?? '';
+        inputCorreo.value = admin.correo ?? '';
+        inputTelefono.value = admin.telefono ?? '';
+        inputDireccion.value = admin.direccion ?? '';
+        inputPassword.value = '';
+      }
+
+      adminModal.classList.add('is-open');
+    }
+
+    function closeModal() {
+      adminModal.classList.remove('is-open');
+    }
+
+    btnNewAdmin.addEventListener('click', () => openModal('create'));
+
+    btnCloseModal.addEventListener('click', closeModal);
+    btnCancelModal.addEventListener('click', closeModal);
+
+    adminModal.addEventListener('click', (e) => {
+      if (e.target === adminModal) closeModal();
+    });
+
+    adminForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const payload = {
+        nombre: inputNombre.value.trim(),
+        apellido: inputApellido.value.trim() || undefined,
+        correo: inputCorreo.value.trim(),
+        telefono: inputTelefono.value.trim() || undefined,
+        direccion: inputDireccion.value.trim() || undefined,
+      };
+
+      const pwdValue = inputPassword.value.trim();
+
+      try {
+        if (modalMode === 'create') {
+          if (!pwdValue) {
+            alert('El password es requerido para crear un administrador.');
+            return;
+          }
+          payload.password = pwdValue;
+          await crearAdmin(payload);
+        } else if (modalMode === 'edit') {
+          const id = inputId.value;
+          if (pwdValue) {
+            payload.password = pwdValue;
+          }
+          await actualizarAdmin(id, payload);
+        }
+
+        closeModal();
+        await fetchAdmins(searchInput.value);
+      } catch (err) {
+        console.error(err);
+        alert(err.message || 'Error al guardar el administrador.');
+      }
+    });
+
+    adminsTbody.addEventListener('click', async (e) => {
+      const row = e.target.closest('tr');
+      if (!row) return;
+      const id = row.dataset.id;
+
+      if (e.target.classList.contains('btn-edit')) {
+        try {
+          const admin = await fetchAdminById(id);
+          openModal('edit', admin);
+        } catch (err) {
+          console.error(err);
+          alert('No se pudo cargar la información del administrador.');
+        }
+      }
+
+      if (e.target.classList.contains('btn-delete')) {
+        const ok = confirm('¿Seguro que deseas eliminar este administrador?');
+        if (!ok) return;
+
+        try {
+          await eliminarAdmin(id);
+          await fetchAdmins(searchInput.value);
+        } catch (err) {
+          console.error(err);
+          alert('No se pudo eliminar el administrador.');
+        }
+      }
+    });
+
+    let searchTimeout = null;
+    searchInput.addEventListener('input', () => {
+      clearTimeout(searchTimeout);
+      searchTimeout = setTimeout(() => {
+        fetchAdmins(searchInput.value);
+      }, 300);
+    });
+
+    fetchAdmins();
+  </script>
+
+  <script src="./components/sidebar.js"></script>
+</body>
+
+</html>

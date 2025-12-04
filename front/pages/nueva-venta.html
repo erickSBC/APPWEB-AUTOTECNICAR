@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Registrar Nueva Venta - Panel Admin</title>
+
+    <link rel="stylesheet" href="../assets/css/corporate-ui-dashboard.css?v=1.0.0" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+    <style>
+        body {
+            margin: 0;
+            margin-left: 260px !important;
+            font-family: "Open Sans", system-ui, sans-serif;
+            background: #f3f4f6;
+        }
+
+        .page-wrapper {
+            max-width: 1200px;
+            margin: 40px auto 60px;
+            padding: 0 18px;
+        }
+
+        .page-title {
+            font-size: 26px;
+            font-weight: 800;
+            margin-bottom: 6px;
+            color: #111827;
+        }
+
+        .page-sub {
+            color: #6b7280;
+            font-size: 14px;
+            margin-bottom: 24px;
+        }
+
+        .layout {
+            display: grid;
+            grid-template-columns: minmax(0, 2.1fr) minmax(0, 1.1fr);
+            gap: 20px;
+        }
+
+        .card {
+            background: #fff;
+            border-radius: 14px;
+            box-shadow: 0 18px 45px rgba(15, 23, 42, 0.05);
+            padding: 18px 20px 20px;
+        }
+
+        .card-title {
+            font-size: 15px;
+            font-weight: 700;
+            margin-bottom: 14px;
+            color: #111827;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 12px;
+            margin-bottom: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 12px;
+        }
+
+        .form-group label {
+            font-size: 13px;
+            font-weight: 600;
+            color: #4b5563;
+            margin-bottom: 4px;
+            display: block;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            border-radius: 10px;
+            border: 1px solid #d1d5db;
+            padding: 8px 10px;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            border-color: #4f46e5;
+            box-shadow: 0 0 0 1px rgba(79, 70, 229, 0.1);
+        }
+
+        .required::after {
+            content: " *";
+            color: #dc2626;
+        }
+
+        /* Agregar productos */
+        .add-products-row {
+            display: grid;
+            grid-template-columns: minmax(0, 2fr) 120px 130px;
+            gap: 10px;
+            margin-top: 4px;
+            margin-bottom: 14px;
+        }
+
+        .btn-primary {
+            border: none;
+            border-radius: 10px;
+            background: #111827;
+            color: #fff;
+            font-size: 14px;
+            font-weight: 600;
+            padding: 8px 12px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .btn-primary:hover {
+            background: #020617;
+        }
+
+        .btn-sm-danger {
+            border: none;
+            border-radius: 999px;
+            background: #ef4444;
+            color: #fff;
+            font-size: 12px;
+            font-weight: 600;
+            padding: 4px 10px;
+            cursor: pointer;
+        }
+
+        .btn-sm-danger:hover {
+            background: #dc2626;
+        }
+
+        /* Tabla detalle */
+        .table-wrap {
+            border-radius: 10px;
+            border: 1px solid #e5e7eb;
+            overflow: hidden;
+            margin-top: 4px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+
+        thead {
+            background: #f9fafb;
+        }
+
+        thead th {
+            text-align: left;
+            padding: 10px 12px;
+            color: #6b7280;
+            font-weight: 600;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        tbody td {
+            padding: 9px 12px;
+            border-bottom: 1px solid #f3f4f6;
+            vertical-align: middle;
+        }
+
+        tbody tr:nth-child(even) {
+            background: #fafafa;
+        }
+
+        .qty-input {
+            width: 70px;
+            border-radius: 999px;
+            padding: 5px 8px;
+            border: 1px solid #d1d5db;
+            font-size: 13px;
+            text-align: center;
+        }
+
+        .align-right {
+            text-align: right;
+        }
+
+        .muted {
+            color: #9ca3af;
+            font-size: 12px;
+        }
+
+        /* Resumen */
+        .summary-card {
+            background: linear-gradient(90deg, #363f4c);
+            border-radius: 16px;
+            padding: 16px 18px;
+            color: #e5e7eb;
+            margin-bottom: 14px;
+        }
+
+        .summary-card h3 {
+            margin: 0 0 8px;
+            font-size: 15px;
+            font-weight: 700;
+            color: #f9fafb;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+            margin-top: 4px;
+        }
+
+        .summary-row strong {
+            color: #fff;
+        }
+
+        .summary-total {
+            border-top: 1px solid rgba(249, 250, 251, 0.2);
+            margin-top: 10px;
+            padding-top: 10px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 16px;
+            font-weight: 800;
+            color: #fff;
+        }
+
+        .btn-save {
+            width: 100%;
+            border: none;
+            border-radius: 999px;
+            background: #16a34a;
+            color: #fff;
+            font-weight: 700;
+            font-size: 14px;
+            padding: 9px 14px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .btn-save:hover {
+            background: #15803d;
+        }
+
+        .btn-cancel {
+            width: 100%;
+            border-radius: 999px;
+            border: 1px solid #d1d5db;
+            background: #fff;
+            color: #374151;
+            font-weight: 600;
+            font-size: 13px;
+            padding: 8px 14px;
+            cursor: pointer;
+            margin-top: 6px;
+        }
+
+        .admin-shell {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .admin-content {
+            flex: 1;
+            background: #f3f4f6;
+        }
+
+        /* --- AUTOCOMPLETE BUSCADOR PRODUCTOS --- */
+        .autocomplete-wrap {
+            position: relative;
+        }
+
+        .product-suggestions {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: #fff;
+            border-radius: 10px;
+            border: 1px solid #e5e7eb;
+            box-shadow: 0 10px 25px rgba(15, 23, 42, 0.12);
+            margin-top: 4px;
+            max-height: 260px;
+            overflow-y: auto;
+            z-index: 50;
+        }
+
+        .product-suggestion-item {
+            padding: 8px 10px;
+            font-size: 13px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .product-suggestion-item span.name {
+            font-weight: 600;
+            color: #111827;
+        }
+
+        .product-suggestion-item span.meta {
+            font-size: 11px;
+            color: #6b7280;
+        }
+
+        .product-suggestion-item:hover {
+            background: #f3f4ff;
+        }
+
+        .product-suggestion-empty {
+            padding: 8px 10px;
+            font-size: 13px;
+            color: #9ca3af;
+        }
+
+
+        @media (max-width: 900px) {
+            .layout {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="admin-shell">
+        <div id="sdbar"></div>
+        <script>
+            fetch("components/sidebar.html")
+                .then(r => r.text())
+                .then(h => (document.getElementById("sdbar").innerHTML = h));
+        </script>
+        <div class="admin-content">
+
+            <div class="page-wrapper">
+                <h1 class="page-title">Registrar Nueva Venta</h1>
+                <p class="page-sub">Selecciona cliente, añade productos y registra la venta local en el sistema.</p>
+
+                <div class="layout">
+
+                    <!-- Columna izquierda: cliente + detalle -->
+                    <div class="card">
+
+                        <!-- Información del cliente -->
+                        <div class="card-section">
+                            <h2 class="card-title">Información del Cliente</h2>
+
+                            <div class="form-group">
+                                <label class="required">Cliente</label>
+                                <select id="clienteSelect">
+                                    <option value="">-- Seleccionar cliente --</option>
+                                </select>
+                                <div class="muted">Si es venta rápida sin cliente registrado, puedes usar solo DNI.
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>DNI (venta libre)</label>
+                                    <input type="text" id="dniLibre" placeholder="Opcional si ya elegiste cliente" />
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <hr />
+
+                        <!-- Agregar productos -->
+                        <div class="card-section">
+                            <h2 class="card-title">Agregar Productos</h2>
+
+                            <div class="add-products-row">
+                                <div class="form-group autocomplete-wrap" style="margin-bottom:0;">
+                                    <label>Buscar producto</label>
+                                    <input type="text" id="buscarProducto" placeholder="Escribe parte del nombre..."
+                                        autocomplete="off" />
+                                    <div id="productSuggestions" class="product-suggestions" style="display:none;">
+                                    </div>
+                                </div>
+                                <div class="form-group" style="margin-bottom:0;">
+                                    <label>Cantidad</label>
+                                    <input type="number" id="cantidadProducto" min="1" value="1" />
+                                </div>
+                                <div style="align-self: end;">
+                                    <button class="btn-primary" id="btnAgregarProducto">
+                                        Añadir
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="muted" id="helpBusqueda">
+                                Empieza a escribir para ver coincidencias. Haz clic en un producto para seleccionarlo.
+                            </div>
+
+                            <div class="muted" id="helpBusqueda">Se usará el primer resultado de /productos/buscar.
+                            </div>
+                        </div>
+
+                        <!-- Detalle de productos -->
+                        <div class="card-section" style="margin-top:18px;">
+                            <h2 class="card-title">Detalle de Productos</h2>
+
+                            <div class="table-wrap">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Producto</th>
+                                            <th>Precio Unit.</th>
+                                            <th>Cantidad</th>
+                                            <th>Subtotal</th>
+                                            <th class="align-right">Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="detalleBody">
+                                        <tr>
+                                            <td colspan="5" style="text-align:center; padding:10px; color:#9ca3af;">
+                                                Aún no has añadido productos.
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Columna derecha: resumen -->
+                    <div>
+
+                        <div class="summary-card">
+                            <h3>Resumen de Venta</h3>
+
+                            <div class="summary-row">
+                                <span>Subtotal (sin IGV):</span>
+                                <span id="resSubtotal">S/ 0.00</span>
+                            </div>
+                            <div class="summary-row">
+                                <span>IGV (18%):</span>
+                                <span id="resIgv">S/ 0.00</span>
+                            </div>
+
+                            <div class="summary-total">
+                                <span>Total:</span>
+                                <span id="resTotal">S/ 0.00</span>
+                            </div>
+                        </div>
+
+                        <div class="card">
+
+                            <div class="form-group">
+                                <label>Método de Pago</label>
+                                <select id="metodoPago">
+                                    <option value="">No especificar</option>
+                                    <option value="tarjeta">Tarjeta (crédito / débito)</option>
+                                    <option value="yape">Yape</option>
+                                    <option value="efectivo">Efectivo</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Estado de la Venta</label>
+                                <input type="text" value="Pendiente" disabled />
+                                <div class="muted">El estado inicial siempre será "pendiente".</div>
+                            </div>
+
+                            <button class="btn-save" id="btnGuardarVenta">
+                                Guardar Venta
+                            </button>
+                            <button class="btn-cancel" type="button" onclick="window.history.back()">
+                                Cancelar
+                            </button>
+
+                            <div class="muted" style="margin-top:10px;">
+                                Al guardar se creará un <strong>Pedido</strong> tipo <code>local</code> usando el
+                                servicio
+                                <code>POST /pedidos</code>, se validará stock y se descontará automáticamente.
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <script src="./components/sidebar.js"></script>
+
+    <script>
+        const API_BASE = "http://154.38.160.251";
+        const IGV_RATE = 0.18;
+
+        const clienteSelect = document.getElementById("clienteSelect");
+        const dniLibre = document.getElementById("dniLibre");
+        const buscarProducto = document.getElementById("buscarProducto");
+        const cantidadProducto = document.getElementById("cantidadProducto");
+        const detalleBody = document.getElementById("detalleBody");
+        const metodoPagoSelect = document.getElementById("metodoPago");
+
+        const resSubtotal = document.getElementById("resSubtotal");
+        const resIgv = document.getElementById("resIgv");
+        const resTotal = document.getElementById("resTotal");
+
+        const suggestionsBox = document.getElementById("productSuggestions");
+
+        let searchResults = [];       // resultados actuales del backend
+        let selectedProduct = null;   // producto elegido en el autocomplete
+        let searchTimer = null;       // para debounce
+        let detalleVenta = [];
+
+        // ========= HELPERS AUTH =========
+        function getToken() {
+            return (
+                localStorage.getItem("access_token") ||
+                localStorage.getItem("token") ||
+                null
+            );
+        }
+
+        function getAdminIdFromToken() {
+            const t = getToken();
+            if (!t) return null;
+            try {
+                const payload = JSON.parse(atob(t.split(".")[1]));
+                return payload.sub;
+            } catch (e) {
+                console.warn("No se pudo decodificar el token", e);
+                return null;
+            }
+        }
+
+        function authHeaders() {
+            const t = getToken();
+            return t ? { Authorization: "Bearer " + t } : {};
+        }
+
+        // ========= CARGA DE CLIENTES =========
+        async function loadClientes() {
+            try {
+                const res = await fetch(`${API_BASE}/clientes`, {
+                    headers: authHeaders()
+                });
+                const data = await res.json();
+
+                const clientes = Array.isArray(data) ? data : (data.items || []);
+
+                clientes.forEach(c => {
+                    const opt = document.createElement("option");
+                    opt.value = c.id_cliente;
+                    const nombre = [c.nombre, c.apellido].filter(Boolean).join(" ");
+                    opt.textContent = `${nombre || "Cliente"} - ${c.dni || ""}`.trim();
+                    clienteSelect.appendChild(opt);
+                });
+            } catch (err) {
+                console.error("Error cargando clientes", err);
+            }
+        }
+        // ========== AUTOCOMPLETE PRODUCTOS ==========
+        function clearSuggestions() {
+            suggestionsBox.style.display = "none";
+            suggestionsBox.innerHTML = "";
+        }
+
+        function renderSuggestions() {
+            if (!searchResults.length) {
+                suggestionsBox.innerHTML =
+                    `<div class="product-suggestion-empty">Sin resultados</div>`;
+                suggestionsBox.style.display = "block";
+                return;
+            }
+
+            suggestionsBox.innerHTML = "";
+            searchResults.forEach((p, idx) => {
+                const div = document.createElement("div");
+                div.className = "product-suggestion-item";
+                div.dataset.index = idx;
+
+                const precio = parseFloat(p.precio || 0).toFixed(2);
+                const stock = p.stock ?? 0;
+
+                div.innerHTML = `
+      <span class="name">${p.nombre}</span>
+      <span class="meta">S/ ${precio} · Stock: ${stock}</span>
+    `;
+
+                div.addEventListener("click", () => {
+                    selectedProduct = p;
+                    buscarProducto.value = p.nombre;
+                    clearSuggestions();
+                });
+
+                suggestionsBox.appendChild(div);
+            });
+
+            suggestionsBox.style.display = "block";
+        }
+
+        async function fetchProductSuggestions(term) {
+            try {
+                const res = await fetch(
+                    `${API_BASE}/productos/buscar?nombre=${encodeURIComponent(term)}`,
+                    { headers: authHeaders() }
+                );
+                const data = await res.json();
+                searchResults = Array.isArray(data) ? data : [];
+                renderSuggestions();
+            } catch (err) {
+                console.error("Error buscando productos", err);
+                searchResults = [];
+                renderSuggestions();
+            }
+        }
+
+        // ========= AGREGAR PRODUCTO =========
+        async function agregarProducto() {
+            const term = buscarProducto.value.trim();
+            const qty = parseInt(cantidadProducto.value, 10) || 1;
+
+            if (!term) {
+                alert("Escribe algo para buscar el producto.");
+                return;
+            }
+            if (qty <= 0) {
+                alert("La cantidad debe ser mayor a 0.");
+                return;
+            }
+
+            // 1) Si ya hay un producto seleccionado desde el autocomplete, úsalo.
+            let prod = selectedProduct;
+
+            // 2) Si no hay seleccionado pero hay resultados cargados, toma el primero.
+            if (!prod && searchResults.length > 0) {
+                prod = searchResults[0];
+            }
+
+            // 3) Si tampoco, consulta al backend una vez.
+            if (!prod) {
+                try {
+                    const res = await fetch(
+                        `${API_BASE}/productos/buscar?nombre=${encodeURIComponent(term)}`,
+                        { headers: authHeaders() }
+                    );
+                    const lista = await res.json();
+                    if (!Array.isArray(lista) || lista.length === 0) {
+                        alert("No se encontraron productos para ese término.");
+                        return;
+                    }
+                    prod = lista[0];
+                } catch (err) {
+                    console.error("Error al buscar producto", err);
+                    alert("Ocurrió un error al buscar el producto.");
+                    return;
+                }
+            }
+
+            const id = prod.id_producto;
+            const precio = parseFloat(prod.precio || 0);
+            const stock = parseInt(prod.stock ?? 0, 10);
+
+            if (stock <= 0) {
+                alert("Este producto no tiene stock disponible.");
+                return;
+            }
+
+            const existente = detalleVenta.find((d) => d.id_producto === id);
+            const cantidadActual = existente ? existente.cantidad : 0;
+            const nuevaCantidad = cantidadActual + qty;
+
+            if (nuevaCantidad > stock) {
+                alert(`No puedes vender más de ${stock} unidades. Stock disponible insuficiente.`);
+                return;
+            }
+
+            if (existente) {
+                existente.cantidad = nuevaCantidad;
+            } else {
+                detalleVenta.push({
+                    id_producto: id,
+                    nombre: prod.nombre || `Producto ${id}`,
+                    precio: precio,
+                    cantidad: qty,
+                    stock: stock,
+                });
+            }
+
+            renderDetalle();
+            buscarProducto.value = "";
+            cantidadProducto.value = "1";
+            selectedProduct = null;
+            searchResults = [];
+            clearSuggestions();
+        }
+
+        // ========= RENDER DETALLE =========
+        function renderDetalle() {
+            if (!detalleVenta.length) {
+                detalleBody.innerHTML =
+                    `<tr><td colspan="5" style="text-align:center; padding:10px; color:#9ca3af;">Aún no has añadido productos.</td></tr>`;
+                actualizarResumen();
+                return;
+            }
+
+            detalleBody.innerHTML = "";
+
+            detalleVenta.forEach((item, idx) => {
+                const tr = document.createElement("tr");
+                tr.innerHTML = `
+          <td>${item.nombre}</td>
+          <td>S/ ${item.precio.toFixed(2)}</td>
+          <td>
+            <input 
+              type="number" 
+              min="1" 
+              max="${item.stock}" 
+              value="${item.cantidad}" 
+              class="qty-input" 
+              data-index="${idx}"
+            />
+          </td>
+          <td>S/ ${(item.precio * item.cantidad).toFixed(2)}</td>
+          <td class="align-right">
+            <button class="btn-sm-danger" data-index="${idx}">
+              Eliminar
+            </button>
+          </td>
+        `;
+                detalleBody.appendChild(tr);
+            });
+
+            // listeners cantidad
+            detalleBody.querySelectorAll(".qty-input").forEach((inp) => {
+                inp.addEventListener("change", onChangeCantidad);
+            });
+
+            // listeners eliminar
+            detalleBody
+                .querySelectorAll(".btn-sm-danger")
+                .forEach((btn) => btn.addEventListener("click", onEliminarItem));
+
+            actualizarResumen();
+        }
+
+        function onChangeCantidad(e) {
+            const idx = parseInt(e.target.dataset.index, 10);
+            const valor = parseInt(e.target.value, 10) || 1;
+
+            if (!detalleVenta[idx]) return;
+
+            const max = detalleVenta[idx].stock;
+            if (valor <= 0) {
+                e.target.value = detalleVenta[idx].cantidad;
+                return;
+            }
+            if (valor > max) {
+                alert(`Stock máximo disponible: ${max}`);
+                e.target.value = detalleVenta[idx].cantidad;
+                return;
+            }
+
+            detalleVenta[idx].cantidad = valor;
+            renderDetalle();
+        }
+
+        function onEliminarItem(e) {
+            const idx = parseInt(e.target.dataset.index, 10);
+            if (!detalleVenta[idx]) return;
+
+            detalleVenta.splice(idx, 1);
+            renderDetalle();
+        }
+
+        // ========= RESUMEN =========
+        function actualizarResumen() {
+            const totalConIGV = detalleVenta.reduce(
+                (acc, item) => acc + item.precio * item.cantidad,
+                0
+            );
+
+            const subtotal = totalConIGV / (1 + IGV_RATE);
+            const igv = totalConIGV - subtotal;
+
+            resSubtotal.textContent = "S/ " + subtotal.toFixed(2);
+            resIgv.textContent = "S/ " + igv.toFixed(2);
+            resTotal.textContent = "S/ " + totalConIGV.toFixed(2);
+        }
+
+        // ========= GUARDAR VENTA (POST /pedidos) =========
+        async function guardarVenta() {
+            const idCliente = clienteSelect.value ? parseInt(clienteSelect.value, 10) : null;
+            const dni = dniLibre.value.trim();
+            const metodo_pago = metodoPagoSelect.value || undefined;
+
+            if (!idCliente && !dni) {
+                alert("Debes seleccionar un cliente o indicar un DNI para venta local.");
+                return;
+            }
+
+            if (!detalleVenta.length) {
+                alert("Debes agregar al menos un producto.");
+                return;
+            }
+
+            const detallesDto = detalleVenta.map((item) => ({
+                id_producto: item.id_producto,
+                cantidad: item.cantidad
+            }));
+
+            const payload = {
+                tipo_pedido: "local",
+                detalles: detallesDto
+            };
+
+            if (idCliente) payload.id_cliente = idCliente;
+            if (dni) payload.dni = dni;
+            if (metodo_pago) payload.metodo_pago = metodo_pago;
+
+            const adminId = getAdminIdFromToken();
+            console.log("idadmin: ", adminId);
+            if (adminId) payload.id_admin_venta = adminId;
+
+            try {
+                const res = await fetch(`${API_BASE}/pedidos`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        ...authHeaders()
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!res.ok) {
+                    const errData = await res.json().catch(() => ({}));
+                    console.error("Error al crear pedido", errData);
+                    alert(
+                        "No se pudo registrar la venta.\n" +
+                        (errData.message || res.statusText || "Error desconocido")
+                    );
+                    return;
+                }
+
+                const pedidoCreado = await res.json();
+                console.log("Pedido creado:", pedidoCreado);
+                alert(`Venta registrada correctamente. N° Pedido: ${pedidoCreado.id_pedido}`);
+
+                // Limpiar formulario
+                detalleVenta = [];
+                renderDetalle();
+                clienteSelect.value = "";
+                dniLibre.value = "";
+                buscarProducto.value = "";
+                cantidadProducto.value = "1";
+                metodoPagoSelect.value = "";
+            } catch (err) {
+                console.error("Error en la petición de venta", err);
+                alert("Ocurrió un error inesperado al registrar la venta.");
+            }
+        }
+
+        // ========= EVENTOS =========
+        document
+            .getElementById("btnAgregarProducto")
+            .addEventListener("click", (e) => {
+                e.preventDefault();
+                agregarProducto();
+            });
+
+        buscarProducto.addEventListener("keypress", (e) => {
+            if (e.key === "Enter") {
+                e.preventDefault();
+                agregarProducto();
+            }
+        });
+        // Al escribir, hacer debounce y buscar
+        buscarProducto.addEventListener("input", (e) => {
+            const term = e.target.value.trim();
+            selectedProduct = null;     // si cambia el texto, se deja de considerar la selección
+            searchResults = [];
+            if (searchTimer) clearTimeout(searchTimer);
+
+            if (term.length < 2) {
+                clearSuggestions();
+                return;
+            }
+
+            searchTimer = setTimeout(() => {
+                fetchProductSuggestions(term);
+            }, 300); // 300ms debounce
+        });
+
+        // Cerrar las sugerencias si se hace clic fuera
+        document.addEventListener("click", (e) => {
+            if (!e.target.closest(".autocomplete-wrap")) {
+                clearSuggestions();
+            }
+        });
+
+        document
+            .getElementById("btnGuardarVenta")
+            .addEventListener("click", (e) => {
+                e.preventDefault();
+                guardarVenta();
+            });
+
+        // ========= INICIO =========
+        loadClientes();
+        renderDetalle();
+    </script>
+
+</body>
+
+</html>

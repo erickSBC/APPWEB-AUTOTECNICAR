@@ -28,7 +28,8 @@
     justify-content: flex-start;
     gap: 50px;
   }
-  .remove-btn{
+
+  .remove-btn {
     border: 0;
     color: brown;
     font-weight: 600;
@@ -36,17 +37,30 @@
 
   /* LOGO */
   #logo {
-    color: white;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
     font-size: 26px;
     font-weight: 900;
     text-transform: uppercase;
     white-space: nowrap;
-     text-decoration: none
+    text-decoration: none;
   }
+
+  .logo-img {
+    height: 40px;
+    /* Ajusta según tu PNG */
+    width: auto;
+    display: block;
+  }
+ 
+
+ 
 
   #logo span {
     color: var(--rojo);
   }
+
 
   /* NAV LINKS */
   .nav-links {
@@ -134,7 +148,8 @@
     text-decoration: none;
     outline: .1px solid gray;
   }
-  .dropdown-box a:nth-child(2):hover{
+
+  .dropdown-box a:nth-child(2):hover {
     color: rgb(166, 7, 7);
   }
 
@@ -142,12 +157,13 @@
     top: -2px;
     text-decoration: underline;
   }
-  
-.cart-count{
-  color: #fbc3c3;
-  font-weight: 600;
-  display: inline;  
-}
+
+  .cart-count {
+    color: #fbc3c3;
+    font-weight: 600;
+    display: inline;
+  }
+
   /* MINI-CARRITO */
 
   .mini-cart {
@@ -207,8 +223,15 @@
   }
 
   @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(5px); }
-    to   { opacity: 1; transform: translateY(0); }
+    from {
+      opacity: 0;
+      transform: translateY(5px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 </style>
 
@@ -217,7 +240,11 @@
   <div class="header-container">
 
     <!-- LOGO -->
-    <a href="home.html" id="logo">AUTO<span>TECNICAR</span></a>
+    <a href="home.html" id="logo">
+      <img src="../../../assets/img/logo-main.png" alt="Autotecnicar" class="logo-img">
+      <span class="logo-text" style="color: white;">AUTO<span>TECNICAR</span></span>
+    </a>
+
     <!-- NAV -->
     <nav class="nav-links">
       <a href="home.html">Inicio</a>
@@ -251,7 +278,7 @@
         <div class="dropdown-box mini-cart">
           <div class="mc-header">
             <span>Tu carrito</span>
-            
+
           </div>
 
           <div class="mc-items"></div>
@@ -268,5 +295,3 @@
     </div>
   </div>
 </header>
-
-

@@ -12,7 +12,7 @@ export class PedidoDetalle {
   @JoinColumn({ name: 'id_pedido' })
   pedido: Pedido;
 
-  @ManyToOne(() => Producto)
+  @ManyToOne(() => Producto, {onDelete: 'CASCADE'})
   @JoinColumn({ name: 'id_producto' })
   producto: Producto;
 

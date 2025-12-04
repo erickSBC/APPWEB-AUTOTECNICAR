@@ -1,7 +1,6 @@
-<!-- ===== SIDEBAR GENERAL D'CESAR ===== -->
- <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
-<link rel="stylesheet" href="../assets/css/corporate-ui-dashboard.css?v=1.0.0">
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
 
+<link rel="stylesheet" href="../assets/css/corporate-ui-dashboard.css?v=1.0.0">
 <style>
   :root {
     --sb-bg: #1e293b;
@@ -21,22 +20,19 @@
     --gris: #f4f4f4;
   }
 
-  /* Layout general: sidebar + contenido */
-  .app-layout {
-    display: flex;
-    min-height: 100vh;
-    background: #f3f4f6;
-    font-family: "Open Sans", sans-serif;
+  html,
+  body {
     height: 100%;
-    font-weight: 600;
-
   }
 
-  /* ===== SIDEBAR ===== */
-
+  /* SIDEBAR FIJO Y A TODA ALTURA */
   .app-sidebar {
     width: 260px;
-    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    height: 100vh;
     z-index: 500;
     background: var(--sb-bg);
     color: var(--sb-text);
@@ -47,22 +43,37 @@
     gap: 40px;
   }
 
+  /* Cuando el body tiene sidebar, el contenido se corre a la derecha */
+  body.has-sidebar {
+    margin-left: 260px;
+  }
+
   .app-sidebar__brand {
     display: flex;
-    align-items: center;
-    gap: 8px;
+    justify-content: space-around;
     padding: 6px 8px 10px;
+    align-items: center;
+    gap: 10px;
   }
 
   .app-sidebar__logo {
     width: 32px;
     height: 32px;
     border-radius: 999px;
+    overflow: hidden;
+  }
+
+  .app-sidebar__logo img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 999px;
   }
 
   .app-sidebar__title {
     font-weight: 700;
-    font-size: 20px;
+    font-size: 22px;
     letter-spacing: 0.03em;
   }
 
@@ -80,9 +91,11 @@
   .app-sidebar__nav::-webkit-scrollbar {
     width: 6px;
   }
+
   .app-sidebar__nav::-webkit-scrollbar-track {
     background: transparent;
   }
+
   .app-sidebar__nav::-webkit-scrollbar-thumb {
     background: #4b5563;
     border-radius: 999px;
@@ -105,6 +118,12 @@
     padding: 14px 10px 6px;
   }
 
+  .sb-menu__divider {
+    height: 1px;
+    background-color: var(--sb-border);
+    margin: 12px 10px;
+  }
+
   .sb-item {
     position: relative;
   }
@@ -125,6 +144,18 @@
 
   .sb-link:hover {
     background: var(--sb-active-bg);
+    border-color: rgba(148, 163, 184, 0.4);
+    color: #fff;
+  }
+
+  .sb-link.is-action {
+    background: var(--sb-bg-alt);
+    border-color: var(--sb-border);
+    font-weight: 700;
+  }
+
+  .sb-link.is-action:hover {
+    background: #151a2a;
     border-color: rgba(148, 163, 184, 0.4);
   }
 
@@ -150,19 +181,17 @@
     transition: transform 0.18s ease, opacity 0.18s ease;
   }
 
-  /* Activo */
   .sb-item.is-active > .sb-link {
     background: var(--sb-accent-soft);
     border-color: var(--sb-accent-soft);
   }
 
   .sb-item.is-active > .sb-link .sb-link__icon {
-    background: rgba(15, 23, 42, 0.9);;
+    background: rgba(15, 23, 42, 0.9);
     color: #f9fafb;
   }
 
-  /* ===== Submenús ===== */
-
+  /* Submenús */
   .sb-item.has-submenu > .sb-link {
     justify-content: flex-start;
   }
@@ -196,7 +225,6 @@
     background: rgba(15, 23, 42, 0.9);
   }
 
-  /* Submenú abierto */
   .sb-item.is-open > .sb-submenu {
     max-height: 200px;
     opacity: 1;
@@ -208,29 +236,23 @@
     opacity: 1;
   }
 
- 
-
-  /* ===== Contenido principal al lado ===== */
-
-  .app-main {
-    flex: 1;
-    padding: 24px 28px;
-  }
-
   /* Responsive básico */
   @media (max-width: 900px) {
-    .app-layout {
-      flex-direction: column;
-    }
-
     .app-sidebar {
       width: 100%;
+      height: auto;
+      position: static;
       flex-direction: row;
-      align-items: flex-start;
+      align-items: center;
       gap: 12px;
       padding: 12px 16px;
       overflow-x: auto;
       overflow-y: hidden;
+      white-space: nowrap;
+    }
+
+    body.has-sidebar {
+      margin-left: 0;
     }
 
     .app-sidebar__nav {
@@ -241,90 +263,79 @@
     }
 
     .sb-section-label,
-    .sb-submenu {
+    .sb-submenu,
+    .sb-menu__divider {
       display: none;
-    }
-
-    .app-main {
-      padding: 18px 16px;
     }
   }
 </style>
 
-<div class="app-layout">
-  <!-- SIDEBAR -->
-  <aside class="app-sidebar">
-    <!-- Marca -->
-    <div class="app-sidebar__brand">
-      <div class="app-sidebar__logo"></div>
-      <div class="app-sidebar__title">Auto<span>tecnicar</span></div>
+<aside class="app-sidebar">
+  <div class="app-sidebar__brand">
+    <div class="app-sidebar__logo">
+      <img src="../../assets/img/logo-main.png" alt="Logo Autotecnicar" />
     </div>
+    <div class="app-sidebar__title">Auto<span>tecnicar</span></div>
+  </div>
 
-    <!-- Navegación -->
-    <nav class="app-sidebar__nav">
-      <ul class="sb-menu">
+  <nav class="app-sidebar__nav">
+    <ul class="sb-menu">
 
-        <li class="sb-item is-active">
-          <a href="dashboard.html" class="sb-link">
-            <span class="sb-link__icon">
-              <!-- Usa FontAwesome si quieres: <i class="fa-solid fa-table-columns"></i> -->
-              📊
-            </span>
-            <span class="sb-link__label">Dashboard</span>
-          </a>
-        </li>
+      <li class="sb-item">
+        <a href="dashboard.html" class="sb-link">
+          <span class="sb-link__icon">📊</span>
+          <span class="sb-link__label">Dashboard</span>
+        </a>
+      </li>
 
-        <!-- Account pages -->
+      <li class="sb-item has-submenu is-open">
+        <a href="#" class="sb-link" data-sb-toggle="submenu">
+          <span class="sb-link__icon">🧑‍💻</span>
+          <span class="sb-link__label">Cuenta</span>
+          <span class="sb-link__chevron">▶</span>
+        </a>
+        <ul class="sb-submenu">
+          <li class="sb-submenu__item">
+            <a href="perfil.html">Perfil</a>
+          </li>
+          <li class="sb-submenu__item">
+            <a href="#" id="logoutBtn">Cerrar sesión</a>
+          </li>
+        </ul>
+      </li>
 
-        <li class="sb-item has-submenu is-open">
-          <a href="#" class="sb-link" data-sb-toggle="submenu">
-            <span class="sb-link__icon">🧑‍💻</span>
-            <span class="sb-link__label">Cuenta</span>
-            <span class="sb-link__chevron">▶</span>
-          </a>
-          <ul class="sb-submenu">
-            <li class="sb-submenu__item">
-              <a href="perfil.html">Perfil</a>
-            </li>
-            <li class="sb-submenu__item">
-              <a href="#" id="logoutBtn">Cerrar sesión</a>
-            </li>
-          </ul>
-        </li>
+      <li class="sb-item has-submenu is-open">
+        <a href="#" class="sb-link" data-sb-toggle="submenu">
+          <span class="sb-link__icon">📄</span>
+          <span class="sb-link__label">Módulos</span>
+          <span class="sb-link__chevron">▶</span>
+        </a>
+        <ul class="sb-submenu">
+          <li class="sb-submenu__item">
+            <a href="clientes.html">Clientes</a>
+          </li>
+          <li class="sb-submenu__item">
+            <a href="administradores.html">Administradores</a>
+          </li>
+          <li class="sb-submenu__item">
+            <a href="productos.html">Productos</a>
+          </li>
+          <li class="sb-submenu__item">
+            <a href="categorias.html">Categorías</a>
+          </li>
+          <li class="sb-submenu__item">
+            <a href="ventas.html">Ventas</a>
+          </li>
+        </ul>
+      </li>
 
+    </ul>
 
-        <li class="sb-item has-submenu is-open">
-          <a href="#" class="sb-link" data-sb-toggle="submenu">
-            <span class="sb-link__icon">📄</span>
-            <span class="sb-link__label">Módulos</span>
-            <span class="sb-link__chevron">▶</span>
-          </a>
-          <ul class="sb-submenu">
-            <li class="sb-submenu__item">
-              <a href="clientes.html">Clientes</a>
-            </li>
-            <!-- <li class="sb-submenu__item">
-              <a href="notificaciones.html">Notificaciones</a>
-            </li> -->
-            <li class="sb-submenu__item">
-              <a href="productos.html">Productos</a>
-            </li>
-             <li class="sb-submenu__item">
-              <a href="categorias.html">Categorias</a>
-            </li>
-          </ul>
-        </li>
+    <div class="sb-menu__divider"></div>
 
-      </ul>
-    </nav>
-
-  
-  </aside>
-
-  <!-- CONTENIDO PRINCIPAL
-       En cada página cambia solo este <main> -->
-  <!-- <main class="app-main"> -->
-    <!-- Aquí va el contenido de dashboard.html / productos.html / clientes.html, etc. -->
-    <!-- <h1>Contenido de ejemplo</h1>
-  </main> -->
-</div>
+    <a href="nueva-venta.html" class="sb-link is-action">
+      <span class="sb-link__icon">🏷️</span>
+      <span class="sb-link__label">Agregar Venta +</span>
+    </a>
+  </nav>
+</aside>

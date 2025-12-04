@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pedido confirmado - AutoMas</title>
+
+  <link rel="stylesheet" href="../../assets/css/corporate-ui-dashboard.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <style>
+    body {
+      margin: 0;
+      margin-top: 100px;
+      font-family: "Open Sans", system-ui, sans-serif;
+      background: #f5f5f7;
+    }
+
+    .page-wrap {
+      max-width: 1100px;
+      margin: 40px auto 60px;
+      padding: 0 16px;
+    }
+
+    .confirm-card {
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 14px 40px rgba(15,23,42,0.1);
+      padding: 32px 32px 28px;
+      display: grid;
+      grid-template-columns: minmax(0, 2fr) minmax(0, 1.4fr);
+      gap: 28px;
+    }
+
+    .confirm-header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 18px;
+    }
+
+    .confirm-icon {
+      width: 54px;
+      height: 54px;
+      border-radius: 999px;
+      background: #e6f7ec;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 26px;
+      color: #16a34a;
+    }
+
+    .confirm-title {
+      font-size: 26px;
+      font-weight: 800;
+      margin: 0;
+    }
+
+    .confirm-sub {
+      margin: 3px 0 0;
+      color: #6b7280;
+      font-size: 14px;
+    }
+
+    .order-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px 32px;
+      margin: 14px 0 22px;
+      font-size: 14px;
+      color: #4b5563;
+    }
+
+    .order-meta span strong {
+      color: #111827;
+    }
+
+    .order-section-title {
+      font-size: 15px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: #111827;
+    }
+
+    .shipping-box {
+      background: #f9fafb;
+      border-radius: 12px;
+      padding: 14px 16px;
+      font-size: 14px;
+      color: #4b5563;
+      margin-bottom: 18px;
+    }
+
+    .shipping-box div + div {
+      margin-top: 4px;
+    }
+
+    .products-list {
+      border-radius: 12px;
+      border: 1px solid #e5e7eb;
+      overflow: hidden;
+    }
+
+    .product-row {
+      display: grid;
+      grid-template-columns: 64px minmax(0, 1fr) auto;
+      gap: 14px;
+      padding: 10px 14px;
+      align-items: center;
+      background: #fff;
+    }
+
+    .product-row:nth-child(odd) {
+      background: #f9fafb;
+    }
+
+    .product-row img {
+      width: 64px;
+      height: 64px;
+      border-radius: 10px;
+      object-fit: cover;
+      background: #f3f4f6;
+    }
+
+    .product-name {
+      font-size: 14px;
+      font-weight: 600;
+      color: #111827;
+      margin-bottom: 3px;
+    }
+
+    .product-extra {
+      font-size: 13px;
+      color: #6b7280;
+    }
+
+    .product-price {
+      font-size: 14px;
+      font-weight: 700;
+      color: #b91c1c;
+      white-space: nowrap;
+    }
+
+    /* Resumen derecho */
+    .summary-card {
+      background: #f9fafb;
+      border-radius: 16px;
+      padding: 18px 18px 16px;
+      border: 1px solid #e5e7eb;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .summary-title {
+      font-size: 15px;
+      font-weight: 700;
+      margin-bottom: 4px;
+      color: #111827;
+    }
+
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 14px;
+      color: #4b5563;
+    }
+
+    .summary-row strong {
+      color: #111827;
+    }
+
+    .summary-total {
+      border-top: 1px dashed #d1d5db;
+      padding-top: 10px;
+      margin-top: 6px;
+      font-size: 16px;
+      font-weight: 800;
+      color: #b91c1c;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .summary-total span:first-child {
+      color: #111827;
+    }
+
+    .summary-actions {
+      margin-top: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .btn-main {
+      border: none;
+      border-radius: 999px;
+      padding: 9px 16px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      background: #dc2626;
+      color: #fff;
+      width: 100%;
+    }
+
+    .btn-secondary {
+      border-radius: 999px;
+      border: 1px solid #d1d5db;
+      padding: 9px 16px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      background: #fff;
+      color: #374151;
+      width: 100%;
+    }
+
+    .help-text {
+      margin-top: 14px;
+      font-size: 12px;
+      color: #9ca3af;
+      line-height: 1.5;
+    }
+
+    @media (max-width: 900px) {
+      .confirm-card {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER (reutilizado) -->
+  <div id="header"></div>
+  <script>
+    fetch("components/header.html")
+      .then(r => r.text())
+      .then(h => document.getElementById("header").innerHTML = h);
+  </script>
+
+  <div class="page-wrap">
+    <div class="confirm-card">
+
+      <!-- Columna izquierda -->
+      <div>
+        <div class="confirm-header">
+          <div class="confirm-icon">
+            <i class="fas fa-check"></i>
+          </div>
+          <div>
+            <h1 class="confirm-title">¡Gracias por tu compra!</h1>
+            <p class="confirm-sub">
+              Tu pedido ha sido registrado correctamente. Te enviaremos actualizaciones al correo registrado.
+            </p>
+          </div>
+        </div>
+
+        <div class="order-meta">
+          <span><strong>N° de pedido:</strong> <span id="orderId">—</span></span>
+          <span><strong>Fecha:</strong> <span id="orderDate">—</span></span>
+          <span><strong>Método de pago:</strong> <span id="orderPay">—</span></span>
+        </div>
+
+        <div>
+          <div class="order-section-title">Dirección de envío</div>
+          <div class="shipping-box">
+            <div id="shipNameRow"><strong>Nombre:</strong> <span id="shipName">—</span></div>
+            <div><strong>Teléfono:</strong> <span id="shipPhone">—</span></div>
+            <div><strong>Dirección:</strong> <span id="shipAddress">—</span></div>
+          </div>
+        </div>
+
+        <div>
+          <div class="order-section-title">Productos del pedido</div>
+          <div class="products-list" id="productsList">
+            <div class="product-row">
+              <div style="grid-column:1 / -1; text-align:center; padding:10px 0; color:#6b7280; font-size:14px;">
+                Cargando productos del pedido...
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Columna derecha (resumen) -->
+      <div>
+        <div class="summary-card">
+          <div class="summary-title">Resumen de pago</div>
+
+          <div class="summary-row">
+            <span>Productos (incluye IGV)</span>
+            <span id="sumSubtotal">S/ 0.00</span>
+          </div>
+
+          <div class="summary-row">
+            <span>Envío</span>
+            <span id="sumShipping">S/ 0.00</span>
+          </div>
+
+          <div class="summary-total">
+            <span>Total pagado</span>
+            <span id="sumTotal">S/ 0.00</span>
+          </div>
+
+          <div class="summary-actions">
+            <button class="btn-main" id="btnGoOrders">
+              Ver mis pedidos
+            </button>
+            <button class="btn-secondary" id="btnGoStore">
+              Seguir comprando
+            </button>
+          </div>
+
+          <p class="help-text">
+            Si tienes dudas sobre tu pedido, contáctanos por WhatsApp o
+            acércate a nuestra tienda. Conserva tu número de pedido para cualquier consulta.
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+<script src="./components/header-logic.js"></script>
+  <script src="./assets/js/site-cart.js"></script>
+  <script>
+    // Leer pedido creado desde sessionStorage
+    const stored = localStorage.getItem("ultimoPedido");
+    let pedido = null;
+
+    function mapMetodoPago(m) {
+      if (!m) return "No especificado";
+      if (m === "tarjeta") return "Tarjeta de crédito / débito";
+      if (m === "yape") return "Yape";
+      return m;
+    }
+
+    function loadOrderView() {
+      if (!stored) {
+        // Si no hay datos, mostrar mensaje genérico
+        document.getElementById("orderId").textContent = "—";
+        document.getElementById("orderDate").textContent = "—";
+        document.getElementById("orderPay").textContent = "—";
+        document.getElementById("sumSubtotal").textContent = "S/ 0.00";
+        document.getElementById("sumTotal").textContent = "S/ 0.00";
+        document.getElementById("productsList").innerHTML =
+          '<div class="product-row"><div style="grid-column:1 / -1; text-align:center; padding:10px 0; color:#6b7280; font-size:14px;">No se encontró información del pedido. Es posible que hayas recargado la página.</div></div>';
+        return;
+      }
+
+      try {
+        pedido = JSON.parse(stored);
+      } catch (e) {
+        console.error("Error parseando ultimoPedido", e);
+        return;
+      }
+
+      // Meta
+      document.getElementById("orderId").textContent = pedido.id_pedido ?? "—";
+
+      const fecha = pedido.fecha_creacion
+        ? new Date(pedido.fecha_creacion)
+        : new Date();
+      document.getElementById("orderDate").textContent =
+        fecha.toLocaleString("es-PE", { dateStyle: "medium", timeStyle: "short" });
+
+      document.getElementById("orderPay").textContent = mapMetodoPago(pedido.metodo_pago);
+  
+      // Dirección de envío desde cliente (si existe)
+      if (pedido.cliente) {
+        const cli = pedido.cliente;
+        const nombreCompleto =
+          (cli.nombre || "") + (cli.apellido ? " " + cli.apellido : "");
+        document.getElementById("shipName").textContent = nombreCompleto || "—";
+        document.getElementById("shipPhone").textContent = cli.telefono || "—";
+        document.getElementById("shipAddress").textContent =
+          cli.direccion || "—";
+      }
+
+      // Productos
+      const list = document.getElementById("productsList");
+      const detalles = pedido.detalles || [];
+
+      if (!detalles.length) {
+        list.innerHTML =
+          '<div class="product-row"><div style="grid-column:1 / -1; text-align:center; padding:10px 0; color:#6b7280; font-size:14px;">Este pedido no tiene detalles registrados.</div></div>';
+      } else {
+        list.innerHTML = "";
+        detalles.forEach((det) => {
+          const producto = det.producto || {};
+          const nombre = producto.nombre || "Producto";
+          const cantidad = det.cantidad ?? 1;
+          const precioLinea = parseFloat(det.subtotal ?? 0);
+
+          const row = document.createElement("div");
+          row.classList.add("product-row");
+          row.innerHTML = `
+            <img src="${
+              producto.imagen ||
+              producto.imagen_url ||
+              "https://via.placeholder.com/64x64?text=IMG"
+            }" alt="${nombre}">
+            <div>
+              <div class="product-name">${nombre}</div>
+              <div class="product-extra">Cantidad: ${cantidad}</div>
+            </div>
+            <div class="product-price">S/ ${precioLinea.toFixed(2)}</div>
+          `;
+          list.appendChild(row);
+        });
+      }
+
+      // Totales (en tu servicio total ya incluye IGV)
+      const subtotal = Number(pedido.total ?? 0); // sin desglose de envío
+      document.getElementById("sumSubtotal").textContent =
+        "S/ " + subtotal.toFixed(2);
+      document.getElementById("sumShipping").textContent = "S/ 0.00";
+      document.getElementById("sumTotal").textContent =
+        "S/ " + subtotal.toFixed(2);
+    }
+
+    // Botones de acción
+    document.getElementById("btnGoOrders").addEventListener("click", () => {
+      // Página de "Mis pedidos" que tú definas
+      window.location.href = "mis-pedidos.html";
+    });
+
+    document.getElementById("btnGoStore").addEventListener("click", () => {
+      window.location.href = "tienda.html";
+    });
+
+    document.addEventListener("DOMContentLoaded", loadOrderView);
+  </script>
+</body>
+</html>

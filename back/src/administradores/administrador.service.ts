@@ -41,4 +41,12 @@ export class AdministradoresService {
     await this.adminRepo.delete(id);
     return { deleted: true };
   }
+  async searchByName(pattern: string) {
+    const likePattern = `%${pattern.replace(/%/g, '\\%')}%`;
+    // Use query builder to perform a case-insensitive search that works across DBs
+    const qb = this.adminRepo.createQueryBuilder('p')
+      .where('LOWER(p.nombre) LIKE LOWER(:pattern) or LOWER(p.apellido) LIKE LOWER(:pattern)', { pattern: likePattern });
+
+    return qb.getMany();
+  }
 }
