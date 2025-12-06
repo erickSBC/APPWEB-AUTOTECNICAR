@@ -12,7 +12,6 @@
   <style>
     body{
         margin-left: 260px !important;
-
     }
     /* ==================== ESTILOS AISLADOS PARA VENTAS ==================== */
     .ventas-page {
@@ -20,26 +19,22 @@
       font-family: "Open Sans", system-ui, -apple-system, BlinkMacSystemFont,
         "Segoe UI", sans-serif;
     }
-
     .ventas-page .vp-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
       margin-bottom: 18px;
     }
-
     .ventas-page .vp-title {
       font-size: 24px;
       font-weight: 800;
       color: #111827;
     }
-
     .ventas-page .vp-muted {
       font-size: 12px;
       color: #9ca3af;
       margin-top: 4px;
     }
-
     .ventas-page .vp-btn-primary {
       background: #111827;
       color: #fff;
@@ -54,12 +49,10 @@
       gap: 8px;
       text-decoration: none;
     }
-
     .ventas-page .vp-btn-primary:hover {
       background: #000;
       color: #fff;
     }
-
     .ventas-page .vp-card {
       background: #fff;
       border-radius: 16px;
@@ -67,26 +60,22 @@
       padding: 16px 18px 10px;
       margin-bottom: 14px;
     }
-
     .ventas-page .vp-filters {
       display: flex;
       gap: 12px;
       align-items: center;
       flex-wrap: wrap;
     }
-
     .ventas-page .vp-form-group {
       display: flex;
       flex-direction: column;
       gap: 4px;
       min-width: 180px;
     }
-
     .ventas-page .vp-form-group label {
       font-size: 12px;
       color: #6b7280;
     }
-
     .ventas-page .vp-form-group input,
     .ventas-page .vp-form-group select {
       border-radius: 8px;
@@ -96,7 +85,6 @@
       outline: none;
       background: #fff;
     }
-
     .ventas-page .vp-btn-small {
       border-radius: 999px;
       border: none;
@@ -108,34 +96,28 @@
       align-items: center;
       gap: 5px;
     }
-
     .ventas-page .vp-btn-secondary {
       background: #f3f4f6;
       color: #111827;
     }
-
     .ventas-page .vp-btn-secondary:hover {
       background: #e5e7eb;
     }
-
     /* Tabla */
     .ventas-page table.vp-table {
       width: 100%;
       border-collapse: collapse;
       font-size: 13px;
     }
-
     .ventas-page table.vp-table thead {
       background: #f9fafb;
     }
-
     .ventas-page table.vp-table th,
     .ventas-page table.vp-table td {
       padding: 10px 10px;
       border-bottom: 1px solid #e5e7eb;
       text-align: left;
     }
-
     .ventas-page table.vp-table th {
       font-size: 11px;
       text-transform: uppercase;
@@ -143,11 +125,9 @@
       letter-spacing: 0.03em;
       font-weight: 700;
     }
-
     .ventas-page table.vp-table tbody tr:hover {
       background: #f9fafb;
     }
-
     .ventas-page .vp-text-right { text-align: right; }
     .ventas-page .vp-text-center { text-align: center; }
 
@@ -161,7 +141,6 @@
       font-weight: 600;
       gap: 4px;
     }
-
     .ventas-page .vp-badge-pendiente {
       background: #fef3c7;
       color: #92400e;
@@ -169,10 +148,6 @@
     .ventas-page .vp-badge-pagado {
       background: #d1fae5;
       color: #065f46;
-    }
-    .ventas-page .vp-badge-procesando {
-      background: #e0f2fe;
-      color: #0369a1;
     }
     .ventas-page .vp-badge-enviado {
       background: #e0f2fe;
@@ -186,24 +161,20 @@
       background: #fee2e2;
       color: #b91c1c;
     }
-
     .ventas-page .vp-actions {
       display: flex;
       gap: 6px;
       justify-content: flex-end;
       align-items: center;
     }
-
     .ventas-page .vp-btn-outline {
       background: transparent;
       border: 1px solid #d1d5db;
       color: #374151;
     }
-
     .ventas-page .vp-btn-outline:hover {
       background: #f9fafb;
     }
-
     .ventas-page .vp-select-estado {
       border-radius: 999px;
       border: 1px solid #d1d5db;
@@ -221,9 +192,8 @@
       display: none;
       align-items: center;
       justify-content: center;
-      z-index: 9999; /* por encima de bootstrap */
+      z-index: 9999;
     }
-
     .ventas-modal {
       background: #fff;
       border-radius: 16px;
@@ -234,20 +204,17 @@
       box-shadow: 0 24px 80px rgba(15, 23, 42, 0.4);
       padding: 18px 20px;
     }
-
     .ventas-modal-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
       margin-bottom: 10px;
     }
-
     .ventas-modal-title {
       font-size: 18px;
       font-weight: 800;
       color: #111827;
     }
-
     .ventas-modal-close {
       border: none;
       background: transparent;
@@ -258,20 +225,17 @@
     .ventas-modal-close:hover {
       color: #111827;
     }
-
     .ventas-detalle-info {
       font-size: 12px;
       color: #6b7280;
       margin-bottom: 10px;
     }
-
     .ventas-detalle-items {
       margin-top: 4px;
       border-top: 1px solid #e5e7eb;
       padding-top: 10px;
       font-size: 13px;
     }
-
     .ventas-detalle-row {
       display: grid;
       grid-template-columns: 2fr 1fr 1fr 1fr;
@@ -279,7 +243,6 @@
       padding: 6px 0;
       border-bottom: 1px dashed #e5e7eb;
     }
-
     .ventas-detalle-header {
       font-size: 11px;
       text-transform: uppercase;
@@ -289,17 +252,14 @@
       padding-bottom: 6px;
       margin-bottom: 4px;
     }
-
     .ventas-detalle-totales {
       margin-top: 14px;
       text-align: right;
       font-size: 13px;
     }
-
     .ventas-detalle-totales div {
       margin-bottom: 2px;
     }
-
     .ventas-detalle-totales span.label {
       color: #6b7280;
       margin-right: 6px;
@@ -333,7 +293,7 @@
           <div class="vp-title">Ventas</div>
           <div class="vp-muted">Listado de pedidos registrados en el sistema.</div>
         </div>
-        <a href="registrar-venta.html" class="vp-btn-primary">
+        <a href="nueva-venta.html" class="vp-btn-primary">
           <i class="fas fa-plus"></i> Registrar venta
         </a>
       </div>
@@ -352,7 +312,6 @@
               <option value="">Todos</option>
               <option value="pendiente">Pendiente</option>
               <option value="pagado">Pagado</option>
-              <option value="procesando">Procesando</option>
               <option value="enviado">Enviado</option>
               <option value="entregado">Entregado</option>
               <option value="cancelado">Cancelado</option>
@@ -401,7 +360,7 @@
     </div>
   </main>
 
-  <!-- MODAL DETALLE (AISLADO DE BOOTSTRAP) -->
+  <!-- MODAL DETALLE -->
   <div class="ventas-modal-backdrop" id="detalleModalBackdrop">
     <div class="ventas-modal">
       <div class="ventas-modal-header">
@@ -486,7 +445,6 @@
     function estadoBadgeClass(estado) {
       switch (estado) {
         case "pagado": return "vp-badge vp-badge-pagado";
-        case "procesando": return "vp-badge vp-badge-procesando";
         case "enviado": return "vp-badge vp-badge-enviado";
         case "entregado": return "vp-badge vp-badge-entregado";
         case "cancelado": return "vp-badge vp-badge-cancelado";
@@ -565,6 +523,16 @@
             : "Yape"
           : "-";
 
+        // <<< botón comprobante solo si está pagado
+        const comprobanteBtnHtml = p.estado === "pagado"
+          ? `<button class="vp-btn-small vp-btn-outline"
+                     title="Ver boleta"
+                     data-action="comprobante"
+                     data-id="${p.id_pedido}">
+               <i class="fas fa-receipt"></i>
+             </button>`
+          : "";
+
         tr.innerHTML = `
           <td>#${p.id_pedido}</td>
           <td>${formatDate(p.fecha_creacion)}</td>
@@ -583,18 +551,22 @@
           <td class="vp-text-right">${formatMoney(p.total)}</td>
           <td class="vp-text-right">
             <div class="vp-actions">
-              <button class="vp-btn-small vp-btn-secondary" data-action="ver" data-id="${p.id_pedido}">
+              <button class="vp-btn-small vp-btn-secondary"
+                      data-action="ver"
+                      data-id="${p.id_pedido}">
                 <i class="fas fa-eye"></i> Ver
               </button>
+              ${comprobanteBtnHtml}
               <select class="vp-select-estado" data-select-estado="${p.id_pedido}">
                 <option value="pendiente" ${p.estado === "pendiente" ? "selected" : ""}>Pendiente</option>
                 <option value="pagado" ${p.estado === "pagado" ? "selected" : ""}>Pagado</option>
-                <option value="procesando" ${p.estado === "procesando" ? "selected" : ""}>Procesando</option>
                 <option value="enviado" ${p.estado === "enviado" ? "selected" : ""}>Enviado</option>
                 <option value="entregado" ${p.estado === "entregado" ? "selected" : ""}>Entregado</option>
                 <option value="cancelado" ${p.estado === "cancelado" ? "selected" : ""}>Cancelado</option>
               </select>
-              <button class="vp-btn-small vp-btn-outline" data-action="guardar-estado" data-id="${p.id_pedido}">
+              <button class="vp-btn-small vp-btn-outline"
+                      data-action="guardar-estado"
+                      data-id="${p.id_pedido}">
                 Guardar
               </button>
             </div>
@@ -607,9 +579,8 @@
 
     async function updateEstadoPedido(id, estado) {
       if (!confirm("¿Actualizar estado de esta venta a '" + estado + "'?")) return;
-
       try {
-        const res = await fetch(`${API_BASE}/pedidos/${id}`, {
+        const res = await fetch(`${API_BASE}/pedidos/${id}`, { // <<< corregido
           method: "PUT",
           headers: authHeaders(),
           body: JSON.stringify({ estado }),
@@ -617,7 +588,7 @@
         if (!res.ok) {
           const txt = await res.text();
           console.error("Error al actualizar estado", txt);
-          alert("No se pudo actualizar el estado.");
+          alert("No se pudo actualizar el estado a " + estado);
           return;
         }
         await loadVentas();
@@ -647,6 +618,12 @@
         if (!select) return;
         const nuevoEstado = select.value;
         await updateEstadoPedido(id, nuevoEstado);
+      }
+
+      // <<< NUEVO: abrir comprobante
+      if (action === "comprobante") {
+        // abre comprobante.html, que internamente llamará a GET /comprobantes/pedido/:id_pedido
+        window.open(`comprobante.html?id_pedido=${id}`, "_blank");
       }
     });
 

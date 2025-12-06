@@ -460,11 +460,7 @@
                                 </select>
                             </div>
 
-                            <div class="form-group">
-                                <label>Estado de la Venta</label>
-                                <input type="text" value="Pendiente" disabled />
-                                <div class="muted">El estado inicial siempre será "pendiente".</div>
-                            </div>
+                           
 
                             <button class="btn-save" id="btnGuardarVenta">
                                 Guardar Venta
@@ -473,11 +469,7 @@
                                 Cancelar
                             </button>
 
-                            <div class="muted" style="margin-top:10px;">
-                                Al guardar se creará un <strong>Pedido</strong> tipo <code>local</code> usando el
-                                servicio
-                                <code>POST /pedidos</code>, se validará stock y se descontará automáticamente.
-                            </div>
+                            
                         </div>
 
                     </div>
@@ -792,7 +784,7 @@
         async function guardarVenta() {
             const idCliente = clienteSelect.value ? parseInt(clienteSelect.value, 10) : null;
             const dni = dniLibre.value.trim();
-            const metodo_pago = metodoPagoSelect.value || undefined;
+            const metodo_pago = metodoPagoSelect.value || 'efectivo';
 
             if (!idCliente && !dni) {
                 alert("Debes seleccionar un cliente o indicar un DNI para venta local.");
@@ -821,7 +813,7 @@
             const adminId = getAdminIdFromToken();
             console.log("idadmin: ", adminId);
             if (adminId) payload.id_admin_venta = adminId;
-
+            payload.estado = "pagado";
             try {
                 const res = await fetch(`${API_BASE}/pedidos`, {
                     method: "POST",
@@ -854,6 +846,7 @@
                 buscarProducto.value = "";
                 cantidadProducto.value = "1";
                 metodoPagoSelect.value = "";
+                window.location.href = "ventas.html"
             } catch (err) {
                 console.error("Error en la petición de venta", err);
                 alert("Ocurrió un error inesperado al registrar la venta.");

@@ -1047,7 +1047,7 @@ GET /productos/search?pattern=taladro
 - **Parámetros:** `id` (number) - ID del pedido
 - **Descripción:** Actualiza el estado del pedido
 
-**Estados válidos:** `pendiente`, `pagado`, `procesando`, `enviado`, `entregado`, `cancelado`, `reembolso`
+**Estados válidos:** `pendiente`, `pagado`, `enviado`, `entregado`, `cancelado`, `reembolso`
 
 **Request Body:**
 ```json

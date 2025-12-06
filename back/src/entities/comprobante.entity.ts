@@ -1,32 +1,52 @@
 // src/comprobantes/comprobante.entity.ts
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn, CreateDateColumn } from 'typeorm';
-import { Pedido } from '../entities/pedido.entity';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  OneToOne,
+  ManyToOne,
+  JoinColumn,
+  CreateDateColumn,
+} from 'typeorm';
+import { Pedido, MetodoPago } from '../entities/pedido.entity';
 import { Cliente } from '../entities/cliente.entity';
+
+export enum TipoComprobante {
+  boleta = 'boleta',
+  factura = 'factura',
+}
 
 @Entity('comprobante')
 export class Comprobante {
   @PrimaryGeneratedColumn()
   id_comprobante: number;
 
-  @ManyToOne(() => Pedido, { onDelete: 'CASCADE' })
+  // 1 comprobante ↔ 1 pedido (relación uno a uno)
+  @OneToOne(() => Pedido, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'id_pedido' })
   pedido: Pedido;
 
+  // Cliente registrado (opcional)
   @ManyToOne(() => Cliente, { nullable: true })
   @JoinColumn({ name: 'id_cliente' })
   cliente?: Cliente;
-  
-  @Column({ type: 'varchar', length: 20 })
-  tipo_comprobante: string; // boleta, factura, ticket
 
-  @Column({ type: 'varchar', length: 50 })
+  // DNI directo (ventas locales sin cliente registrado)
+  @Column({ type: 'varchar', length: 20, nullable: true })
+  dni?: string;
+
+  @Column({ type: 'enum', enum: TipoComprobante })
+  tipo_comprobante: TipoComprobante;
+
+  @Column({ type: 'varchar', length: 50, unique: true })
   numero_comprobante: string;
 
   @Column({ type: 'decimal', precision: 10, scale: 2 })
   total: number;
 
-  @Column({ type: 'varchar', length: 50 })
-  metodo_pago: string; // efectivo, tarjeta, transferencia
+  // Método de pago: usamos el mismo enum del Pedido
+  @Column({ type: 'enum', enum: MetodoPago, nullable: true })
+  metodo_pago?: MetodoPago;
 
   @CreateDateColumn()
   fecha_emision: Date;

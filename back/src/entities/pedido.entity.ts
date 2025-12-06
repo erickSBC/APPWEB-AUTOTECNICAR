@@ -17,7 +17,6 @@ import { Administrador } from './administrador.entity';
 export enum PedidoEstado {
   pendiente = 'pendiente',
   pagado = 'pagado',
-  procesando = 'procesando',
   enviado = 'enviado',
   entregado = 'entregado',
   cancelado = 'cancelado',
@@ -31,6 +30,7 @@ export enum TipoPedido {
 export enum MetodoPago {
   tarjeta = 'tarjeta',
   yape = 'yape',
+  efectivo = 'efectivo',
 }
 
 @Entity('pedido')

@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Boleta de Venta - AutoTecnicAR</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont,
+        sans-serif;
+    }
+
+    body {
+      margin: 0;
+      padding: 16px;
+      background: #e5e7eb;
+      display: flex;
+      justify-content: center;
+    }
+
+    .a4 {
+      width: 21cm;
+      background: #fff;
+      border: 1px solid #111;
+      padding: 12px 14px;
+      position: relative;
+    }
+
+    /* CABECERA */
+
+    .header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: stretch;
+      border-bottom: 1px solid #111;
+      padding-bottom: 6px;
+      margin-bottom: 6px;
+    }
+
+    .empresa-info {
+      flex: 1.3;
+      font-size: 11px;
+      line-height: 1.4;
+      font-weight: 500;
+    }
+
+    .empresa-info .nombre {
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .empresa-info .nombre span {
+      color: #d32f2f;
+    }
+
+    .box-doc {
+      flex: 0.7;
+      border: 1px solid #111;
+      text-align: center;
+      font-size: 11px;
+      padding: 6px 4px;
+      text-transform: uppercase;
+    }
+
+    .box-doc .titulo {
+      font-weight: 700;
+      margin-bottom: 2px;
+    }
+
+    .box-doc .ruc {
+      margin-top: 4px;
+      font-weight: 600;
+    }
+
+    .box-doc .serie {
+      margin-top: 4px;
+      font-weight: 700;
+      font-size: 12px;
+    }
+
+    /* BLOQUE FECHAS / CLIENTE */
+
+    .bloque {
+      border-bottom: 1px solid #111;
+      padding-bottom: 6px;
+      margin-bottom: 6px;
+      font-size: 11px;
+    }
+
+    .bloque p {
+      margin: 0;
+      line-height: 1.5;
+    }
+
+    .label {
+      display: inline-block;
+      width: 100px;
+    }
+
+    .bloque-flex {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .bloque-col {
+      flex: 1;
+    }
+
+    /* TABLA DETALLE */
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 10px;
+    }
+
+    thead tr {
+      background: #f3f4f6;
+    }
+
+    th,
+    td {
+      border: 1px solid #111;
+      padding: 4px 3px;
+    }
+
+    th {
+      text-align: center;
+      font-weight: 600;
+    }
+
+    td.num {
+      text-align: right;
+    }
+
+    td.center {
+      text-align: center;
+    }
+
+    /* TOTALES Y LEYENDAS */
+
+    .footer-block {
+      display: flex;
+      margin-top: 4px;
+      font-size: 10px;
+    }
+
+    .son-texto {
+      flex: 1.1;
+      border: 1px solid #111;
+      padding: 4px 6px;
+    }
+
+    .son-texto strong {
+      text-transform: uppercase;
+    }
+
+    .totales {
+      flex: 0.9;
+      margin-left: 6px;
+    }
+
+    .totales table {
+      font-size: 10px;
+    }
+
+    .totales td {
+      border: 1px solid #111;
+      padding: 3px 4px;
+    }
+
+    .totales td.label {
+      width: 60%;
+    }
+
+    .totales td.num {
+      width: 40%;
+    }
+
+    .importe-total {
+      font-weight: 700;
+    }
+
+    .leyendas {
+      margin-top: 4px;
+      font-size: 9px;
+    }
+
+    .leyendas p {
+      margin: 0;
+    }
+
+    /* ACCIONES */
+
+    .acciones {
+      margin-top: 10px;
+      text-align: right;
+    }
+
+    .btn {
+      display: inline-block;
+      border-radius: 999px;
+      border: 1px solid #111827;
+      padding: 5px 12px;
+      font-size: 11px;
+      background: #111827;
+      color: #fff;
+      cursor: pointer;
+      margin-left: 6px;
+    }
+
+    .btn.outline {
+      background: transparent;
+      color: #111827;
+    }
+
+    @media print {
+      body {
+        margin: 0;
+        padding: 0;
+        background: #fff;
+      }
+
+      .acciones {
+        display: none !important;
+      }
+
+      .a4 {
+        border: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="a4" id="boleta">
+
+    <!-- CABECERA -->
+    <div class="header-row">
+      <div class="empresa-info">
+        <div class="nombre">AUTOTECNIC<span>AR</span> S.A.C.</div>
+        <div>MZA. M LOTE. 22 URB. RAMON COPAJA</div>
+        <div>ALTO DE LA ALIANZA - TACNA - TACNA</div>
+      </div>
+
+      <div class="box-doc">
+        <div class="titulo">BOLETA DE VENTA ELECTRÓNICA</div>
+        <div class="ruc">RUC: <span id="lblRuc">20XXXXXXXXXXX</span></div>
+        <div class="serie" id="lblSerieNumero">B001-000000</div>
+      </div>
+    </div>
+
+    <!-- BLOQUE FECHAS Y CLIENTE -->
+    <div class="bloque">
+      <div class="bloque-flex">
+        <div class="bloque-col">
+          <p><span class="label">Fecha de Emisión :</span> <span id="lblFecha">--/--/----</span></p>
+          <p><span class="label">Vencimiento :</span> <span id="lblVencimiento">--/--/----</span></p>
+          <p><span class="label">Señor(es) :</span> <span id="lblCliente">CLIENTE MOSTRADOR</span></p>
+          <p><span class="label">DNI :</span> <span id="lblDni">-</span></p>
+        </div>
+        <div class="bloque-col">
+          <p><span class="label">Tipo de Moneda :</span> SOLES</p>
+          <p><span class="label">Forma de Pago :</span> <span id="lblFormaPago">AL CONTADO</span></p>
+          <p><span class="label">Obs. :</span> <span id="lblObs">PEDIDO ONLINE</span></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- DETALLE -->
+    <table id="tablaDetalle">
+      <thead>
+        <tr>
+          <th style="width: 8%;">Cantidad</th>
+          <th style="width: 10%;">Unidad Medida</th>
+          <th>Descripción</th>
+          <th style="width: 14%;">Valor Unitario(*)</th>
+          <th style="width: 12%;">Descuento(*)</th>
+          <th style="width: 16%;">Importe de Venta(**)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- filas dinámicas -->
+      </tbody>
+    </table>
+
+    <!-- TOTALES + SON -->
+    <div class="footer-block">
+      <div class="son-texto">
+        <strong>SON:</strong> <span id="lblSon">CERO Y 00/100 SOLES</span>
+        <br />
+        <span style="font-size: 9px;">
+          (*) Sin impuestos. (**) Incluye impuestos, de ser operación gravada.
+        </span>
+      </div>
+
+      <div class="totales">
+        <table>
+          <tr>
+            <td class="label">Op. Gravada :</td>
+            <td class="num" id="lblOpGravada">S/ 0.00</td>
+          </tr>
+          <tr>
+            <td class="label">Op. Exonerada :</td>
+            <td class="num">S/ 0.00</td>
+          </tr>
+          <tr>
+            <td class="label">Op. Inafecta :</td>
+            <td class="num">S/ 0.00</td>
+          </tr>
+          <tr>
+            <td class="label">ISC :</td>
+            <td class="num">S/ 0.00</td>
+          </tr>
+          <tr>
+            <td class="label">IGV :</td>
+            <td class="num" id="lblIgv">S/ 0.00</td>
+          </tr>
+          <tr>
+            <td class="label">Otros Cargos :</td>
+            <td class="num">S/ 0.00</td>
+          </tr>
+          <tr>
+            <td class="label">Otros Tributos :</td>
+            <td class="num">S/ 0.00</td>
+          </tr>
+          <tr>
+            <td class="label">Monto Redondeo :</td>
+            <td class="num">S/ 0.00</td>
+          </tr>
+          <tr class="importe-total">
+            <td class="label">Importe Total :</td>
+            <td class="num" id="lblTotal">S/ 0.00</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- LEYENDAS FINALES -->
+    <div class="leyendas">
+      <p>Representación impresa de la boleta electrónica.</p>
+      <p>Consulte en tienda presentando su DNI o número de pedido.</p>
+    </div>
+
+    <!-- ACCIONES -->
+    <div class="acciones no-print">
+      <button class="btn" onclick="window.print()">Imprimir / Guardar PDF</button>
+    </div>
+  </div>
+
+  <script>
+    const API_BASE = "http://154.38.160.251/api";
+
+    const params = new URLSearchParams(window.location.search);
+    const idPedido = params.get("id_pedido");
+
+    if (!idPedido) {
+      cargarComprobante(20);
+    } else {
+      cargarComprobante(idPedido);
+    }
+
+    async function cargarComprobante(id) {
+      try {
+        const res = await fetch(`${API_BASE}/comprobantes/pedido/${id}`);
+        if (!res.ok) throw new Error("No se pudo obtener el comprobante");
+        const data = await res.json();
+        renderBoleta(data);
+      } catch (e) {
+        console.error(e);
+        alert("Error al cargar el comprobante");
+      }
+    }
+
+    function formatMoney(v) {
+      const n = Number(v || 0);
+      return "S/ " + n.toFixed(2);
+    }
+
+    function formatDate(iso) {
+      if (!iso) return "--/--/----";
+      const d = new Date(iso);
+      return d.toLocaleDateString("es-PE");
+    }
+
+    // ==== Número a letras (entero) muy básico (hasta millones) ====
+    function numeroALetras(num) {
+      num = Math.floor(Number(num) || 0);
+      if (num === 0) return "CERO";
+      const unidades = ["", "UNO", "DOS", "TRES", "CUATRO", "CINCO", "SEIS", "SIETE", "OCHO", "NUEVE"];
+      const decenas = ["", "DIEZ", "VEINTE", "TREINTA", "CUARENTA", "CINCUENTA", "SESENTA", "SETENTA", "OCHENTA", "NOVENTA"];
+      const especiales = {
+        11: "ONCE", 12: "DOCE", 13: "TRECE", 14: "CATORCE", 15: "QUINCE"
+      };
+      const centenas = ["", "CIENTO", "DOSCIENTOS", "TRESCIENTOS", "CUATROCIENTOS",
+        "QUINIENTOS", "SEISCIENTOS", "SETECIENTOS", "OCHOCIENTOS", "NOVECIENTOS"];
+
+      function seccion(n) {
+        let texto = "";
+        if (n === 0) return "";
+        const c = Math.floor(n / 100);
+        const d = Math.floor((n % 100) / 10);
+        const u = n % 10;
+        if (n === 100) return "CIEN";
+        if (c) texto += centenas[c] + " ";
+        const dosDig = n % 100;
+        if (dosDig >= 11 && dosDig <= 15) return (texto + especiales[dosDig]).trim();
+        if (d === 1 && u === 0) return (texto + "DIEZ").trim();
+        if (d === 2 && u > 0) return (texto + "VEINTI" + unidades[u].toLowerCase()).trim();
+        if (d > 2) texto += decenas[d] + (u ? " Y " : " ");
+        if (u && !(d === 2)) texto += unidades[u];
+        return texto.trim();
+      }
+
+      let partes = [];
+      const millones = Math.floor(num / 1000000);
+      const miles = Math.floor((num % 1000000) / 1000);
+      const resto = num % 1000;
+
+      if (millones === 1) partes.push("UN MILLÓN");
+      else if (millones > 1) partes.push(seccion(millones) + " MILLONES");
+      if (miles === 1) partes.push("MIL");
+      else if (miles > 1) partes.push(seccion(miles) + " MIL");
+      if (resto > 0) partes.push(seccion(resto));
+
+      return partes.join(" ").trim();
+    }
+
+    function renderBoleta(comp) {
+      const pedido = comp.pedido || {};
+      const cliente = comp.cliente || pedido.cliente;
+
+      // Cabecera
+      document.getElementById("lblSerieNumero").textContent =
+        comp.numero_comprobante || "B001-000000";
+      document.getElementById("lblFecha").textContent =
+        formatDate(comp.fecha_emision || pedido.fecha_creacion);
+      document.getElementById("lblVencimiento").textContent = "" // puedes cambiar lógica de vencimiento
+
+      // Cliente
+      const nombreCliente = cliente
+        ? `${cliente.nombre || ""} ${cliente.apellido || ""}`.trim()
+        : "-";
+      document.getElementById("lblCliente").textContent =
+        nombreCliente || "-";
+      document.getElementById("lblDni").textContent = pedido.dni || "-";
+
+      // Forma de pago
+      document.getElementById("lblFormaPago").textContent =
+        (comp.metodo_pago || "AL CONTADO").toUpperCase();
+      document.getElementById("lblObs").textContent =
+        (pedido.tipo_pedido === "online" ? "PEDIDO ONLINE" : "VENTA LOCAL");
+
+      // Detalle
+      const tbody = document.querySelector("#tablaDetalle tbody");
+      tbody.innerHTML = "";
+
+      const detalles = pedido.detalles || [];
+      const igvRate = 0.18;
+
+      detalles.forEach(det => {
+        const tr = document.createElement("tr");
+
+        const cantidad = Number(det.cantidad || 0);
+        const pUnitConIgv = Number(det.precio_unitario || 0);
+        const totalLineaConIgv = Number(det.subtotal || cantidad * pUnitConIgv);
+        const pUnitSinIgv = pUnitConIgv / (1 + igvRate);
+
+        tr.innerHTML = `
+          <td class="center">${cantidad.toFixed(2)}</td>
+          <td class="center">UNIDAD</td>
+          <td>${det.producto?.nombre || "Producto " + (det.id_producto ?? "")}</td>
+          <td class="num">${pUnitSinIgv.toFixed(3)}</td>
+          <td class="num">0.00</td>
+          <td class="num">${totalLineaConIgv.toFixed(3)}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      // Totales
+      const total = Number(comp.total ?? pedido.total ?? 0);
+      const subtotal = Number(pedido.subtotal ?? (total / (1 + igvRate)));
+      const igv = Number(pedido.igv_total ?? (total - subtotal));
+
+      document.getElementById("lblOpGravada").textContent = formatMoney(subtotal);
+      document.getElementById("lblIgv").textContent = formatMoney(igv);
+      document.getElementById("lblTotal").textContent = formatMoney(total);
+
+      // Son en letras
+      const entero = Math.floor(total);
+      const dec = Math.round((total - entero) * 100);
+      const letras = numeroALetras(entero);
+      const decStr = dec.toString().padStart(2, "0");
+      document.getElementById("lblSon").textContent =
+        `${letras} Y ${decStr}/100 SOLES`;
+
+      
+    }
+    
+  </script>
+</body>
+</html>

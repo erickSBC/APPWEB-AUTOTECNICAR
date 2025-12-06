@@ -10,7 +10,7 @@ import {
   ArrayMinSize,
 } from 'class-validator';
 import { CreatePedidoDetalleDto } from './create-pedido-detalle.dto';
-import { MetodoPago, TipoPedido } from '../../entities/pedido.entity';
+import { MetodoPago, PedidoEstado, TipoPedido } from '../../entities/pedido.entity';
 
 export class CreatePedidoDto {
   @IsOptional()
@@ -41,4 +41,8 @@ export class CreatePedidoDto {
   @Type(() => CreatePedidoDetalleDto)
   @ArrayMinSize(1)
   detalles: CreatePedidoDetalleDto[];
+
+   @IsOptional()
+  @IsEnum(PedidoEstado)
+  estado?: PedidoEstado; 
 }

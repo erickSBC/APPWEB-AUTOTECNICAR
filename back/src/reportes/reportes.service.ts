@@ -8,6 +8,7 @@ export class ReportesService {
   // ventas totales entre fechas
   async ventasTotales(desde?: string, hasta?: string) {
     let sql = `SELECT SUM(p.total) as total_ventas FROM pedido p WHERE estado='pagado'`;
+
     const params: any[] = [];
 
     if (desde) {
@@ -33,7 +34,7 @@ export class ReportesService {
       FROM pedido_detalle pd
       JOIN producto pr ON pr.id_producto = pd.id_producto
       JOIN pedido p ON p.id_pedido = pd.id_pedido
-      WHERE 1=1`; // 1=1 facilita concatenar ANDs después
+      WHERE p.estado = 'pagado'`; // 1=1 facilita concatenar ANDs después
     
     const params: any[] = [];
     
@@ -49,7 +50,7 @@ export class ReportesService {
   // pedidos por dia
   async pedidosPorDia(desde?: string, hasta?: string) {
     let sql = `SELECT DATE(p.fecha_creacion) as fecha, COUNT(*) as cantidad_pedidos, SUM(p.total) as total
-      FROM pedido p WHERE 1=1`;
+      FROM pedido p WHERE p.estado = 'pagado'`;
       
     const params: any[] = [];
     
@@ -64,24 +65,31 @@ export class ReportesService {
 
   // clientes top por compras
   async clientesTop(limit = 10) {
-    const sql = `SELECT c.id_cliente, c.nombre, c.apellido, c.correo, SUM(p.total) as total_gastado, COUNT(p.id_pedido) as pedidos
-      FROM cliente c
-      JOIN pedido p ON p.id_pedido = c.id_cliente 
-      GROUP BY c.id_cliente, c.nombre, c.apellido, c.correo
-      ORDER BY total_gastado DESC
-      LIMIT ?`;
-      
-    // Nota: corregí el JOIN (p.id_pedido = c.id_cliente parece error lógico, probablemente sea p.id_cliente = c.id_cliente)
-    // Aquí asumo que querías decir p.id_cliente:
-    const sqlFixed = sql.replace('p.id_pedido = c.id_cliente', 'p.id_cliente = c.id_cliente');
+  const sql = `
+    SELECT c.id_cliente,
+           c.nombre,
+           c.apellido,
+           c.correo,
+           SUM(p.total) as total_gastado,
+           COUNT(p.id_pedido) as pedidos
+    FROM cliente c
+    JOIN pedido p ON p.id_cliente = c.id_cliente
+    WHERE p.estado = 'pagado'
+    GROUP BY c.id_cliente, c.nombre, c.apellido, c.correo
+    ORDER BY total_gastado DESC
+    LIMIT ?
+  `;
+  const res = await this.dataSource.query(sql, [limit]);
+  return res;
+}
 
-    const res = await this.dataSource.query(sqlFixed, [limit]);
-    return res;
-  }
 
   // productos con stock bajo
   async stockBajo(threshold = 5) {
-    const sql = `SELECT id_producto, nombre, stock FROM producto WHERE stock <= ? ORDER BY stock ASC`;
+const sql = `SELECT id_producto, nombre, stock
+             FROM producto
+             WHERE stock <= ?
+             ORDER BY stock ASC`;
     const res = await this.dataSource.query(sql, [threshold]);
     return res;
   }

@@ -1,39 +1,686 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
-  <meta charset="UTF-8">
-  <title>Dashboard</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <title>Dashboard - Autotecnicar</title>
+
+  <!-- Fuentes / Icons -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700|Noto+Sans:300,400,500,600,700,800" rel="stylesheet" />
+  <link href="../assets/css/nucleo-icons.css" rel="stylesheet" />
+  <link href="../assets/css/nucleo-svg.css" rel="stylesheet" />
+  <script src="https://kit.fontawesome.com/349ee9c857.js" crossorigin="anonymous"></script>
+
+  <!-- Corporate UI -->
+  <link id="pagestyle" href="../assets/css/corporate-ui-dashboard.css?v=1.0.0" rel="stylesheet" />
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+
+  <!-- html2canvas + jsPDF (para exportar PDF) -->
+<!-- Librerías para exportar a PDF (sin integrity) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"
+        referrerpolicy="no-referrer"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"
+        referrerpolicy="no-referrer"></script>
+
   <style>
-     * {
-      box-sizing: border-box;
+    body {
+      background: #f3f4f6;
+      margin: 0;
+      margin-left: 260px !important;
     }
 
-    body {
-      margin: 0;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: var(--bg-page);
-      color: var(--text-main);
+    .page-title {
+      font-weight: 800;
+      font-size: 26px;
     }
-    app-layout {
-      display: flex;
-      min-height: 100vh;
+
+    .filter-card label {
+      font-size: 13px;
+      font-weight: 600;
+      color: #6b7280;
     }
+
+    .mini-badge {
+      background: #eef2ff;
+      color: #4f46e5;
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    .kpi-card {
+      border-radius: 16px;
+      overflow: hidden;
+      border: none;
+      background: linear-gradient(90deg, #363f4c);
+      color: #fff;
+    }
+
+    .kpi-card .text-sm {
+      color: #d1d5db !important;
+    }
+
+    .kpi-value {
+      font-size: 24px;
+      color: #d1d5db !important;
+    }
+
+    .card-soft {
+      border-radius: 16px;
+      border: none;
+      box-shadow: 0 15px 35px rgba(15, 23, 42, 0.08);
+    }
+
+    .table-dashboard thead th {
+      font-size: 11px;
+      text-transform: uppercase;
+      color: #6b7280;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    .table-dashboard tbody td {
+      font-size: 13px;
+      padding-top: 8px;
+      padding-bottom: 8px;
+      vertical-align: middle;
+    }
+
+    .badge-stock {
+      background: #fee2e2;
+      color: #b91c1c;
+      font-size: 11px;
+      border-radius: 999px;
+      padding: 2px 8px;
+    }
+
+    .btn-export {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border-radius: 999px;
+      padding-inline: 18px;
+    }
+
+    /* Contenedor que se exportará como PDF */
+    #dashboardContent {
+      padding-bottom: 30px;
+    }
+    /* dentro del <style> del dashboard */
+#chartPedidosDia,
+#chartTopProductos {
+  max-height: 260px;
+}
+
   </style>
 </head>
-<body>
-  <div class="app-layout">
 
+<body class="g-sidenav-show bg-gray-100">
+
+  <!-- SIDEBAR -->
   <div id="sdbar"></div>
+
+  <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg" id="dashboardContent">
+
+    <!-- Navbar superior -->
+    <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur"
+      navbar-scroll="true">
+      <div class="container-fluid py-3 px-3">
+        <div>
+          <h6 class="font-weight-bolder mb-1 page-title">Dashboard</h6>
+          <p class="text-xs text-secondary mb-0">Visión general de ventas, métricas y stock</p>
+        </div>
+
+        <div class="ms-auto d-flex align-items-center gap-2">
+
+          <button id="btnExportPdf" class="btn btn-sm btn-outline-dark btn-export">
+            <i class="fas fa-file-pdf"></i> Exportar PDF
+          </button>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container-fluid py-4">
+
+      <!-- FILTROS DE FECHA -->
+      <div class="row mb-4">
+        <div class="col-12">
+          <div class="card card-soft filter-card">
+            <div class="card-body d-flex flex-wrap align-items-end gap-3">
+              <div>
+                <label for="fechaDesde">Desde</label>
+                <input type="date" id="fechaDesde" class="form-control form-control-sm" />
+              </div>
+              <div>
+                <label for="fechaHasta">Hasta</label>
+                <input type="date" id="fechaHasta" class="form-control form-control-sm" />
+              </div>
+
+              <div class="ms-auto d-flex gap-2">
+                <button id="btnAplicarFiltros" class="btn btn-sm btn-dark">
+                  <i class="fas fa-filter me-1"></i> Aplicar
+                </button>
+                <button id="btnLimpiarFiltros" class="btn btn-sm btn-outline-secondary">
+                  Limpiar
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- KPIs -->
+      <div class="row">
+        <div class="col-xl-4 col-sm-6 mb-4">
+          <div class="card kpi-card">
+            <div class="card-body p-3">
+              <div class="row">
+                <div class="col-8">
+                  <p class="text-sm mb-1 text-uppercase font-weight-bold">Ventas totales</p>
+                  <h5 class="font-weight-bolder kpi-value" id="kpiVentasTotales">S/ 0.00</h5>
+                  <p class="mb-0 text-xs text-gray-200">Pedidos pagados en el periodo</p>
+                </div>
+                <div class="col-4 text-end">
+                  <div class="icon icon-shape bg-gradient-success shadow text-center border-radius-md mt-1">
+                    <i class="fas fa-money-bill-wave text-lg"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-xl-4 col-sm-6 mb-4">
+          <div class="card kpi-card">
+            <div class="card-body p-3">
+              <div class="row">
+                <div class="col-8">
+                  <p class="text-sm mb-1 text-uppercase font-weight-bold">Total ventas</p>
+                  <h5 class="font-weight-bolder kpi-value" id="kpiPedidosTotal">0</h5>
+                  <p class="mb-0 text-xs text-gray-200">Cantidad de pedidos pagados</p>
+                </div>
+                <div class="col-4 text-end">
+                  <div class="icon icon-shape bg-gradient-info shadow text-center border-radius-md mt-1">
+                    <i class="fas fa-shopping-bag text-lg"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-xl-4 col-sm-12 mb-4">
+          <div class="card kpi-card">
+            <div class="card-body p-3">
+              <div class="row">
+                <div class="col-8">
+                  <p class="text-sm mb-1 text-uppercase font-weight-bold">Ticket promedio</p>
+                  <h5 class="font-weight-bolder kpi-value" id="kpiTicketPromedio">S/ 0.00</h5>
+                  <p class="mb-0 text-xs text-gray-200">Venta promedio por pedido</p>
+                </div>
+                <div class="col-4 text-end">
+                  <div class="icon icon-shape bg-gradient-warning shadow text-center border-radius-md mt-1">
+                    <i class="fas fa-receipt text-lg"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- GRÁFICOS -->
+      <div class="row">
+        <div class="col-lg-7 mb-4">
+          <div class="card card-soft h-100">
+            <div class="card-header pb-0 d-flex justify-content-between align-items-center">
+              <div>
+                <h6>Ventas por día</h6>
+                <span class="mini-badge">Pedidos pagados</span>
+              </div>
+            </div>
+            <div class="card-body">
+              <canvas id="chartPedidosDia" height="130"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-5 mb-4">
+          <div class="card card-soft h-100">
+            <div class="card-header pb-0 d-flex justify-content-between align-items-center">
+              <div>
+                <h6>Top productos</h6>
+                <span class="text-xs text-secondary">por ventas (S/)</span>
+              </div>
+            </div>
+            <div class="card-body">
+              <canvas id="chartTopProductos" height="130"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TABLAS -->
+      <div class="row">
+        <!-- Top clientes -->
+        <div class="col-lg-6 mb-4">
+          <div class="card card-soft h-100">
+            <div class="card-header pb-0 d-flex justify-content-between align-items-center">
+              <h6>Top clientes</h6>
+              <span class="mini-badge">Top 10</span>
+            </div>
+            <div class="card-body p-3">
+              <div class="table-responsive">
+                <table class="table table-hover table-dashboard">
+                  <thead>
+                    <tr>
+                      <th>Cliente</th>
+                      <th>Pedidos</th>
+                      <th>Total (S/)</th>
+                    </tr>
+                  </thead>
+                  <tbody id="tbodyTopClientes">
+                    <tr>
+                      <td colspan="3" class="text-center text-muted">Sin datos</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Stock bajo -->
+        <div class="col-lg-6 mb-4">
+          <div class="card card-soft h-100">
+            <div class="card-header pb-0 d-flex justify-content-between align-items-center">
+              <h6>Stock bajo</h6>
+              <span class="text-xs text-secondary">≤ 5 unidades</span>
+            </div>
+            <div class="card-body p-3">
+              <div class="table-responsive">
+                <table class="table table-hover table-dashboard">
+                  <thead>
+                    <tr>
+                      <th>Producto</th>
+                      <th class="text-end">Stock</th>
+                    </tr>
+                  </thead>
+                  <tbody id="tbodyStockBajo">
+                    <tr>
+                      <td colspan="2" class="text-center text-muted">Sin datos</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Sidebar load -->
   <script>
     fetch("components/sidebar.html")
       .then(r => r.text())
-      .then(h => {
-
-        document.getElementById("sdbar").innerHTML = h
-      });
+      .then(h => (document.getElementById("sdbar").innerHTML = h));
   </script>
-  <!-- Pega aquí TODO el bloque de sidebar.html (o haz un include si usas plantillas) -->
-</div>
-  <script src="./components/sidebar.js"></script>
+
+  <!-- Core JS de Corporate UI -->
+  <script src="../assets/js/core/popper.min.js"></script>
+  <script src="../assets/js/core/bootstrap.min.js"></script>
+  <script src="../assets/js/plugins/perfect-scrollbar.min.js"></script>
+  <script src="../assets/js/plugins/smooth-scrollbar.min.js"></script>
+  <script src="../assets/js/corporate-ui-dashboard.min.js?v=1.0.0"></script>
+
+  <!-- Lógica de Dashboard + Export PDF -->
+  <script>
+    const API_BASE = "http://154.38.160.251/api/reportes";
+
+    const fechaDesdeInput = document.getElementById("fechaDesde");
+    const fechaHastaInput = document.getElementById("fechaHasta");
+    const btnAplicar = document.getElementById("btnAplicarFiltros");
+    const btnLimpiar = document.getElementById("btnLimpiarFiltros");
+    const btnExportPdf = document.getElementById("btnExportPdf");
+
+    const kpiVentasTotales = document.getElementById("kpiVentasTotales");
+    const kpiPedidosTotal = document.getElementById("kpiPedidosTotal");
+    const kpiTicketPromedio = document.getElementById("kpiTicketPromedio");
+
+    const tbodyTopClientes = document.getElementById("tbodyTopClientes");
+    const tbodyStockBajo = document.getElementById("tbodyStockBajo");
+
+    let chartPedidos = null;
+    let chartProductos = null;
+
+    function buildQuery(paramsObj) {
+      const params = new URLSearchParams();
+      Object.entries(paramsObj).forEach(([k, v]) => {
+        if (v !== undefined && v !== null && String(v).trim() !== "") {
+          params.append(k, v);
+        }
+      });
+      const qs = params.toString();
+      return qs ? `?${qs}` : "";
+    }
+
+    async function fetchJSON(url) {
+      const res = await fetch(url);
+      if (!res.ok) {
+        console.error("Error fetch", url, res.status);
+        throw new Error("Error en servidor");
+      }
+      return res.json();
+    }
+
+    async function loadDashboard() {
+      const desde = fechaDesdeInput.value || undefined;
+      const hasta = fechaHastaInput.value || undefined;
+
+      try {
+        const [
+          ventasTotales,
+          pedidosDia,
+          ventasProducto,
+          topClientes,
+          stockBajo
+        ] = await Promise.all([
+          fetchJSON(`${API_BASE}/ventas/totales${buildQuery({ desde, hasta })}`),
+          fetchJSON(`${API_BASE}/pedidos/por-dia${buildQuery({ desde, hasta })}`),
+          fetchJSON(`${API_BASE}/ventas/por-producto${buildQuery({ desde, hasta })}`),
+          fetchJSON(`${API_BASE}/clientes/top?limit=10`),
+          fetchJSON(`${API_BASE}/stock/bajo?threshold=5`)
+        ]);
+
+        actualizarKPIs(ventasTotales, pedidosDia);
+        renderChartPedidos(pedidosDia);
+        renderChartProductos(ventasProducto);
+        renderTopClientes(topClientes);
+        renderStockBajo(stockBajo);
+
+      } catch (err) {
+        console.error(err);
+      }
+    }
+
+    function actualizarKPIs(ventasTotales, pedidosDia) {
+      const totalVentas = Number(ventasTotales.total || 0);
+      const totalPedidos = pedidosDia.reduce((acc, d) => acc + Number(d.cantidad_pedidos || 0), 0);
+
+      kpiVentasTotales.textContent = `S/ ${totalVentas.toFixed(2)}`;
+      kpiPedidosTotal.textContent = totalPedidos.toString();
+
+      const ticketProm = totalPedidos > 0 ? totalVentas / totalPedidos : 0;
+      kpiTicketPromedio.textContent = `S/ ${ticketProm.toFixed(2)}`;
+    }
+
+function renderChartPedidos(pedidosDia) {
+  const labels = pedidosDia.map(d => d.fecha);
+  const dataTotales = pedidosDia.map(d => Number(d.total || 0));
+
+  const canvas = document.getElementById("chartPedidosDia");
+  const ctx = canvas.getContext("2d");
+
+  // Gradiente suave para la línea
+  const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
+  gradient.addColorStop(0, "rgba(59,130,246,0.35)");   // azul claro
+  gradient.addColorStop(1, "rgba(59,130,246,0.0)");
+
+  if (chartPedidos) {
+    chartPedidos.data.labels = labels;
+    chartPedidos.data.datasets[0].data = dataTotales;
+    chartPedidos.update();
+    return;
+  }
+
+  chartPedidos = new Chart(ctx, {
+    type: "line",
+    data: {
+      labels,
+      datasets: [{
+        label: "Ventas (S/)",
+        data: dataTotales,
+        borderWidth: 2.5,
+        borderColor: "#3b82f6",
+        backgroundColor: gradient,
+        pointRadius: 4,
+        pointHoverRadius: 6,
+        pointBackgroundColor: "#ffffff",
+        pointBorderColor: "#3b82f6",
+        tension: 0.35,
+        fill: true
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          display: false
+        },
+        tooltip: {
+          backgroundColor: "#0f172a",
+          titleFont: { size: 12, weight: "600" },
+          bodyFont: { size: 12 },
+          padding: 10,
+          borderWidth: 1,
+          borderColor: "rgba(148,163,184,0.5)",
+          displayColors: false,
+          callbacks: {
+            label: (ctx) => `Ventas: S/ ${ctx.parsed.y.toFixed(2)}`
+          }
+        }
+      },
+      scales: {
+        x: {
+          grid: {
+            display: false
+          },
+          ticks: {
+            font: { size: 11 },
+            color: "#6b7280"
+          }
+        },
+        y: {
+          beginAtZero: true,
+          grid: {
+            color: "rgba(209,213,219,0.5)",
+            drawBorder: false
+          },
+          ticks: {
+            font: { size: 11 },
+            color: "#6b7280",
+            callback: (value) => `S/ ${value}`
+          }
+        }
+      }
+    }
+  });
+}
+
+function renderChartProductos(ventasProducto) {
+  const top5 = ventasProducto.slice(0, 5);
+  const labels = top5.map(p => p.nombre);
+  const dataVentas = top5.map(p => Number(p.ventas || 0));
+
+  const canvas = document.getElementById("chartTopProductos");
+  const ctx = canvas.getContext("2d");
+
+  // Gradiente para las barras
+  const gradientBar = ctx.createLinearGradient(0, 0, 0, canvas.height);
+  gradientBar.addColorStop(0, "rgba(96,165,250,0.95)");
+  gradientBar.addColorStop(1, "rgba(59,130,246,0.7)");
+
+  if (chartProductos) {
+    chartProductos.data.labels = labels;
+    chartProductos.data.datasets[0].data = dataVentas;
+    chartProductos.update();
+    return;
+  }
+
+  chartProductos = new Chart(ctx, {
+    type: "bar",
+    data: {
+      labels,
+      datasets: [{
+        label: "Ventas (S/)",
+        data: dataVentas,
+        backgroundColor: gradientBar,
+        borderColor: "#1d4ed8",
+        borderWidth: 1.5,
+        borderRadius: 8,
+        maxBarThickness: 40
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: "#0f172a",
+          titleFont: { size: 12, weight: "600" },
+          bodyFont: { size: 12 },
+          padding: 10,
+          borderWidth: 1,
+          borderColor: "rgba(148,163,184,0.5)",
+          callbacks: {
+            label: (ctx) => `Ventas: S/ ${ctx.parsed.y.toFixed(2)}`
+          }
+        }
+      },
+      scales: {
+        x: {
+          grid: { display: false },
+          ticks: {
+            font: { size: 11 },
+            color: "#6b7280"
+          }
+        },
+        y: {
+          beginAtZero: true,
+          grid: {
+            color: "rgba(209,213,219,0.5)",
+            drawBorder: false
+          },
+          ticks: {
+            font: { size: 11 },
+            color: "#6b7280",
+            callback: (value) => `S/ ${value}`
+          }
+        }
+      }
+    }
+  });
+}
+
+    function renderTopClientes(clientes) {
+      tbodyTopClientes.innerHTML = "";
+
+      if (!clientes || clientes.length === 0) {
+        tbodyTopClientes.innerHTML = `<tr><td colspan="3" class="text-center text-muted">Sin datos</td></tr>`;
+        return;
+      }
+
+      clientes.forEach(c => {
+        const tr = document.createElement("tr");
+        const nombre = `${c.nombre ?? ""} ${c.apellido ?? ""}`.trim();
+        tr.innerHTML = `
+          <td>
+            <strong>${nombre || "(sin nombre)"}</strong>
+            <div class="text-xs text-secondary">${c.correo || ""}</div>
+          </td>
+          <td>${c.pedidos}</td>
+          <td>S/ ${Number(c.total_gastado || 0).toFixed(2)}</td>
+        `;
+        tbodyTopClientes.appendChild(tr);
+      });
+    }
+
+    function renderStockBajo(items) {
+      tbodyStockBajo.innerHTML = "";
+
+      if (!items || items.length === 0) {
+        tbodyStockBajo.innerHTML = `<tr><td colspan="2" class="text-center text-muted">Sin productos con stock bajo</td></tr>`;
+        return;
+      }
+
+      items.forEach(p => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td>${p.nombre} <span class="badge-stock ms-1">Stock bajo</span></td>
+          <td class="text-end">${p.stock}</td>
+        `;
+        tbodyStockBajo.appendChild(tr);
+      });
+    }
+
+    // Eventos filtros
+    btnAplicar.addEventListener("click", () => {
+      loadDashboard();
+    });
+
+    btnLimpiar.addEventListener("click", () => {
+      fechaDesdeInput.value = "";
+      fechaHastaInput.value = "";
+      loadDashboard();
+    });
+
+    // EXPORTAR PDF
+    btnExportPdf.addEventListener("click", async () => {
+      try {
+        const { jsPDF } = window.jspdf;
+        const pdf = new jsPDF("p", "mm", "a4");
+        const dashboard = document.getElementById("dashboardContent");
+
+        // Hacemos screenshot del dashboard completo
+        const canvas = await html2canvas(dashboard, {
+          scale: 2,
+          useCORS: true
+        });
+        const imgData = canvas.toDataURL("image/png");
+
+        const pdfWidth = pdf.internal.pageSize.getWidth();
+        const pdfHeight = pdf.internal.pageSize.getHeight();
+
+        const imgWidth = pdfWidth;
+        const imgHeight = canvas.height * imgWidth / canvas.width;
+
+        let position = 0;
+        let heightLeft = imgHeight;
+
+        pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
+        heightLeft -= pdfHeight;
+
+        while (heightLeft > 0) {
+          pdf.addPage();
+          position = heightLeft * -1;
+          pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
+          heightLeft -= pdfHeight;
+        }
+
+        const desde = fechaDesdeInput.value || "-";
+        const hasta = fechaHastaInput.value || "-";
+        pdf.setProperties({
+          title: `Dashboard_Autotecnicar_${desde}_a_${hasta}`
+        });
+
+        pdf.save(`dashboard-autotecnicar.pdf`);
+      } catch (e) {
+        console.error("Error al exportar PDF", e);
+      }
+    });
+
+    // Carga inicial
+    loadDashboard();
+  </script>
 </body>
+
 </html>
