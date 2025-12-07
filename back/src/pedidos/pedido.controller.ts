@@ -1,4 +1,4 @@
-import { Controller, Post, Get, Put, Delete, Param, Body } from '@nestjs/common';
+import { Controller, Post, Get, Put, Delete, Param, Body, ParseIntPipe } from '@nestjs/common';
 import { PedidosService } from './pedido.service';
 import { CreatePedidoDto } from './dto/create-pedido.dto';
 import { UpdatePedidoDto } from './dto/update-pedido.dto';
@@ -20,6 +20,13 @@ export class PedidosController {
   @Get(':id')
   findOne(@Param('id') id: number) {
     return this.pedidosService.findOne(id);
+  }
+   // 🔹 NUEVO: obtener comprobante por id_pedido
+   @Get('cliente/:id_cliente')
+  findByCliente(
+    @Param('id_cliente', ParseIntPipe) id_cliente: number,
+  ) {
+    return this.pedidosService.findByCliente(id_cliente);
   }
 
   @Put(':id')

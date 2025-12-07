@@ -212,7 +212,13 @@ export class PedidosService {
 
   return pedido;
 }
-
+async findByCliente(id_cliente: number) {
+    return this.pedidoRepo.find({
+      where: { cliente: { id_cliente } } as any,
+      relations: ['cliente', 'detalles', 'detalles.producto', 'administradorVenta'],
+      order: { fecha_creacion: 'DESC' },
+    });
+  }
   async remove(id: number) {
     const result = await this.pedidoRepo.delete(id);
     if (result.affected === 0) {

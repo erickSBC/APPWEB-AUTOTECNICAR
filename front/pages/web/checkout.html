@@ -459,16 +459,7 @@
             <div class="ship-price">S/ 0.00</div>
           </label>
 
-          <label class="shipping-option">
-            <div>
-              <div class="ship-name">
-                <input type="radio" name="shippingMethod" value="express" data-cost="25" />
-                Envío Rápido (1 - 2 días)
-              </div>
-              <div class="ship-desc">Procesamiento prioritario y despacho rápido.</div>
-            </div>
-            <div class="ship-price">S/ 25.00</div>
-          </label>
+        
         </section>
 
         <!-- 3. Método de pago -->
@@ -808,6 +799,7 @@
         tipo_pedido: "online",
         metodo_pago, // "tarjeta" | "yape"
         detalles: pedidoDetalles,
+        estado: "pendiente",
       };
 
       // 6) Token para Authorization (si tu backend lo exige)
