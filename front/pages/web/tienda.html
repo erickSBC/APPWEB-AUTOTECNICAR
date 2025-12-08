@@ -247,7 +247,38 @@
     background: #444;
     cursor: not-allowed;
   }
+ .site-footer {
+      background: #111;
+      color: white;
+      padding: 40px 25px;
+      margin-top: 60px;
+    }
 
+    .footer-inner {
+      max-width: 1100px;
+      margin: auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+
+    .footer-contact strong {
+      font-size: 20px;
+      font-weight: 800;
+    }
+
+    .footer-whatsapp svg {
+      width: 60px;
+      height: 60px;
+    }
+
+    .footer-bottom {
+      text-align: center;
+      margin-top: 25px;
+      border-top: 1px solid #444;
+      padding-top: 20px;
+      color: #ccc;
+    }
   #pageInfo {
     font-size: 15px;
     font-weight: 700;
@@ -346,9 +377,25 @@
   <button id="nextPage">Siguiente</button>
 </div>
   <!-- FOOTER -->
-  <footer class="footer">
-    <div>AutoMas – Repuestos y Accesorios Automotrices</div>
-    <div class="footer-bottom">© 2025 AutoMas – Todos los derechos reservados.</div>
+    <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-contact">
+        <strong>Contacto</strong>
+        <div>Av. Jorge Basadre Grohmann, Tacna, Perú</div>
+        <div>Horario: Lun–Vie 9:00–13:00 / 14:30–18:30 – Sáb 9:00–13:30</div>
+        <div>Tel: (052) 242713</div>
+      </div>
+
+      <div class="footer-whatsapp">
+        <a href="https://wa.me/51987092808?text=Hola%20quiero%20información" target="_blank">
+          <svg viewBox="0 0 24 24" fill="none">
+            <!-- <path d="M20.52 3.48A11.94 11.94 0 0012 0C5.373 0 .004 5.372.004 12..." fill="#25D366"/> -->
+          </svg>
+        </a>
+      </div>
+    </div>
+
+    <div class="footer-bottom">© 2025 AutoTecnicar – Todos los derechos reservados.</div>
   </footer>
 <script>
 const API_LIST = "http://154.38.160.251/api/productos";

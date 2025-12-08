@@ -20,6 +20,7 @@
     left: 0;
     width: 100%;
     z-index: 9999;
+    box-shadow: 0 6px 18px rgba(15, 23, 42, 0.55);
   }
 
   .header-container {
@@ -49,18 +50,13 @@
 
   .logo-img {
     height: 40px;
-    /* Ajusta según tu PNG */
     width: auto;
     display: block;
   }
- 
-
- 
 
   #logo span {
     color: var(--rojo);
   }
-
 
   /* NAV LINKS */
   .nav-links {
@@ -110,18 +106,18 @@
     color: whitesmoke;
   }
 
-  /* DROPDOWN GENÉRICO */
+  /* DROPDOWN GENÉRICO (MEJORA LEVE) */
   .dropdown-box {
     position: absolute;
     right: 0;
     top: 45px;
-    width: 140%;
-    background: whitesmoke;
+    width: 150%;
+    background: #f9fafb;
     color: black;
-    border-radius: 8px;
+    border-radius: 10px;
     display: none;
-    border: 1px solid #ddd;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.18);
+    border: 1px solid #e5e7eb;
+    box-shadow: 0 14px 30px rgba(15, 23, 42, 0.35);
     animation: fadeIn 0.15s ease-out;
     overflow: hidden;
     z-index: 9999;
@@ -130,32 +126,40 @@
   .dropdown-box::before {
     content: "";
     position: absolute;
-    right: 14px;
+    right: 18px;
+    top: -7px;
     width: 14px;
     height: 14px;
-    background: white;
+    background: #f9fafb;
     transform: rotate(45deg);
-    border-left: 1px solid #ddd;
-    border-top: 1px solid #ddd;
+    border-left: 1px solid #e5e7eb;
+    border-top: 1px solid #e5e7eb;
   }
 
   .dropdown-box a {
     display: block;
-    padding: 12px 15px;
+    padding: 10px 14px;
     font-size: 14px;
     font-weight: 600;
     color: var(--negro);
     text-decoration: none;
-    outline: .1px solid gray;
+    border-bottom: 1px solid #e5e7eb;
+    transition: background 0.15s ease, color 0.15s ease, padding-left 0.15s ease;
   }
 
-  .dropdown-box a:nth-child(2):hover {
-    color: rgb(166, 7, 7);
+  .dropdown-box a:last-child {
+    border-bottom: none;
   }
 
   .dropdown-box a:hover {
-    top: -2px;
-    text-decoration: underline;
+    background: #222938;
+    color: #f9fafb;
+    padding-left: 18px;
+    text-decoration: none;
+  }
+
+  .dropdown-box a:nth-child(2):hover {
+    color: #fecaca;
   }
 
   .cart-count {
@@ -172,17 +176,19 @@
 
   .mc-header {
     padding: 12px;
-    background: #fafafa;
-    border-bottom: 1px solid #eee;
+    background: #f3f4f6;
+    border-bottom: 1px solid #e5e7eb;
     font-weight: bold;
     color: var(--negro);
     display: flex;
     justify-content: space-between;
+    font-size: 14px;
   }
 
   .mc-items {
     max-height: 260px;
     overflow-y: auto;
+    background: #ffffff;
   }
 
   .mc-item {
@@ -191,7 +197,7 @@
     font-weight: 500;
     gap: 10px;
     padding: 10px;
-    border-bottom: 1px solid #f4f4f4;
+    border-bottom: 1px solid #f3f4f6;
   }
 
   .mc-item img {
@@ -199,23 +205,27 @@
     height: 48px;
     object-fit: cover;
     border-radius: 6px;
+    border: 1px solid #e5e7eb;
   }
 
   .mc-footer {
     padding: 12px;
-    background: #fafafa;
-    border-top: 1px solid #eee;
+    background: #f9fafb;
+    border-top: 1px solid #e5e7eb;
     display: flex;
     justify-content: space-between;
+    align-items: center;
   }
 
   .btn-view-cart {
     background: #111;
     color: white;
-    padding: 5px 8px;
-    border-radius: 6px;
+    padding: 5px 10px;
+    border-radius: 999px;
     border: none;
     cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
   }
 
   .btn-view-cart:hover {
@@ -234,7 +244,6 @@
     }
   }
 </style>
-
 
 <header>
   <div class="header-container">
@@ -278,7 +287,6 @@
         <div class="dropdown-box mini-cart">
           <div class="mc-header">
             <span>Tu carrito</span>
-
           </div>
 
           <div class="mc-items"></div>
