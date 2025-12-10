@@ -452,7 +452,7 @@
   max-width: 480px;
   width: 100%;
   box-shadow: 0 24px 65px rgba(15, 23, 42, 0.35);
-  display: block !important;   /* por si algún CSS lo pone en none */
+  display: block !important;   
   position: relative;
   z-index: 10000;
   height: auto;
@@ -567,7 +567,7 @@
           </div>
           <div class="form-field">
             <label for="password">Password (opcional)</label>
-            <input type="password" id="password" placeholder="Si se deja vacío no se cambia" />
+            <input type="password" id="password" placeholder="" />
           </div>
         </div>
 
@@ -586,7 +586,7 @@
 
 <script>
   // === CONFIGURACIÓN API ===
-  const API_BASE = 'http://154.38.160.251/api'; // cambia si tu backend está en otro host/puerto
+  const API_BASE = 'http://localhost:3000'; // cambia si tu backend está en otro host/puerto
   const API_CLIENTES = API_BASE + '/clientes';
 
   // === REFERENCIAS DOM ===
@@ -703,7 +703,11 @@
         url = `${API_CLIENTES}/buscar?nombre=${encoded}`;
       }
 
-      const res = await fetch(url);
+      const res = await fetch(url,{
+          headers: {
+            'Authorization': `Bearer ${localStorage.getItem("token")}`,  
+          }
+        });
       if (!res.ok) throw new Error('Error al obtener clientes');
 
       const data = await res.json();
@@ -715,7 +719,11 @@
   }
 
   async function fetchClientePorId(id) {
-    const res = await fetch(`${API_CLIENTES}/${id}`);
+    const res = await fetch(`${API_CLIENTES}/${id}`,{
+          headers: {
+            'Authorization': `Bearer ${localStorage.getItem("token")}`,   // 👈 AQUÍ se manda el token
+          }
+        });
     if (!res.ok) throw new Error('No se pudo obtener el cliente');
     return res.json();
   }
@@ -723,7 +731,10 @@
   async function crearCliente(payload) {
     const res = await fetch(API_CLIENTES, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 
+        'Content-Type': 'application/json',
+        ...(localStorage.getItem("token") && { 'Authorization': `Bearer ${localStorage.getItem("token")}` }),
+      },
       body: JSON.stringify(payload),
     });
     if (!res.ok) {
@@ -736,7 +747,10 @@
   async function actualizarCliente(id, payload) {
     const res = await fetch(`${API_CLIENTES}/${id}`, {
       method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 
+        'Content-Type': 'application/json',
+        ...(localStorage.getItem("token") && { 'Authorization': `Bearer ${localStorage.getItem("token")}` }),
+      },
       body: JSON.stringify(payload),
     });
     if (!res.ok) {
@@ -749,6 +763,9 @@
   async function eliminarCliente(id) {
     const res = await fetch(`${API_CLIENTES}/${id}`, {
       method: 'DELETE',
+      headers: {
+            'Authorization': `Bearer ${localStorage.getItem("token")}`,   // 👈 AQUÍ se manda el token
+      }
     });
     if (!res.ok) {
       const msg = await res.text();

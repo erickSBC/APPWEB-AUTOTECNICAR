@@ -34,10 +34,10 @@ export class ComprobantesService {
       throw new NotFoundException('Pedido no encontrado para comprobante');
     }
 
-    // 2) Validar que el pedido esté pagado
-    if (pedido.estado !== PedidoEstado.pagado) {
+    // 2) se valida que el pedido esté 'pagado' o 'entregado' 
+    if (pedido.estado !== PedidoEstado.pagado && pedido.estado !== PedidoEstado.entregado) {
       throw new BadRequestException(
-        'Solo se puede generar comprobante para pedidos pagados',
+        'Solo se puede generar comprobante para pedidos pagados o entregados ',
       );
     }
 
@@ -78,11 +78,11 @@ export class ComprobantesService {
     // 7) Crear entidad comprobante copiando datos clave del pedido
     const comprobante = this.comprobanteRepo.create({
       pedido,                         // relación 1:1
-      cliente: cliente ?? undefined,  // puede ser undefined
+      cliente: cliente ?? undefined,  
       dni: dni ?? undefined,
       tipo_comprobante: data.tipo_comprobante,
       numero_comprobante: data.numero_comprobante,
-      total: pedido.total,            // snapshot del total del pedido
+      total: pedido.total,            
       metodo_pago: metodoPago ?? undefined,
     });
 

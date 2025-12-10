@@ -580,7 +580,7 @@
   </div>
 
   <script>
-    const API_BASE = 'http://154.38.160.251/api';
+    const API_BASE = 'http://localhost:3000';
     const API_ADMINS = API_BASE + '/administrador';
 
     const adminsTbody = document.getElementById('adminsTbody');
@@ -630,9 +630,10 @@
         const tr = document.createElement('tr');
         tr.dataset.id = admin.id_admin;
 
-        const estado = admin.estado || '';
-        const estadoLower = (estado || '').toString().toLowerCase();
-        const isInactive = estadoLower === 'inactivo' || estadoLower === 'desactivado';
+        const isActive = admin.estado === true; 
+
+        const estadoTexto = isActive ? 'Activo' : 'Inactivo';
+        const estadoClase = isActive ? 'active' : 'inactive'; 
 
         tr.innerHTML = `
         <td>
@@ -647,8 +648,9 @@
         <td>${admin.correo ?? ''}</td>
         <td>${admin.telefono ?? ''}</td>
         <td>
-          ${estado
-            ? `<span class="status-pill ${isInactive ? 'inactive' : ''}">${estado}</span>`
+          ${
+            admin.estado !== undefined && admin.estado !== null
+            ? `<span class="status-pill ${estadoClase}">${estadoTexto}</span>`
             : '<span class="status-pill inactive">Sin estado</span>'
           }
         </td>
@@ -666,7 +668,6 @@
       totalAdminsSpan.textContent = admins.length;
       lastUpdateSpan.textContent = formatDateShort(new Date());
     }
-
     async function fetchAdmins(nombreFiltro) {
       try {
         let url = API_ADMINS;
@@ -675,7 +676,11 @@
           url = `${API_ADMINS}/buscar?nombre=${encoded}`;
         }
 
-        const res = await fetch(url);
+        const res = await fetch(url, {
+          headers: {
+            'Authorization': `Bearer ${localStorage.getItem("token")}`,   // 👈 AQUÍ se manda el token
+          },
+        });
         if (!res.ok) throw new Error('Error al obtener administradores');
 
         const data = await res.json();
@@ -687,7 +692,11 @@
     }
 
     async function fetchAdminById(id) {
-      const res = await fetch(`${API_ADMINS}/${id}`);
+      const res = await fetch(`${API_ADMINS}/${id}`, {
+          headers: {
+            'Authorization': `Bearer ${localStorage.getItem("token")}`,   // 👈 AQUÍ se manda el token
+          },
+        });
       if (!res.ok) throw new Error('No se pudo obtener el administrador');
       return res.json();
     }
@@ -695,7 +704,10 @@
     async function crearAdmin(payload) {
       const res = await fetch(API_ADMINS, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+          'Content-Type': 'application/json',
+          ...(localStorage.getItem("token") && { 'Authorization': `Bearer ${localStorage.getItem("token")}` }),
+        },
         body: JSON.stringify(payload),
       });
       if (!res.ok) {
@@ -708,7 +720,10 @@
     async function actualizarAdmin(id, payload) {
       const res = await fetch(`${API_ADMINS}/${id}`, {
         method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+          'Content-Type': 'application/json',
+          ...(localStorage.getItem("token") && { 'Authorization': `Bearer ${localStorage.getItem("token")}` }),
+        },
         body: JSON.stringify(payload),
       });
       if (!res.ok) {
@@ -721,6 +736,10 @@
     async function eliminarAdmin(id) {
       const res = await fetch(`${API_ADMINS}/${id}`, {
         method: 'DELETE',
+          headers: {
+            'Authorization': `Bearer ${localStorage.getItem("token")}`,   // 👈 AQUÍ se manda el token
+          }
+        
       });
       if (!res.ok) {
         const msg = await res.text();

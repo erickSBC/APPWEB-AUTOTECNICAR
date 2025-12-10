@@ -1,10 +1,13 @@
 // src/productos/productos.controller.ts
-import { Controller, Get, Post, Put, Delete, Param, Body, Query, BadRequestException } from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete, Param, Body, Query, BadRequestException, UseGuards } from '@nestjs/common';
 import { ProductosService } from './producto.service';
 import { CreateProductoDto } from './create-producto.dto';
 import { normalizePagination } from 'src/utils/pagination.util';
+import { Roles, RolesGuard } from 'src/auth/guards/roles.guard';
+import { JwtGuard } from 'src/auth/guards/jwt.guard';
 
 @Controller('productos')
+
 export class ProductosController {
   constructor(private readonly productosService: ProductosService) { }
 
@@ -23,6 +26,7 @@ export class ProductosController {
     const results = await this.productosService.searchByName(pattern.trim());
     return results;
   }
+
   @Get('filtrar')
   async filterProducts(
     @Query('nombre') nombre?: string,
@@ -48,16 +52,24 @@ export class ProductosController {
     return this.productosService.findOne(id);
   }
   @Post()
+  @UseGuards(JwtGuard, RolesGuard)
+  @Roles('admin')
   create(@Body() data: CreateProductoDto) {
     return this.productosService.create(data);
   }
 
   @Put(':id')
+  @UseGuards(JwtGuard, RolesGuard)
+
+  @Roles('admin')
   update(@Param('id') id: number, @Body() data: any) {
     return this.productosService.update(id, data);
   }
 
   @Delete(':id')
+  @UseGuards(JwtGuard, RolesGuard)
+
+  @Roles('admin')
   remove(@Param('id') id: number) {
     return this.productosService.remove(id);
   }

@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Pedido confirmado - AutoMas</title>
+  <title>Pedido confirmado - AutoTecnicar</title>
 
   <link rel="stylesheet" href="../../assets/css/corporate-ui-dashboard.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
@@ -25,7 +26,7 @@
     .confirm-card {
       background: #fff;
       border-radius: 16px;
-      box-shadow: 0 14px 40px rgba(15,23,42,0.1);
+      box-shadow: 0 14px 40px rgba(15, 23, 42, 0.1);
       padding: 32px 32px 28px;
       display: grid;
       grid-template-columns: minmax(0, 2fr) minmax(0, 1.4fr);
@@ -92,7 +93,7 @@
       margin-bottom: 18px;
     }
 
-    .shipping-box div + div {
+    .shipping-box div+div {
       margin-top: 4px;
     }
 
@@ -225,6 +226,50 @@
       line-height: 1.5;
     }
 
+    /* =============== FOOTER =============== */
+    .site-footer {
+      background: #111827;
+      color: white;
+      padding: 40px 25px;
+      margin-top: 60px;
+      box-shadow: 0 -8px 25px rgba(15, 23, 42, 0.6);
+    }
+
+    .footer-inner {
+      max-width: 1100px;
+      margin: auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 30px;
+    }
+
+    .footer-contact strong {
+      font-size: 19px;
+      font-weight: 800;
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    .footer-contact div {
+      font-size: 14px;
+      color: #e5e7eb;
+    }
+
+    .footer-whatsapp svg {
+      width: 60px;
+      height: 60px;
+    }
+
+    .footer-bottom {
+      text-align: center;
+      margin-top: 25px;
+      border-top: 1px solid #374151;
+      padding-top: 18px;
+      color: #9ca3af;
+      font-size: 13px;
+    }
+
     @media (max-width: 900px) {
       .confirm-card {
         grid-template-columns: minmax(0, 1fr);
@@ -232,6 +277,7 @@
     }
   </style>
 </head>
+
 <body>
 
   <!-- HEADER (reutilizado) -->
@@ -254,7 +300,8 @@
           <div>
             <h1 class="confirm-title">¡Gracias por tu compra!</h1>
             <p class="confirm-sub">
-              Tu pedido ha sido registrado correctamente. Podrás consultar la confirmación de pago y estado de tu pedido en <a href="pedidos.html">Mis pedidos</a>.
+              Tu pedido ha sido registrado correctamente. Podrás consultar la confirmación de pago y estado de tu pedido
+              en <a href="mis-pedidos.html">Mis pedidos</a>.
             </p>
           </div>
         </div>
@@ -324,7 +371,27 @@
 
     </div>
   </div>
-<script src="./components/header-logic.js"></script>
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-contact">
+        <strong>Contacto</strong>
+        <div>Av. Jorge Basadre Grohmann, Tacna, Perú</div>
+        <div>Horario: Lun–Vie 9:00–13:00 / 14:30–18:30 – Sáb 9:00–13:30</div>
+        <div>Tel: (052) 242713</div>
+      </div>
+
+      <div class="footer-whatsapp">
+        <a href="https://wa.me/51987092808?text=Hola%20quiero%20información" target="_blank">
+          <svg viewBox="0 0 24 24" fill="none">
+            <!-- Icono WhatsApp si quieres luego -->
+          </svg>
+        </a>
+      </div>
+    </div>
+
+    <div class="footer-bottom">© 2025 AutoTecnicar – Todos los derechos reservados.</div>
+  </footer>
+  <script src="./components/header-logic.js"></script>
   <script src="./assets/js/site-cart.js"></script>
   <script>
     // Leer pedido creado desde sessionStorage
@@ -368,7 +435,7 @@
         fecha.toLocaleString("es-PE", { dateStyle: "medium", timeStyle: "short" });
 
       document.getElementById("orderPay").textContent = mapMetodoPago(pedido.metodo_pago);
-  
+
       // Dirección de envío desde cliente (si existe)
       if (pedido.cliente) {
         const cli = pedido.cliente;
@@ -398,10 +465,9 @@
           const row = document.createElement("div");
           row.classList.add("product-row");
           row.innerHTML = `
-            <img src="${
-              producto.imagen ||
-              producto.imagen_url ||
-              "https://via.placeholder.com/64x64?text=IMG"
+            <img src="${producto.imagen ||
+            producto.imagen_url ||
+            "https://via.placeholder.com/64x64?text=IMG"
             }" alt="${nombre}">
             <div>
               <div class="product-name">${nombre}</div>
@@ -435,4 +501,5 @@
     document.addEventListener("DOMContentLoaded", loadOrderView);
   </script>
 </body>
+
 </html>

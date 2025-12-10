@@ -1,30 +1,29 @@
-import { Controller, Post, Get, Put, Delete, Param, Body, HttpCode, ParseIntPipe } from '@nestjs/common';
+import { Controller, Post, Get, Put, Delete, Param, Body, HttpCode, ParseIntPipe, UseGuards } from '@nestjs/common';
 import { CarritosService } from './carrito.service';
 import { CreateCarritoDto } from './dto/create-carrito.dto';
 import { CreateUpdateCarritoDetalleDto } from './dto/createupdate-carrito-detalle.dto';
 import { UpdateCarritoDto } from './dto/update-carrito.dto';
+import { Roles, RolesGuard } from 'src/auth/guards/roles.guard';
+import { JwtGuard } from 'src/auth/guards/jwt.guard';
 
 @Controller('carrito')
+@UseGuards(JwtGuard, RolesGuard)
+@Roles('admin','cliente')
 export class CarritosController {
+    
     constructor(private readonly carritosService: CarritosService) { }
 
-    // --- Gestión de Carritos (Base) ---
 
     @Post()
-    create(@Body() data: CreateCarritoDto) {
-        // Crea un nuevo carrito.
-        return this.carritosService.create(data);
+    create(@Body() data: CreateCarritoDto) {        return this.carritosService.create(data);
     }
-
     @Get()
     findAll() {
-        // Lista todos los carritos.
         return this.carritosService.findAll();
     }
 
     @Get(':id')
     findOne(@Param('id', ParseIntPipe) id: number) {
-        // Obtiene un carrito por su ID.
         return this.carritosService.findOne(id);
     }
 
@@ -33,13 +32,11 @@ export class CarritosController {
         @Param('id', ParseIntPipe) id: number,
         @Body() data: UpdateCarritoDto
     ) {
-        // Actualiza el estado u otra data del carrito.
         return this.carritosService.update(id, data);
     }
 
     @Delete(':id')
     remove(@Param('id', ParseIntPipe) id: number) {
-        // Elimina un carrito.
         return this.carritosService.remove(id);
     }
 
@@ -61,7 +58,6 @@ export class CarritosController {
         return this.carritosService.listDetalles(id);
     }
 
-    // **MODIFICADO:** Ahora la ruta es clara para actualizar un ítem específico.
     @Put('detalles/:id_detalle')
     updateDetalle(
         @Param('id_detalle', ParseIntPipe) id_detalle: number,

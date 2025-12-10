@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Tienda - AutoMas</title>
+  <title>Tienda - AutoTecnicar</title>
 
   <link rel="stylesheet" href="../../assets/css/corporate-ui-dashboard.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
@@ -140,74 +141,75 @@
       font-weight: 700;
       cursor: pointer;
     }
+
     /* ===================== TOP STORE ===================== */
-.top-store {
-  max-width: 1200px;
-  margin: 50px auto 20px auto;
-  padding: 0 20px;
-  text-align: center;
-}
+    .top-store {
+      max-width: 1200px;
+      margin: 50px auto 20px auto;
+      padding: 0 20px;
+      text-align: center;
+    }
 
-.top-store h1 {
-  font-size: 28px;
-  font-weight: 800;
-  margin-bottom: 5px;
-  color: #111;
-}
+    .top-store h1 {
+      font-size: 28px;
+      font-weight: 800;
+      margin-bottom: 5px;
+      color: #111;
+    }
 
-.top-store p {
-  font-size: 15px;
-  color: #555;
-  margin-bottom: 25px;
-}
+    .top-store p {
+      font-size: 15px;
+      color: #555;
+      margin-bottom: 25px;
+    }
 
-/* CONTENEDOR: BUSCADOR + BOTÓN */
-.top-controls {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0px;
-  flex-wrap: wrap;
-}
+    /* CONTENEDOR: BUSCADOR + BOTÓN */
+    .top-controls {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0px;
+      flex-wrap: wrap;
+    }
 
-/* BUSCADOR */
-.search-box {
-  position: relative;
-  width: 100%;
-  max-width: 600px;
-}
+    /* BUSCADOR */
+    .search-box {
+      position: relative;
+      width: 100%;
+      max-width: 600px;
+    }
 
-.search-box input {
-  width: 100%;
-  padding: 12px 18px 13px 45px;
-  border: 2px solid #ccc;
-  font-size: 15px;
-}
+    .search-box input {
+      width: 100%;
+      padding: 12px 18px 13px 45px;
+      border: 2px solid #ccc;
+      font-size: 15px;
+    }
 
-.search-box i {
-  position: absolute;
-  top: 50%;
-  left: 14px;
-  transform: translateY(-50%);
-  color: #777;
-  font-size: 18px;
-}
+    .search-box i {
+      position: absolute;
+      top: 50%;
+      left: 14px;
+      transform: translateY(-50%);
+      color: #777;
+      font-size: 18px;
+    }
 
-/* BOTÓN APLICAR */
-.btn-apply {
-  padding: 12px 20px;
-  border: none;
-  background: #111;
-  color: white;
-  font-size: 15px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: 0.2s;
-}
+    /* BOTÓN APLICAR */
+    .btn-apply {
+      padding: 12px 20px;
+      border: none;
+      background: #111;
+      color: white;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: 0.2s;
+    }
 
-.btn-apply:hover {
-  background: #000;
-}
+    .btn-apply:hover {
+      background: #000;
+    }
 
 
     /* ===================== FOOTER ===================== */
@@ -224,34 +226,37 @@
       font-size: 13px;
       color: #ccc;
     }
+
     .pagination {
-    display: flex;
-    justify-content: end;
-    gap: 20px;
-    margin: 25px 0;
-    margin-right: 60px;
-    align-items: center;
-  }
+      display: flex;
+      justify-content: end;
+      gap: 20px;
+      margin: 25px 0;
+      margin-right: 60px;
+      align-items: center;
+    }
 
-  .pagination button {
-    padding: 10px 18px;
-    background: #111;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    font-weight: 700;
-    cursor: pointer;
-  }
-
-  .pagination button:disabled {
-    background: #444;
-    cursor: not-allowed;
-  }
- .site-footer {
+    .pagination button {
+      padding: 10px 18px;
       background: #111;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .pagination button:disabled {
+      background: #444;
+      cursor: not-allowed;
+    }
+/* =============== FOOTER =============== */
+    .site-footer {
+      background: #111827;
       color: white;
       padding: 40px 25px;
       margin-top: 60px;
+      box-shadow: 0 -8px 25px rgba(15, 23, 42, 0.6);
     }
 
     .footer-inner {
@@ -260,11 +265,19 @@
       display: flex;
       justify-content: space-between;
       align-items: flex-start;
+      gap: 30px;
     }
 
     .footer-contact strong {
-      font-size: 20px;
+      font-size: 19px;
       font-weight: 800;
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    .footer-contact div {
+      font-size: 14px;
+      color: #e5e7eb;
     }
 
     .footer-whatsapp svg {
@@ -275,14 +288,15 @@
     .footer-bottom {
       text-align: center;
       margin-top: 25px;
-      border-top: 1px solid #444;
-      padding-top: 20px;
-      color: #ccc;
+      border-top: 1px solid #374151;
+      padding-top: 18px;
+      color: #9ca3af;
+      font-size: 13px;
     }
-  #pageInfo {
-    font-size: 15px;
-    font-weight: 700;
-  }
+    #pageInfo {
+      font-size: 15px;
+      font-weight: 700;
+    }
   </style>
 </head>
 
@@ -290,44 +304,44 @@
 
   <!-- HEADER -->
   <div id="header"></div>
- <script>
+  <script>
     fetch("components/header.html")
       .then(r => r.text())
-  .then(h => {
-    // 1. Insertamos el HTML del header en la página
-    document.getElementById("header").innerHTML = h;
+      .then(h => {
+        // 1. Insertamos el HTML del header en la página
+        document.getElementById("header").innerHTML = h;
 
-    // 2. UNA VEZ INSERTADO, podemos buscar y actualizar el carrito
-    if (typeof actualizarMiniCarrito === 'function' && getToken() && getClienteId()) {
-      actualizarMiniCarrito();
-    }
-  })
-  .catch(error => console.error("Error al cargar el header:", error));
+        // 2. UNA VEZ INSERTADO, podemos buscar y actualizar el carrito
+        if (typeof actualizarMiniCarrito === 'function' && getToken() && getClienteId()) {
+          actualizarMiniCarrito();
+        }
+      })
+      .catch(error => console.error("Error al cargar el header:", error));
   </script>
 
 
   <!-- BUSCADOR -->
   <!-- SECCIÓN SUPERIOR DE TIENDA -->
-<div class="top-store">
-  
-  <h1>Encuentra los productos que necesitas</h1>
-  <p>Alternadores, arrancadores y piezas específicas para todo tipo de vehículos</p>
+  <div class="top-store">
 
-  <div class="top-controls">
-    
-    <!-- BUSCADOR -->
-    <div class="search-box">
-      <i class="fas fa-search"></i>
-<input id="searchInput" type="text" placeholder="Buscar repuestos por nombre o código..." />
+    <h1>Encuentra los productos que necesitas</h1>
+    <p>Alternadores, arrancadores y piezas específicas para todo tipo de vehículos</p>
+
+    <div class="top-controls">
+
+      <!-- BUSCADOR -->
+      <div class="search-box">
+        <i class="fas fa-search"></i>
+        <input id="searchInput" type="text" placeholder="Buscar repuestos por nombre o código..." />
+
+      </div>
+
+      <!-- BOTÓN APLICAR FILTROS -->
+      <button class="btn-apply">Aplicar filtros</button>
 
     </div>
 
-    <!-- BOTÓN APLICAR FILTROS -->
-    <button class="btn-apply">Aplicar filtros</button>
-
   </div>
-
-</div>
 
 
   <!-- TIENDA -->
@@ -337,29 +351,29 @@
     <aside class="sidebar">
 
       <h3>Categorías</h3>
-<div class="filter-group">
-  <label><input type="checkbox" class="cat-filter" value="1"> Alternadores</label>
-  <label><input type="checkbox" class="cat-filter" value="2"> Arrancadores</label>
-</div>
+      <div class="filter-group">
+        <label><input type="checkbox" class="cat-filter" value="1"> Alternadores</label>
+        <label><input type="checkbox" class="cat-filter" value="2"> Arrancadores</label>
+      </div>
 
-<h3>Piezas de Alternador</h3>
-<div class="filter-group">
-  <label><input type="checkbox" class="cat-filter" value="3"> Poleas</label>
-  <label><input type="checkbox" class="cat-filter" value="4"> Portadiodos</label>
-</div>
+      <h3>Piezas de Alternador</h3>
+      <div class="filter-group">
+        <label><input type="checkbox" class="cat-filter" value="3"> Poleas</label>
+        <label><input type="checkbox" class="cat-filter" value="4"> Portadiodos</label>
+      </div>
 
-<h3>Piezas de Arrancador</h3>
-<div class="filter-group">
-  <label><input type="checkbox" class="cat-filter" value="5"> Bendix</label>
-  <label><input type="checkbox" class="cat-filter" value="6"> Coronas</label>
-  <label><input type="checkbox" class="cat-filter" value="7"> Piñas</label>
-  <label><input type="checkbox" class="cat-filter" value="8"> Solenoides</label>
-</div>
-<h3>Focos</h3>
-<div class="filter-group">
-  <label><input type="checkbox" class="cat-filter" value="9"> Halogenos</label>
-  <label><input type="checkbox" class="cat-filter" value="10"> LED</label>
-</div>
+      <h3>Piezas de Arrancador</h3>
+      <div class="filter-group">
+        <label><input type="checkbox" class="cat-filter" value="5"> Bendix</label>
+        <label><input type="checkbox" class="cat-filter" value="6"> Coronas</label>
+        <label><input type="checkbox" class="cat-filter" value="7"> Piñas</label>
+        <label><input type="checkbox" class="cat-filter" value="8"> Solenoides</label>
+      </div>
+      <h3>Focos</h3>
+      <div class="filter-group">
+        <label><input type="checkbox" class="cat-filter" value="9"> Halogenos</label>
+        <label><input type="checkbox" class="cat-filter" value="10"> LED</label>
+      </div>
 
 
     </aside>
@@ -367,17 +381,17 @@
     <!-- PRODUCTOS -->
     <div class="products" id="productGrid"></div>
 
-    
+
 
   </div>
-<!-- PAGINACIÓN -->
-<div class="pagination">
-  <button id="prevPage" disabled>Anterior</button>
-  <span id="pageInfo">Página 1</span>
-  <button id="nextPage">Siguiente</button>
-</div>
-  <!-- FOOTER -->
-    <footer class="site-footer">
+  <!-- PAGINACIÓN -->
+  <div class="pagination">
+    <button id="prevPage" disabled>Anterior</button>
+    <span id="pageInfo">Página 1</span>
+    <button id="nextPage">Siguiente</button>
+  </div>
+
+  <footer class="site-footer">
     <div class="footer-inner">
       <div class="footer-contact">
         <strong>Contacto</strong>
@@ -389,7 +403,7 @@
       <div class="footer-whatsapp">
         <a href="https://wa.me/51987092808?text=Hola%20quiero%20información" target="_blank">
           <svg viewBox="0 0 24 24" fill="none">
-            <!-- <path d="M20.52 3.48A11.94 11.94 0 0012 0C5.373 0 .004 5.372.004 12..." fill="#25D366"/> -->
+            <!-- Icono WhatsApp si quieres luego -->
           </svg>
         </a>
       </div>
@@ -397,84 +411,92 @@
 
     <div class="footer-bottom">© 2025 AutoTecnicar – Todos los derechos reservados.</div>
   </footer>
-<script>
-const API_LIST = "http://154.38.160.251/api/productos";
-const API_FILTER = "http://154.38.160.251/api/productos/filtrar";
+  <script>
+    const API_LIST = "http://localhost:3000/productos";
+    const API_FILTER = "http://localhost:3000/productos/filtrar";
 
-const productGrid = document.getElementById("productGrid");
-const searchInput = document.getElementById("searchInput");
-const filterBtn = document.querySelector(".btn-apply");
-const categoryCheckboxes = document.querySelectorAll(".cat-filter");
+    const productGrid = document.getElementById("productGrid");
+    const searchInput = document.getElementById("searchInput");
+    const filterBtn = document.querySelector(".btn-apply");
+    const categoryCheckboxes = document.querySelectorAll(".cat-filter");
 
-let take = 15;
-let skip = 0;
-let total = 0;
-let currentPage = 1;
+    let take = 15;
+    let skip = 0;
+    let total = 0;
+    let currentPage = 1;
 
-let activeFilters = false; // indica si se está usando /filtrar
+    let activeFilters = false; // indica si se está usando /filtrar
 
-// =======================================================
-// CARGA NORMAL SIN FILTROS
-// =======================================================
-async function loadProducts() {
-  activeFilters = false;
+    // =======================================================
+    // CARGA NORMAL SIN FILTROS
+    // =======================================================
+    async function loadProducts() {
+      activeFilters = false;
 
-  const res = await fetch(`${API_LIST}?skip=${skip}&take=${take}`);
-  const data = await res.json();
+      const res = await fetch(`${API_LIST}?skip=${skip}&take=${take}`, {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+      const data = await res.json();
 
-  total = data.total;
-  renderProducts(data.items);
-  renderPagination();
-}
+      total = data.total;
+      renderProducts(data.items);
+      renderPagination();
+    }
 
-// =======================================================
-// CARGA CON FILTROS (BUSCADOR + CATEGORÍAS)
-// =======================================================
-async function loadFilteredProducts() {
-  activeFilters = true;
+    // =======================================================
+    // CARGA CON FILTROS (BUSCADOR + CATEGORÍAS)
+    // =======================================================
+    async function loadFilteredProducts() {
+      activeFilters = true;
 
-  const nameQuery = searchInput.value.trim();
+      const nameQuery = searchInput.value.trim();
 
-  // obtener categorias seleccionadas
-  const selected = [...categoryCheckboxes]
-    .filter(c => c.checked)
-    .map(c => c.value);
+      // obtener categorias seleccionadas
+      const selected = [...categoryCheckboxes]
+        .filter(c => c.checked)
+        .map(c => c.value);
 
-  const params = new URLSearchParams();
+      const params = new URLSearchParams();
 
-  params.append("skip", skip);
-  params.append("take", take);
+      params.append("skip", skip);
+      params.append("take", take);
 
-  if (nameQuery) params.append("nombre", nameQuery);
-  if (selected.length > 0) params.append("categorias", selected.join(","));
+      if (nameQuery) params.append("nombre", nameQuery);
+      if (selected.length > 0) params.append("categorias", selected.join(","));
 
-  const url = `${API_FILTER}?${params.toString()}`;
+      const url = `${API_FILTER}?${params.toString()}`;
 
-  const res = await fetch(url);
-  const data = await res.json();
+      const res = await fetch(url, {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+      const data = await res.json();
 
-  total = data.total;
-  renderProducts(data.items);
-  renderPagination();
-}
+      total = data.total;
+      renderProducts(data.items);
+      renderPagination();
+    }
 
-// =======================================================
-// RENDERIZAR PRODUCTOS
-// =======================================================
-function renderProducts(items) {
-  productGrid.innerHTML = "";
+    // =======================================================
+    // RENDERIZAR PRODUCTOS
+    // =======================================================
+    function renderProducts(items) {
+      productGrid.innerHTML = "";
 
-  if (!items || items.length === 0) {
-    productGrid.innerHTML = "<p>No hay productos para mostrar.</p>";
-    return;
-  }
+      if (!items || items.length === 0) {
+        productGrid.innerHTML = "<p>No hay productos para mostrar.</p>";
+        return;
+      }
 
-  items.forEach(p => {
-    const card = document.createElement("div");
-    card.classList.add("product-card");
-    card.dataset.id = p.id_producto;
+      items.forEach(p => {
+        const card = document.createElement("div");
+        card.classList.add("product-card");
+        card.dataset.id = p.id_producto;
 
-    card.innerHTML = `
+        card.innerHTML = `
       <img src="https://img.freepik.com/vector-premium/icono-marco-fotos-foto-vacia-blanco-vector-sobre-fondo-transparente-aislado-eps-10_399089-1290.jpg"
            alt="${p.nombre}">
 
@@ -490,62 +512,63 @@ function renderProducts(items) {
       <button class="btn-add">Agregar al carrito</button>
     `;
 
-    productGrid.appendChild(card);
-  });
-}
+        productGrid.appendChild(card);
+      });
+    }
 
-// =======================================================
-// PAGINACIÓN
-// =======================================================
-function renderPagination() {
-  const prevBtn = document.getElementById("prevPage");
-  const nextBtn = document.getElementById("nextPage");
-  const pageInfo = document.getElementById("pageInfo");
+    // =======================================================
+    // PAGINACIÓN
+    // =======================================================
+    function renderPagination() {
+      const prevBtn = document.getElementById("prevPage");
+      const nextBtn = document.getElementById("nextPage");
+      const pageInfo = document.getElementById("pageInfo");
 
-  prevBtn.disabled = skip === 0;
-  nextBtn.disabled = skip + take >= total;
+      prevBtn.disabled = skip === 0;
+      nextBtn.disabled = skip + take >= total;
 
-  const totalPages = Math.ceil(total / take);
-  pageInfo.textContent = `Página ${Math.floor(skip / take) + 1} de ${totalPages}`;
-}
+      const totalPages = Math.ceil(total / take);
+      pageInfo.textContent = `Página ${Math.floor(skip / take) + 1} de ${totalPages}`;
+    }
 
-// =======================================================
-// BOTONES SIGUIENTE / ANTERIOR
-// =======================================================
-document.getElementById("nextPage").addEventListener("click", () => {
-  skip += take;
-  activeFilters ? loadFilteredProducts() : loadProducts();
-});
+    // =======================================================
+    // BOTONES SIGUIENTE / ANTERIOR
+    // =======================================================
+    document.getElementById("nextPage").addEventListener("click", () => {
+      skip += take;
+      activeFilters ? loadFilteredProducts() : loadProducts();
+    });
 
-document.getElementById("prevPage").addEventListener("click", () => {
-  if (skip >= take) skip -= take;
-  activeFilters ? loadFilteredProducts() : loadProducts();
-});
+    document.getElementById("prevPage").addEventListener("click", () => {
+      if (skip >= take) skip -= take;
+      activeFilters ? loadFilteredProducts() : loadProducts();
+    });
 
-// =======================================================
-// BOTÓN APLICAR FILTROS
-// =======================================================
-filterBtn.addEventListener("click", () => {
-  skip = 0; // reiniciar paginación
-  loadFilteredProducts();
-});
-// ENTER en el buscador → aplicar filtros
-searchInput.addEventListener("keypress", (e) => {
-  if (e.key === "Enter") {
-    e.preventDefault();
-    skip = 0;
-    loadFilteredProducts();
-  }
-});
+    // =======================================================
+    // BOTÓN APLICAR FILTROS
+    // =======================================================
+    filterBtn.addEventListener("click", () => {
+      skip = 0; // reiniciar paginación
+      loadFilteredProducts();
+    });
+    // ENTER en el buscador → aplicar filtros
+    searchInput.addEventListener("keypress", (e) => {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        skip = 0;
+        loadFilteredProducts();
+      }
+    });
 
 
-// =======================================================
-// CARGA INICIAL
-// =======================================================
-loadProducts();
-</script>
+    // =======================================================
+    // CARGA INICIAL
+    // =======================================================
+    loadProducts();
+  </script>
   <script src="./components/header-logic.js"></script>
   <script src="./assets/js/site-cart.js"></script>
 
 </body>
+
 </html>

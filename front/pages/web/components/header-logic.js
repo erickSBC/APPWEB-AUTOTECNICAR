@@ -49,7 +49,7 @@ document.addEventListener("DOMContentLoaded", () => {
         /* LOGOUT */
         logoutBtn.onclick = () => {
             localStorage.removeItem("token");
-            localStorage.removeItem("automas_carrito_id");
+            localStorage.removeItem("carrito_id");
             localStorage.removeItem(CART_BACKEND_ID_KEY);
             window.location.href = "home.html";
         };

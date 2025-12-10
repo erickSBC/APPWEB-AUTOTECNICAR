@@ -4,7 +4,7 @@ import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ProductosModule } from './productos/producto.module';
 import { CategoriasModule } from './categorias/categoria.module';
-  import { ClientesModule } from './clientes/cliente.module';
+import { ClientesModule } from './clientes/cliente.module';
 import { Cliente } from './entities/cliente.entity';
 import { Carrito } from './entities/carrito.entity';
 import { Categoria } from './entities/categoria.entity';
@@ -28,30 +28,30 @@ import { ProductoModelosModule } from './producto-modelos/producto-modelos.modul
 @Module({
   imports: [
     TypeOrmModule.forRoot({
-      type: 'mysql',              // Tipo de base de datos
+      type: 'mysql',
       host: 'localhost',
       port: 3306,
       username: 'esant', //root/esant
       password: 'password',
-      database: 'DB_WEB', //ejemplodb/DB_WEB
-  entities: [Cliente,Carrito,Categoria,Producto,CarritoDetalle,Pedido,PedidoDetalle,Comprobante,Administrador,ModeloVehiculo,ProductoModelo
-  ],       
+      database: 'DB_WEB',
+      entities: [Cliente, Carrito, Categoria, Producto, CarritoDetalle, Pedido, PedidoDetalle, Comprobante, Administrador, ModeloVehiculo, ProductoModelo
+      ],
       synchronize: false,             // ¡Solo para desarrollo! Crea tablas automáticamente
     }),
-  ProductosModule,
+    ProductosModule,
     CategoriasModule,
     ClientesModule,
     CarritosModule,
-    PedidosModule,ComprobantesModule
-  ,AdministradoresModule
-  ,ReportesModule
-  ,AuthModule
-  ,ModelosModule
-  ,ProductoModelosModule
-  
+    PedidosModule, ComprobantesModule
+    , AdministradoresModule
+    , ReportesModule
+    , AuthModule
+    , ModelosModule
+    , ProductoModelosModule
+
 
   ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule { }

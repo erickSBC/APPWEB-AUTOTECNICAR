@@ -17,7 +17,7 @@ export class ReportesService {
     }
     if (hasta) {
       sql += ` AND p.fecha_creacion <= ?`;
-      // IMPORTANTE: Agregamos la hora final para incluir todo el día
+      // se agrega la hora final para incluir todo el día
       params.push(hasta + ' 23:59:59'); 
     }
 
@@ -34,7 +34,7 @@ export class ReportesService {
       FROM pedido_detalle pd
       JOIN producto pr ON pr.id_producto = pd.id_producto
       JOIN pedido p ON p.id_pedido = pd.id_pedido
-      WHERE p.estado = 'pagado'`; // 1=1 facilita concatenar ANDs después
+      WHERE p.estado = 'pagado'`; 
     
     const params: any[] = [];
     

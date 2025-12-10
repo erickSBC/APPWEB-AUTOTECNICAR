@@ -353,7 +353,7 @@
   </div>
 
   <script>
-    const API_BASE = "http://154.38.160.251/api";
+    const API_BASE = "http://localhost:3000";
 
     const params = new URLSearchParams(window.location.search);
     const idPedido = params.get("id_pedido");
@@ -366,7 +366,11 @@
 
     async function cargarComprobante(id) {
       try {
-        const res = await fetch(`${API_BASE}/comprobantes/pedido/${id}`);
+        const res = await fetch(`${API_BASE}/comprobantes/pedido/${id}`,{
+          headers: {
+            'Authorization': `Bearer ${localStorage.getItem("token")}`,  
+          },
+        });
         if (!res.ok) throw new Error("No se pudo obtener el comprobante");
         const data = await res.json();
         renderBoleta(data);

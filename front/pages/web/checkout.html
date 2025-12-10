@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Checkout - AutoMas</title>
+  <title>Checkout - AutoTecnicar</title>
 
   <link rel="stylesheet" href="../../assets/css/corporate-ui-dashboard.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
@@ -361,6 +361,50 @@
       padding: 12px 0 14px;
     }
 
+    /* =============== FOOTER =============== */
+    .site-footer {
+      background: #111827;
+      color: white;
+      padding: 40px 25px;
+      margin-top: 60px;
+      box-shadow: 0 -8px 25px rgba(15, 23, 42, 0.6);
+    }
+
+    .footer-inner {
+      max-width: 1100px;
+      margin: auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 30px;
+    }
+
+    .footer-contact strong {
+      font-size: 19px;
+      font-weight: 800;
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    .footer-contact div {
+      font-size: 14px;
+      color: #e5e7eb;
+    }
+
+    .footer-whatsapp svg {
+      width: 60px;
+      height: 60px;
+    }
+
+    .footer-bottom {
+      text-align: center;
+      margin-top: 25px;
+      border-top: 1px solid #374151;
+      padding-top: 18px;
+      color: #9ca3af;
+      font-size: 13px;
+    }
+
     @media (max-width: 900px) {
       .checkout-layout {
         grid-template-columns: 1fr;
@@ -459,7 +503,7 @@
             <div class="ship-price">S/ 0.00</div>
           </label>
 
-        
+
         </section>
 
         <!-- 3. Método de pago -->
@@ -566,13 +610,31 @@
       </aside>
     </div>
   </main>
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-contact">
+        <strong>Contacto</strong>
+        <div>Av. Jorge Basadre Grohmann, Tacna, Perú</div>
+        <div>Horario: Lun–Vie 9:00–13:00 / 14:30–18:30 – Sáb 9:00–13:30</div>
+        <div>Tel: (052) 242713</div>
+      </div>
 
+      <div class="footer-whatsapp">
+        <a href="https://wa.me/51987092808?text=Hola%20quiero%20información" target="_blank">
+          <svg viewBox="0 0 24 24" fill="none">
+            <!-- Icono WhatsApp si quieres luego -->
+          </svg>
+        </a>
+      </div>
+    </div>
+
+    <div class="footer-bottom">© 2025 AutoTecnicar – Todos los derechos reservados.</div>
+  </footer>
   <script src="./components/header-logic.js"></script>
   <script src="./assets/js/site-cart.js "></script>
-  <!-- Lógica de carrito backend -->
 
   <script>
-    const API_PEDIDOS = "http://154.38.160.251/api/pedidos";
+    const API_PEDIDOS = "http://localhost:3000/pedidos";
 
     const summaryItems = document.getElementById("summaryItems");
     const summarySubtotal = document.getElementById("summarySubtotal");
@@ -588,7 +650,7 @@
     const clienteId = pload.sub
     async function loadShippingInfo() {
       try {
-        const res = await fetch(`http://154.38.160.251/api/clientes/${clienteId}`, {
+        const res = await fetch(`http://localhost:3000/clientes/${clienteId}`, {
           headers: { "Authorization": "Bearer " + tok }
         });
 
@@ -752,7 +814,7 @@
 
       let cliente = null;
       try {
-        const res = await fetch(`http://154.38.160.251/api/clientes/${clienteId}`, {
+        const res = await fetch(`http://localhost:3000/clientes/${clienteId}`, {
           headers: { "Authorization": "Bearer " + tok }
         });
         const c = await res.json();
@@ -831,8 +893,7 @@
         }
 
         const pedidoCreado = await res.json();
-        console.log("Pedido creado:", pedidoCreado);
-        localStorage.removeItem("automas_carrito_id");
+        localStorage.removeItem("carrito_id");
         alert("Pedido registrado correctamente. Gracias por tu compra.");
 
         // Guarda la info del pedido sólo para la siguiente página

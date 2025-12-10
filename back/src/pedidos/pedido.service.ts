@@ -63,7 +63,7 @@ export class PedidosService {
 
     const igvRate = 0.18;
 
-    // 👇 Estado inicial (si no viene, pendiente)
+    // Estado inicial (si no viene, pendiente)
     const estadoInicial = data.estado ?? PedidoEstado.enviado;
 
     // ---- 1) CREAR PEDIDO + DETALLES EN TRANSACCIÓN ----
@@ -127,7 +127,7 @@ export class PedidosService {
             : null,
           dni: data.dni ?? '',
           tipo_pedido: data.tipo_pedido,
-          estado: estadoInicial,                          // 👈 usamos estadoInicial
+          estado: estadoInicial,                    
           subtotal: this.round2(subtotalAcum),
           igv_total: this.round2(igvAcum),
           total: this.round2(totalAcum),
@@ -193,8 +193,8 @@ export class PedidosService {
 
   const pedido = await this.findOne(id);
 
-  // --- NUEVO: verificar si ya existe un comprobante ---
-  if (pedido.estado === PedidoEstado.pagado) {
+  // -erificar si ya existe un comprobante ---
+  if (pedido.estado === PedidoEstado.pagado || pedido.estado === PedidoEstado.entregado) {
     const comprobanteExistente = await this.comprobantesService.findByPedidoId(pedido.id_pedido);
 
     if (!comprobanteExistente) {
@@ -207,7 +207,7 @@ export class PedidosService {
         metodo_pago: pedido.metodo_pago ?? MetodoPago.tarjeta,
       });//
     }
-    // Si ya existe, simplemente no se crea otro
+    // Si ya existe,  no se crea otro
   }
 
   return pedido;

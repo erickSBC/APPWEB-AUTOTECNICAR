@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8" />
   <title>Gestión de Categorías - D'Cesar</title>
@@ -71,7 +72,7 @@
       margin: 0;
     }
 
-  
+
     .page-header-actions {
       display: flex;
       gap: 12px;
@@ -110,21 +111,21 @@
 
     .btn {
       .btn {
-      appearance: none;
-      border: none;
-      border-radius: 999px;
-      font-size: 14px;
-      padding: 9px 18px;
-      cursor: pointer;
-      font-weight: 500;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      white-space: nowrap;
-      transition: none;
+        appearance: none;
+        border: none;
+        border-radius: 999px;
+        font-size: 14px;
+        padding: 9px 18px;
+        cursor: pointer;
+        font-weight: 500;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        white-space: nowrap;
+        transition: none;
 
-    }
+      }
     }
 
     .btn-primary {
@@ -185,7 +186,7 @@
     }
 
     .cats-layout {
-   
+
       gap: 20px;
       align-items: flex-start;
     }
@@ -308,7 +309,7 @@
       gap: 6px;
     }
 
-   
+
 
     /* ===== MODAL CREAR/EDITAR ===== */
 
@@ -412,8 +413,8 @@
 
       .page-header-actions {
         display: flex;
-      gap: 12px;
-      align-items: start;
+        gap: 12px;
+        align-items: start;
 
       }
 
@@ -423,220 +424,224 @@
 
 
     }
-          /* Overlay específico del modal de categorias */
-#catModal {
-  position: fixed;
-  inset: 0;
-  display: none;
-  align-items: center;
-  justify-content: center;
-  z-index: 9999;
-}
 
-/* Cuando está abierto */
-#catModal.is-open {
-  display: flex !important;
-}
-
-/* Contenedor del contenido del modal */
-#catModal .modal {
-  background: #ffffff;
-  border-radius: 16px;
-  padding: 20px 20px 16px;
-  max-width: 480px;
-  width: 100%;
-  box-shadow: 0 24px 65px rgba(15, 23, 42, 0.35);
-  display: block !important;   /* por si algún CSS lo pone en none */
-  position: relative;
-  z-index: 10000;
-  height: auto;
-}
-  </style>
-</head>
-<body>
-
-<div class="app-layout">
-  <!-- SIDEBAR -->
-  <div id="sdbar"></div>
-  <script>
-    fetch("components/sidebar.html")
-      .then(r => r.text())
-      .then(h => (document.getElementById("sdbar").innerHTML = h));
-  </script>
-
-  <!-- CONTENIDO PRINCIPAL -->
-  <main class="app-main">
-    <div class="page-breadcrumb">
-      Dashboard / <span>Categorías</span>
-    </div>
-
-    <div class="page-title-row">
-      <h1 class="page-title">Gestión de Categorías</h1>
-
-      <div class="page-header-actions">
-        <div class="search-box">
-          <input id="searchInput" type="text" placeholder="Buscar categoría" />
-        </div>
-        <button id="btnNewCategory" class="btn btn-primary">
-          + Nueva Categoría
-        </button>
-      </div>
-    </div>
-
-    <h2 class="cats-page-title">Lista de Categorías</h2>
-
-    <div class="cats-layout">
-      <!-- LISTA CATEGORÍAS -->
-      <section class="card">
-        <div class="card-header">
-          <div>
-            <div class="card-header-title">Categorías registradas</div>
-            <div class="card-subtitle">
-              Total: <span id="totalCategorias">0</span> categorías
-            </div>
-          </div>
-          <div class="card-header-meta">
-            Última actualización: <span id="lastUpdate">-</span>
-          </div>
-        </div>
-
-        <table class="cats-table">
-          <thead>
-            <tr>
-              <th>Categoría</th>
-              <th>Descripción</th>
-              <th>Productos</th>
-              <th>Acciones</th>
-            </tr>
-          </thead>
-          <tbody id="catsTbody">
-            <!-- filas generadas por JS -->
-          </tbody>
-        </table>
-      </section>
-
-
-    </div>
-  </main>
-</div>
-
-<!-- MODAL CREAR / EDITAR CATEGORÍA -->
-<div id="catModal" class="modal-overlay">
-  <div class="modal">
-    <div class="modal-header">
-      <div>
-        <div id="modalTitle" class="modal-title">Nueva Categoría</div>
-        <div id="modalSubtitle" class="modal-description">
-          Completa los datos de la categoría.
-        </div>
-      </div>
-      <button class="modal-close" type="button" id="btnCloseModal">&times;</button>
-    </div>
-
-    <div class="modal-body">
-      <form id="catForm">
-        <input type="hidden" id="catId" />
-
-        <div class="form-field">
-          <label for="catNombre">Nombre</label>
-          <input type="text" id="catNombre" required placeholder="Ej: Alternadores" />
-        </div>
-
-        <div class="form-field">
-          <label for="catDescripcion">Descripción</label>
-          <textarea id="catDescripcion" rows="3" placeholder="Describe el tipo de productos que agrupa esta categoría."></textarea>
-        </div>
-
-        <div class="modal-footer">
-          <button type="button" class="btn btn-ghost btn-sm" id="btnCancelModal">
-            Cancelar
-          </button>
-          <button type="submit" class="btn btn-primary btn-sm">
-            Guardar
-          </button>
-        </div>
-      </form>
-    </div>
-  </div>
-</div>
-
-<script>
-  // === CONFIG API ===
-  const API_BASE = 'http://154.38.160.251/api'; // ajusta si tu backend está en otro host/puerto
-  const API_CATEGORIAS = API_BASE + '/categorias';
-
-  // === ESTADO ===
-  let categorias = [];
-  let filteredCategorias = [];
-  let modalMode = 'create'; // 'create' | 'edit'
-
-  // === DOM ===
-  const catsTbody = document.getElementById('catsTbody');
-  const totalCategoriasSpan = document.getElementById('totalCategorias');
-  const lastUpdateSpan = document.getElementById('lastUpdate');
-  const searchInput = document.getElementById('searchInput');
-  const btnNewCategory = document.getElementById('btnNewCategory');
-
-  const catModal = document.getElementById('catModal');
-  const modalTitle = document.getElementById('modalTitle');
-  const modalSubtitle = document.getElementById('modalSubtitle');
-  const btnCloseModal = document.getElementById('btnCloseModal');
-  const btnCancelModal = document.getElementById('btnCancelModal');
-
-  const catForm = document.getElementById('catForm');
-  const inputId = document.getElementById('catId');
-  const inputNombre = document.getElementById('catNombre');
-  const inputDescripcion = document.getElementById('catDescripcion');
-
-  // === UTILIDADES ===
-  function shortDateTime(date) {
-    const d = new Date(date);
-    if (Number.isNaN(d.getTime())) return '-';
-    const h = d.getHours().toString().padStart(2, '0');
-    const m = d.getMinutes().toString().padStart(2, '0');
-    return `${d.toLocaleDateString()} ${h}:${m}`;
-  }
-
-  function catAvatar(nombre) {
-    const n = (nombre || '').trim();
-    if (!n) return 'C';
-    return n.charAt(0).toUpperCase();
-  }
-
-  function openModal(mode, categoria) {
-    modalMode = mode;
-
-    if (mode === 'create') {
-      modalTitle.textContent = 'Nueva Categoría';
-      modalSubtitle.textContent = 'Completa los datos para registrar una nueva categoría.';
-      catForm.reset();
-      inputId.value = '';
-    } else if (mode === 'edit' && categoria) {
-      modalTitle.textContent = 'Editar Categoría';
-      modalSubtitle.textContent = 'Actualiza los datos de la categoría seleccionada.';
-      inputId.value = categoria.id_categoria;
-      inputNombre.value = categoria.nombre ?? '';
-      inputDescripcion.value = categoria.descripcion ?? '';
+    /* Overlay específico del modal de categorias */
+    #catModal {
+      position: fixed;
+      inset: 0;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
     }
 
-    catModal.classList.add('is-open');
-  }
+    /* Cuando está abierto */
+    #catModal.is-open {
+      display: flex !important;
+    }
 
-  function closeModal() {
-    catModal.classList.remove('is-open');
-  }
+    /* Contenedor del contenido del modal */
+    #catModal .modal {
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 20px 20px 16px;
+      max-width: 480px;
+      width: 100%;
+      box-shadow: 0 24px 65px rgba(15, 23, 42, 0.35);
+      display: block !important;
+      /* por si algún CSS lo pone en none */
+      position: relative;
+      z-index: 10000;
+      height: auto;
+    }
+  </style>
+</head>
 
-  // === RENDER ===
-  function renderCategorias(list) {
-    catsTbody.innerHTML = '';
+<body>
 
-    list.forEach(cat => {
-      const tr = document.createElement('tr');
-      tr.dataset.id = cat.id_categoria;
+  <div class="app-layout">
+    <!-- SIDEBAR -->
+    <div id="sdbar"></div>
+    <script>
+      fetch("components/sidebar.html")
+        .then(r => r.text())
+        .then(h => (document.getElementById("sdbar").innerHTML = h));
+    </script>
 
-      const totalProductos = Array.isArray(cat.productos) ? cat.productos.length : 0;
+    <!-- CONTENIDO PRINCIPAL -->
+    <main class="app-main">
+      <div class="page-breadcrumb">
+        Dashboard / <span>Categorías</span>
+      </div>
 
-      tr.innerHTML = `
+      <div class="page-title-row">
+        <h1 class="page-title">Gestión de Categorías</h1>
+
+        <div class="page-header-actions">
+          <div class="search-box">
+            <input id="searchInput" type="text" placeholder="Buscar categoría" />
+          </div>
+          <button id="btnNewCategory" class="btn btn-primary">
+            + Nueva Categoría
+          </button>
+        </div>
+      </div>
+
+      <h2 class="cats-page-title">Lista de Categorías</h2>
+
+      <div class="cats-layout">
+        <!-- LISTA CATEGORÍAS -->
+        <section class="card">
+          <div class="card-header">
+            <div>
+              <div class="card-header-title">Categorías registradas</div>
+              <div class="card-subtitle">
+                Total: <span id="totalCategorias">0</span> categorías
+              </div>
+            </div>
+            <div class="card-header-meta">
+              Última actualización: <span id="lastUpdate">-</span>
+            </div>
+          </div>
+
+          <table class="cats-table">
+            <thead>
+              <tr>
+                <th>Categoría</th>
+                <th>Descripción</th>
+                <th>Productos</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="catsTbody">
+              <!-- filas generadas por JS -->
+            </tbody>
+          </table>
+        </section>
+
+
+      </div>
+    </main>
+  </div>
+
+  <!-- MODAL CREAR / EDITAR CATEGORÍA -->
+  <div id="catModal" class="modal-overlay">
+    <div class="modal">
+      <div class="modal-header">
+        <div>
+          <div id="modalTitle" class="modal-title">Nueva Categoría</div>
+          <div id="modalSubtitle" class="modal-description">
+            Completa los datos de la categoría.
+          </div>
+        </div>
+        <button class="modal-close" type="button" id="btnCloseModal">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <form id="catForm">
+          <input type="hidden" id="catId" />
+
+          <div class="form-field">
+            <label for="catNombre">Nombre</label>
+            <input type="text" id="catNombre" required placeholder="Ej: Alternadores" />
+          </div>
+
+          <div class="form-field">
+            <label for="catDescripcion">Descripción</label>
+            <textarea id="catDescripcion" rows="3"
+              placeholder="Describe el tipo de productos que agrupa esta categoría."></textarea>
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-ghost btn-sm" id="btnCancelModal">
+              Cancelar
+            </button>
+            <button type="submit" class="btn btn-primary btn-sm">
+              Guardar
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // === CONFIG API ===
+    const API_BASE = 'http://localhost:3000'; // ajusta si tu backend está en otro host/puerto
+    const API_CATEGORIAS = API_BASE + '/categorias';
+
+    // === ESTADO ===
+    let categorias = [];
+    let filteredCategorias = [];
+    let modalMode = 'create'; // 'create' | 'edit'
+
+    // === DOM ===
+    const catsTbody = document.getElementById('catsTbody');
+    const totalCategoriasSpan = document.getElementById('totalCategorias');
+    const lastUpdateSpan = document.getElementById('lastUpdate');
+    const searchInput = document.getElementById('searchInput');
+    const btnNewCategory = document.getElementById('btnNewCategory');
+
+    const catModal = document.getElementById('catModal');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalSubtitle = document.getElementById('modalSubtitle');
+    const btnCloseModal = document.getElementById('btnCloseModal');
+    const btnCancelModal = document.getElementById('btnCancelModal');
+
+    const catForm = document.getElementById('catForm');
+    const inputId = document.getElementById('catId');
+    const inputNombre = document.getElementById('catNombre');
+    const inputDescripcion = document.getElementById('catDescripcion');
+
+    // === UTILIDADES ===
+    function shortDateTime(date) {
+      const d = new Date(date);
+      if (Number.isNaN(d.getTime())) return '-';
+      const h = d.getHours().toString().padStart(2, '0');
+      const m = d.getMinutes().toString().padStart(2, '0');
+      return `${d.toLocaleDateString()} ${h}:${m}`;
+    }
+
+    function catAvatar(nombre) {
+      const n = (nombre || '').trim();
+      if (!n) return 'C';
+      return n.charAt(0).toUpperCase();
+    }
+
+    function openModal(mode, categoria) {
+      modalMode = mode;
+
+      if (mode === 'create') {
+        modalTitle.textContent = 'Nueva Categoría';
+        modalSubtitle.textContent = 'Completa los datos para registrar una nueva categoría.';
+        catForm.reset();
+        inputId.value = '';
+      } else if (mode === 'edit' && categoria) {
+        modalTitle.textContent = 'Editar Categoría';
+        modalSubtitle.textContent = 'Actualiza los datos de la categoría seleccionada.';
+        inputId.value = categoria.id_categoria;
+        inputNombre.value = categoria.nombre ?? '';
+        inputDescripcion.value = categoria.descripcion ?? '';
+      }
+
+      catModal.classList.add('is-open');
+    }
+
+    function closeModal() {
+      catModal.classList.remove('is-open');
+    }
+
+    // === RENDER ===
+    function renderCategorias(list) {
+      catsTbody.innerHTML = '';
+
+      list.forEach(cat => {
+        const tr = document.createElement('tr');
+        tr.dataset.id = cat.id_categoria;
+
+        const totalProductos = Array.isArray(cat.productos) ? cat.productos.length : 0;
+
+        tr.innerHTML = `
         <td>
           <div class="cat-cell">
             <div class="cat-avatar">${catAvatar(cat.nombre)}</div>
@@ -657,159 +662,169 @@
         </td>
       `;
 
-      catsTbody.appendChild(tr);
-    });
+        catsTbody.appendChild(tr);
+      });
 
-    totalCategoriasSpan.textContent = list.length;
-    lastUpdateSpan.textContent = shortDateTime(new Date());
-  }
-
-  // === API ===
-  async function fetchCategorias() {
-    try {
-      const res = await fetch(API_CATEGORIAS);
-      if (!res.ok) throw new Error('Error al obtener categorías');
-      categorias = await res.json();
-      filteredCategorias = categorias.slice();
-      renderCategorias(filteredCategorias);
-    } catch (err) {
-      console.error(err);
-      alert('No se pudieron cargar las categorías.');
-    }
-  }
-
-  async function fetchCategoriaPorId(id) {
-    const res = await fetch(`${API_CATEGORIAS}/${id}`);
-    if (!res.ok) throw new Error('No se pudo obtener la categoría');
-    return res.json();
-  }
-
-  async function crearCategoria(payload) {
-    const res = await fetch(API_CATEGORIAS, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload),
-    });
-    if (!res.ok) {
-      const msg = await res.text();
-      throw new Error(msg || 'Error al crear categoría');
-    }
-    return res.json();
-  }
-
-  async function actualizarCategoria(id, payload) {
-    const res = await fetch(`${API_CATEGORIAS}/${id}`, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload),
-    });
-    if (!res.ok) {
-      const msg = await res.text();
-      throw new Error(msg || 'Error al actualizar categoría');
-    }
-    return res.json();
-  }
-
-  async function eliminarCategoria(id) {
-    const res = await fetch(`${API_CATEGORIAS}/${id}`, {
-      method: 'DELETE',
-    });
-    if (!res.ok) {
-      const msg = await res.text();
-      throw new Error(msg || 'Error al eliminar categoría');
-    }
-    return res.json();
-  }
-
-  // === EVENTOS ===
-
-  // Abrir modal nueva categoría
-  btnNewCategory.addEventListener('click', () => openModal('create'));
-
-  // Cerrar modal
-  btnCloseModal.addEventListener('click', closeModal);
-  btnCancelModal.addEventListener('click', closeModal);
-  catModal.addEventListener('click', (e) => {
-    if (e.target === catModal) closeModal();
-  });
-
-  // Submit formulario
-  catForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
-
-    const payload = {
-      nombre: inputNombre.value.trim(),
-      descripcion: inputDescripcion.value.trim(),
-    };
-
-    if (!payload.nombre) {
-      alert('El nombre de la categoría es obligatorio.');
-      return;
+      totalCategoriasSpan.textContent = list.length;
+      lastUpdateSpan.textContent = shortDateTime(new Date());
     }
 
-    try {
-      if (modalMode === 'create') {
-        await crearCategoria(payload);
-      } else if (modalMode === 'edit') {
-        await actualizarCategoria(inputId.value, payload);
-      }
-      closeModal();
-      await fetchCategorias();
-    } catch (err) {
-      console.error(err);
-      alert(err.message || 'Error al guardar la categoría.');
-    }
-  });
-
-  // Editar / Eliminar (delegado desde tbody)
-  catsTbody.addEventListener('click', async (e) => {
-    const row = e.target.closest('tr');
-    if (!row) return;
-    const id = row.dataset.id;
-
-    if (e.target.classList.contains('btn-edit')) {
+    // === API ===
+    async function fetchCategorias() {
       try {
-        const categoria = await fetchCategoriaPorId(id);
-        openModal('edit', categoria);
+        const res = await fetch(API_CATEGORIAS);
+        if (!res.ok) throw new Error('Error al obtener categorías');
+        categorias = await res.json();
+        filteredCategorias = categorias.slice();
+        renderCategorias(filteredCategorias);
       } catch (err) {
         console.error(err);
-        alert('No se pudo cargar la categoría seleccionada.');
+        alert('No se pudieron cargar las categorías.');
       }
     }
 
-    if (e.target.classList.contains('btn-delete')) {
-      const ok = confirm('¿Seguro que deseas eliminar esta categoría?');
-      if (!ok) return;
+    async function fetchCategoriaPorId(id) {
+      const res = await fetch(`${API_CATEGORIAS}/${id}`);
+      if (!res.ok) throw new Error('No se pudo obtener la categoría');
+      return res.json();
+    }
+
+    async function crearCategoria(payload) {
+      const res = await fetch(API_CATEGORIAS, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          ...(localStorage.getItem("token") && { 'Authorization': `Bearer ${localStorage.getItem("token")}` }),
+        },
+        body: JSON.stringify(payload),
+      });
+      if (!res.ok) {
+        const msg = await res.text();
+        throw new Error(msg || 'Error al crear categoría');
+      }
+      return res.json();
+    }
+
+    async function actualizarCategoria(id, payload) {
+      const res = await fetch(`${API_CATEGORIAS}/${id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          ...(localStorage.getItem("token") && { 'Authorization': `Bearer ${localStorage.getItem("token")}` }),
+        },
+        body: JSON.stringify(payload),
+      });
+      if (!res.ok) {
+        const msg = await res.text();
+        throw new Error(msg || 'Error al actualizar categoría');
+      }
+      return res.json();
+    }
+
+    async function eliminarCategoria(id) {
+      const res = await fetch(`${API_CATEGORIAS}/${id}`, {
+        method: 'DELETE',
+        headers: {
+            'Authorization': `Bearer ${localStorage.getItem("token")}`,   // 👈 AQUÍ se manda el token
+          }
+      });
+      if (!res.ok) {
+        const msg = await res.text();
+        throw new Error(msg || 'Error al eliminar categoría');
+      }
+      return res.json();
+    }
+
+    // === EVENTOS ===
+
+    // Abrir modal nueva categoría
+    btnNewCategory.addEventListener('click', () => openModal('create'));
+
+    // Cerrar modal
+    btnCloseModal.addEventListener('click', closeModal);
+    btnCancelModal.addEventListener('click', closeModal);
+    catModal.addEventListener('click', (e) => {
+      if (e.target === catModal) closeModal();
+    });
+
+    // Submit formulario
+    catForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const payload = {
+        nombre: inputNombre.value.trim(),
+        descripcion: inputDescripcion.value.trim(),
+      };
+
+      if (!payload.nombre) {
+        alert('El nombre de la categoría es obligatorio.');
+        return;
+      }
+
       try {
-        await eliminarCategoria(id);
+        if (modalMode === 'create') {
+          await crearCategoria(payload);
+        } else if (modalMode === 'edit') {
+          await actualizarCategoria(inputId.value, payload);
+        }
+        closeModal();
         await fetchCategorias();
       } catch (err) {
         console.error(err);
-        alert('No se pudo eliminar la categoría.');
+        alert(err.message || 'Error al guardar la categoría.');
       }
-    }
-  });
+    });
 
-  // Búsqueda local por nombre
-  let searchTimeout = null;
-  searchInput.addEventListener('input', () => {
-    clearTimeout(searchTimeout);
-    searchTimeout = setTimeout(() => {
-      const term = searchInput.value.trim().toLowerCase();
-      if (!term) {
-        filteredCategorias = categorias.slice();
-      } else {
-        filteredCategorias = categorias.filter(cat =>
-          (cat.nombre || '').toLowerCase().includes(term)
-        );
+    // Editar / Eliminar (delegado desde tbody)
+    catsTbody.addEventListener('click', async (e) => {
+      const row = e.target.closest('tr');
+      if (!row) return;
+      const id = row.dataset.id;
+
+      if (e.target.classList.contains('btn-edit')) {
+        try {
+          const categoria = await fetchCategoriaPorId(id);
+          openModal('edit', categoria);
+        } catch (err) {
+          console.error(err);
+          alert('No se pudo cargar la categoría seleccionada.');
+        }
       }
-      renderCategorias(filteredCategorias);
-    }, 250);
-  });
 
-  // === INICIALIZAR ===
-  fetchCategorias();
-</script>
-<script src="./components/sidebar.js"></script>
+      if (e.target.classList.contains('btn-delete')) {
+        const ok = confirm('¿Seguro que deseas eliminar esta categoría?');
+        if (!ok) return;
+        try {
+          await eliminarCategoria(id);
+          await fetchCategorias();
+        } catch (err) {
+          console.error(err);
+          alert('No se pudo eliminar la categoría.');
+        }
+      }
+    });
+
+    // Búsqueda local por nombre
+    let searchTimeout = null;
+    searchInput.addEventListener('input', () => {
+      clearTimeout(searchTimeout);
+      searchTimeout = setTimeout(() => {
+        const term = searchInput.value.trim().toLowerCase();
+        if (!term) {
+          filteredCategorias = categorias.slice();
+        } else {
+          filteredCategorias = categorias.filter(cat =>
+            (cat.nombre || '').toLowerCase().includes(term)
+          );
+        }
+        renderCategorias(filteredCategorias);
+      }, 250);
+    });
+
+    // === INICIALIZAR ===
+    fetchCategorias();
+  </script>
+  <script src="./components/sidebar.js"></script>
 </body>
+
 </html>

@@ -36,7 +36,6 @@ export class ClientesService {
   }
 
   async update(id: number, data: Partial<CreateClienteDto>) {
-    // If password provided, hash it before updating
     const toUpdate: any = { ...data };
     if (data && (data as any).password) {
       toUpdate.password = await bcrypt.hash(String((data as any).password), 10);
@@ -50,10 +49,9 @@ export class ClientesService {
     return { deleted: true };
   }
 
-  // Search products by name pattern (case-insensitive)
+  // Buscar clientes por patron de string
   async searchByName(pattern: string) {
     const likePattern = `%${pattern.replace(/%/g, '\\%')}%`;
-    // Use query builder to perform a case-insensitive search that works across DBs
     const qb = this.clienteRepo.createQueryBuilder('p')
       .where('LOWER(p.nombre) LIKE LOWER(:pattern) or LOWER(p.apellido) LIKE LOWER(:pattern)', { pattern: likePattern });
 

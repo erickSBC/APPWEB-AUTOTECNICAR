@@ -2,7 +2,6 @@ import { Entity, PrimaryGeneratedColumn, ManyToOne, JoinColumn, Column } from "t
 import { Carrito } from "./carrito.entity";
 import { Producto } from "./producto.entity";
 
-// carrito-detalle.entity.ts
 @Entity('carrito_detalle')
 export class CarritoDetalle {
   @PrimaryGeneratedColumn()

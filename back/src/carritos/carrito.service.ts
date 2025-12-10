@@ -35,11 +35,10 @@ export class CarritosService {
     });
 
     if (carritoExistente) {
-      // ✅ Ya existe: no crear otro
+    // si ya existe: no crear otro
       return carritoExistente;
     }
 
-    // 🚀 Si no existe, crear uno nuevo
     const carrito = this.carritoRepo.create({
       cliente: { id_cliente: data.id_cliente } as any,
       estado: data.estado ?? 'activo',
@@ -79,15 +78,15 @@ async remove(id: number) {
         throw new NotFoundException(`Carrito con ID ${id} no encontrado.`);
     }
 
-    // 2. Ejecutar la lógica de negocio: devolver stock de todos los detalles
+    // 2. devolver stock de todos los detalles
     for (const detalle of carrito.detalles) {
         const producto = detalle.producto;
         producto.stock += detalle.cantidad;
-        // Guardar cada producto con su stock actualizado
+        // guardar cada producto con su stock actualizado
         await this.productoRepo.save(producto); 
     }
 
-    // 3. Eliminar el carrito: Aquí cascade: true se encarga de borrar también los detalles
+    // 3. Eliminar el carrito, se borra también los detalles
     await this.carritoRepo.remove(carrito);
 
     return { deleted: true, message: 'Carrito eliminado y stock devuelto exitosamente.' };
@@ -125,7 +124,7 @@ async remove(id: number) {
     });
 
     if (detalleExistente) {
-      // ➕ Aumentar cantidad (controlando stock)
+      // Aumentar cantidad (controlando stock)
       const cantidadAdicional = dto.cantidad;
 
       if (producto.stock < cantidadAdicional) {
@@ -166,7 +165,7 @@ async remove(id: number) {
         },
       };
     } else {
-      // 🆕 Crear nuevo detalle (controlando stock)
+      // Crear nuevo detalle controlando stock
       const cantidadSolicitada = dto.cantidad;
 
       if (producto.stock < cantidadSolicitada) {
@@ -247,7 +246,7 @@ async remove(id: number) {
     const cantidadActual = detalleExistente.cantidad;
     const nuevaCantidad = dto.cantidad;
 
-    // 🗑 Si nueva cantidad = 0 ⇒ devolver todo el stock y eliminar detalle
+    // Si nueva cantidad = 0 ⇒ devolver todo el stock y eliminar detalle
     if (nuevaCantidad === 0) {
       producto.stock += cantidadActual;
       await this.productoRepo.save(producto);
@@ -262,7 +261,7 @@ async remove(id: number) {
     const diferencia = nuevaCantidad - cantidadActual;
 
     if (diferencia > 0) {
-      // ➕ Aumentando cantidad → necesitamos más stock
+      // Aumentando cantidad,caso si no alcanza stock
       if (producto.stock < diferencia) {
         throw new BadRequestException(
           `Stock insuficiente. Stock disponible: ${producto.stock}, cantidad adicional solicitada: ${diferencia}.`,
@@ -270,7 +269,7 @@ async remove(id: number) {
       }
       producto.stock -= diferencia;
     } else if (diferencia < 0) {
-      // ➖ Disminuyendo cantidad → devolvemos stock
+      //  Disminuyendo cantidad,se devuelve stock
       producto.stock += Math.abs(diferencia);
     }
 

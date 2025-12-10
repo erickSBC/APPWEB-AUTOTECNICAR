@@ -8,9 +8,10 @@ import { Producto } from '../entities/producto.entity';
 import { Carrito } from '../entities/carrito.entity';
 import { CarritosModule } from 'src/carritos/carrito.module';
 import { ComprobantesModule } from 'src/comprobantes/comprobante.module';
+import { AuthModule } from 'src/auth/auth.module';
 
 @Module({
-  imports: [CarritosModule,ComprobantesModule,TypeOrmModule.forFeature([Pedido, PedidoDetalle, Producto,Carrito])],
+  imports: [CarritosModule,ComprobantesModule,TypeOrmModule.forFeature([Pedido, PedidoDetalle, Producto,Carrito]),AuthModule],
   controllers: [PedidosController],
   providers: [PedidosService],
   exports: [PedidosService],

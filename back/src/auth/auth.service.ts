@@ -16,22 +16,7 @@ export class AuthService {
     private readonly jwtService: JwtService,
   ) { }
 
-  // async validateAdministrador(correo: string, password: string) {
-  //   const admin = await this.adminRepo.findOneBy({ correo } as any);
-  //   if (!admin) return null;
-  //   const match = await bcrypt.compare(password, admin.password);
-  //   //const match = admin.password === password ;
-  //   if (!match) return null;
-  //   return admin;
-  // }
-
-  // async validateCliente(correo: string, password: string) {
-  //   const cliente = await this.clienteRepo.findOneBy({ correo } as any);
-  //   if (!cliente) return null;
-  //   const match = await bcrypt.compare(password, cliente.password);
-  //   if (!match) return null;
-  //   return cliente;
-  // }
+ 
   async validateUser(correo: string, password: string) {
     const cliente = await this.clienteRepo.findOneBy({ correo } as any);
     const admin = await this.adminRepo.findOneBy({ correo } as any);
@@ -68,7 +53,7 @@ export class AuthService {
     const nuevo = this.clienteRepo.create({ ...data, password: hashed } as any);
     const rawSaved = await this.clienteRepo.save(nuevo);
     const savedEntity: Cliente = Array.isArray(rawSaved) ? (rawSaved[0] as Cliente) : (rawSaved as Cliente);
-    // Return token as well
+
     return { cliente: savedEntity, token: this.loginAsCliente(savedEntity as Cliente).access_token };
   }
 

@@ -361,7 +361,7 @@
                             <div class="form-row">
                                 <div class="form-group">
                                     <label>DNI (venta libre)</label>
-                                    <input type="text" id="dniLibre" placeholder="Opcional si ya elegiste cliente" />
+                                    <input type="text" id="dniLibre" placeholder="Si no hay registro de cliente" />
                                 </div>
 
                             </div>
@@ -483,7 +483,7 @@
     <script src="./components/sidebar.js"></script>
 
     <script>
-        const API_BASE = "http://154.38.160.251/api";
+        const API_BASE = "http://localhost:3000";
         const IGV_RATE = 0.18;
 
         const clienteSelect = document.getElementById("clienteSelect");
@@ -811,7 +811,7 @@
             if (metodo_pago) payload.metodo_pago = metodo_pago;
 
             const adminId = getAdminIdFromToken();
-            console.log("idadmin: ", adminId);
+            //console.log("idadmin: ", adminId);
             if (adminId) payload.id_admin_venta = adminId;
             payload.estado = "pagado";
             try {
@@ -835,7 +835,7 @@
                 }
 
                 const pedidoCreado = await res.json();
-                console.log("Pedido creado:", pedidoCreado);
+                //console.log("Pedido creado:", pedidoCreado);
                 alert(`Venta registrada correctamente. N° Pedido: ${pedidoCreado.id_pedido}`);
 
                 // Limpiar formulario

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Ventas - AutoMas</title>
+  <title>Ventas - AutoTecnicar</title>
 
   <!-- CSS general del dashboard -->
   <link rel="stylesheet" href="../../assets/css/corporate-ui-dashboard.css" />
@@ -396,7 +396,7 @@
   </script>
   <!-- LÓGICA -->
   <script>
-    const API_BASE = "http://154.38.160.251/api";
+    const API_BASE = "http://localhost:3000";
 
     const ventasBody = document.getElementById("ventasBody");
     const searchInput = document.getElementById("searchInput");
@@ -417,8 +417,8 @@
 
     function authHeaders() {
       const token =
-        localStorage.getItem("access_token") ||
-        sessionStorage.getItem("access_token");
+        localStorage.getItem("token") ||
+        sessionStorage.getItem("token");
       const headers = { "Content-Type": "application/json" };
       if (token) headers["Authorization"] = "Bearer " + token;
       return headers;
@@ -523,7 +523,7 @@
           : "-";
 
         // <<< botón comprobante solo si está pagado
-        const comprobanteBtnHtml = p.estado === "pagado"
+        const comprobanteBtnHtml = (p.estado === "pagado"|| p.estado==="entregado")
           ? `<button class="vp-btn-small vp-btn-outline"
                      title="Ver boleta"
                      data-action="comprobante"

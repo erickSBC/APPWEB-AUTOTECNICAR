@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Mis pedidos - AutoMas</title>
+  <title>Mis pedidos - AutoTecnicar</title>
 
   <link rel="stylesheet" href="../../assets/css/corporate-ui-dashboard.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
@@ -85,7 +86,7 @@
       color: #4b5563;
     }
 
-    .order-meta span + span::before {
+    .order-meta span+span::before {
       content: "•";
       margin: 0 6px;
       color: #d1d5db;
@@ -179,7 +180,7 @@
       text-align: center;
       color: #6b7280;
       font-size: 14px;
-      box-shadow: 0 10px 30px rgba(15,23,42,0.06);
+      box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
     }
 
     .empty-state a {
@@ -192,7 +193,7 @@
     .orders-modal-backdrop {
       position: fixed;
       inset: 0;
-      background: rgba(15,23,42,0.45);
+      background: rgba(15, 23, 42, 0.45);
       display: none;
       align-items: center;
       justify-content: center;
@@ -284,17 +285,63 @@
       font-weight: 700;
     }
 
+    /* =============== FOOTER =============== */
+    .site-footer {
+      background: #111827;
+      color: white;
+      padding: 40px 25px;
+      margin-top: 60px;
+      box-shadow: 0 -8px 25px rgba(15, 23, 42, 0.6);
+    }
+
+    .footer-inner {
+      max-width: 1100px;
+      margin: auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 30px;
+    }
+
+    .footer-contact strong {
+      font-size: 19px;
+      font-weight: 800;
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    .footer-contact div {
+      font-size: 14px;
+      color: #e5e7eb;
+    }
+
+    .footer-whatsapp svg {
+      width: 60px;
+      height: 60px;
+    }
+
+    .footer-bottom {
+      text-align: center;
+      margin-top: 25px;
+      border-top: 1px solid #374151;
+      padding-top: 18px;
+      color: #9ca3af;
+      font-size: 13px;
+    }
+
     @media (max-width: 800px) {
       .order-card {
         grid-template-columns: minmax(0, 1fr);
         align-items: flex-start;
       }
+
       .order-actions {
         align-items: flex-start;
       }
     }
   </style>
 </head>
+
 <body>
 
   <!-- HEADER -->
@@ -345,10 +392,28 @@
       </div>
     </div>
   </div>
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-contact">
+        <strong>Contacto</strong>
+        <div>Av. Jorge Basadre Grohmann, Tacna, Perú</div>
+        <div>Horario: Lun–Vie 9:00–13:00 / 14:30–18:30 – Sáb 9:00–13:30</div>
+        <div>Tel: (052) 242713</div>
+      </div>
 
-  <!-- LÓGICA -->
+      <div class="footer-whatsapp">
+        <a href="https://wa.me/51987092808?text=Hola%20quiero%20información" target="_blank">
+          <svg viewBox="0 0 24 24" fill="none">
+            <!-- Icono WhatsApp si quieres luego -->
+          </svg>
+        </a>
+      </div>
+    </div>
+
+    <div class="footer-bottom">© 2025 AutoTecnicar – Todos los derechos reservados.</div>
+  </footer>
   <script>
-    const apiurl = "http://154.38.160.251/api";
+    const apiurl = "http://localhost:3000";
     // Ajusta este endpoint a tu API real, por ejemplo:
     // GET /pedidos/cliente/:id_cliente
     const PEDIDOS_CLIENTE_BASE = apiurl + "/pedidos/cliente"; // <-- cambia si usas otra ruta
@@ -370,7 +435,7 @@
     function authHeaders() {
       const token =
         localStorage.getItem("token");
-        const headers = { "Content-Type": "application/json" };
+      const headers = { "Content-Type": "application/json" };
       if (token) headers["Authorization"] = "Bearer " + token;
       return headers;
     }
@@ -516,7 +581,7 @@
               <button class="btn-small"
                       data-action="comprobante"
                       data-id="${p.id_pedido}"
-                      ${p.estado !== "pagado" ? "disabled" : ""}>
+                      ${(p.estado !== "pagado" && p.estado !== "entregado") ? "disabled" : ""}>
                 <i class="fas fa-receipt"></i> Comprobante
               </button>
             </div>
@@ -544,7 +609,7 @@
       }
 
       if (action === "comprobante") {
-        if (pedido.estado !== "pagado") return;
+        if (pedido.estado !== "pagado" && pedido.estado !== "entregado") return;
         // comprobante.html buscará el comprobante del pedido
         window.open(`../comprobante.html?id_pedido=${id}`, "_blank");
       }
@@ -610,4 +675,5 @@
   <script src="./components/header-logic.js"></script>
   <script src="./assets/js/site-cart.js"></script>
 </body>
+
 </html>

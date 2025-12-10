@@ -342,7 +342,7 @@
 
   <!-- Lógica de Dashboard + Export PDF -->
   <script>
-    const API_BASE = "http://154.38.160.251/api/reportes";
+    const API_BASE = "http://localhost:3000/reportes";
 
     const fechaDesdeInput = document.getElementById("fechaDesde");
     const fechaHastaInput = document.getElementById("fechaHasta");
@@ -372,7 +372,11 @@
     }
 
     async function fetchJSON(url) {
-      const res = await fetch(url);
+      const res = await fetch(url,{
+        headers: {
+            'Authorization': `Bearer ${localStorage.getItem("token")}`,   // 👈 AQUÍ se manda el token
+          },
+      });
       if (!res.ok) {
         console.error("Error fetch", url, res.status);
         throw new Error("Error en servidor");

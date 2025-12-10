@@ -657,7 +657,7 @@
 
   <script>
     // === CONFIGURACIÓN API ===
-    const API_BASE = 'http://154.38.160.251/api'; // ajusta si tu backend está en otro host/puerto
+    const API_BASE = 'http://localhost:3000'; // ajusta si tu backend está en otro host/puerto
     const API_PRODUCTOS = API_BASE + '/productos';
     const API_CATEGORIAS = API_BASE + '/categorias'; // asunción
 
@@ -745,7 +745,11 @@
     // === CATEGORÍAS ===
     async function fetchCategorias() {
       try {
-        const res = await fetch(API_CATEGORIAS);
+        const res = await fetch(API_CATEGORIAS, {
+          headers: {
+            'Authorization': `Bearer ${localStorage.getItem("token")}`,   // 👈 AQUÍ se manda el token
+          }
+        });
         if (!res.ok) throw new Error('Error al cargar categorías');
 
         categorias = await res.json();
@@ -850,7 +854,12 @@
           url = `${API_PRODUCTOS}?` + params.toString();
         }
 
-        const res = await fetch(url);
+        const res = await fetch(url, {
+          headers: {
+            'Authorization': `Bearer ${localStorage.getItem("token")}`,   // 👈 AQUÍ se manda el token
+
+          }
+        });
         if (!res.ok) throw new Error('Error al obtener productos');
 
         const data = await res.json();
@@ -868,7 +877,12 @@
     }
 
     async function fetchProductoPorId(id) {
-      const res = await fetch(`${API_PRODUCTOS}/${id}`);
+      const res = await fetch(`${API_PRODUCTOS}/${id}`, {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem("token")}`,   // 👈 AQUÍ se manda el token
+
+        }
+      });
       if (!res.ok) throw new Error('No se pudo obtener el producto');
       return res.json();
     }
@@ -876,7 +890,10 @@
     async function crearProducto(payload) {
       const res = await fetch(API_PRODUCTOS, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          ...(localStorage.getItem("token") && { 'Authorization': `Bearer ${localStorage.getItem("token")}` }),
+        },
         body: JSON.stringify(payload),
       });
       if (!res.ok) {
@@ -889,7 +906,11 @@
     async function actualizarProducto(id, payload) {
       const res = await fetch(`${API_PRODUCTOS}/${id}`, {
         method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+          'Content-Type': 'application/json',
+          ...(localStorage.getItem("token") && { 'Authorization': `Bearer ${localStorage.getItem("token")}` }),
+
+        },
         body: JSON.stringify(payload),
       });
       if (!res.ok) {
@@ -902,6 +923,10 @@
     async function eliminarProducto(id) {
       const res = await fetch(`${API_PRODUCTOS}/${id}`, {
         method: 'DELETE',
+        headers: {
+            'Authorization': `Bearer ${localStorage.getItem("token")}`,   // 👈 AQUÍ se manda el token
+
+          }
       });
       if (!res.ok) {
         const msg = await res.text();
@@ -932,6 +957,7 @@
         descripcion: inputDescripcion.value.trim(),
         precio: Number(inputPrecio.value),
         stock: Number(inputStock.value),
+        categoria: {id_categoria:selectCategoria.value},
       };
 
       if (!payload.nombre || Number.isNaN(payload.precio)) {

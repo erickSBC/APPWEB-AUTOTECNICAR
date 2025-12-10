@@ -11,8 +11,8 @@
    - DELETE /carrito/detalles/:id_detalle  -> eliminar detalle
 =========================================================== */
 
-const API_BASE = "http://154.38.160.251/api";
-const CART_BACKEND_ID_KEY = "automas_carrito_id";
+const API_BASE = "http://localhost:3000";
+const CART_BACKEND_ID_KEY = "carrito_id";
 const LOGIN_URL = "../sign-in.html"; // ajusta ruta si es distinta
 
 // -------------------- AUTH HELPERS --------------------
@@ -24,7 +24,6 @@ function getToken() {
 function getClienteId() {
   const tokenn = getToken();
   const payload = tokenn? JSON.parse(atob(tokenn.split(".")[1])) : null;
-   console.log(payload.sub)
   return Number(payload.sub);
 }
 
@@ -168,9 +167,7 @@ async function actualizarMiniCarrito() {
   const badge = document.querySelector(".cart-count");
   const mc = document.querySelector(".mini-cart .mc-items");
   const totalSpan = document.querySelector("#miniCartTotal");
-  console.log("badge",badge);
-  console.log("mc",mc);
-  console.log("totalSpan",totalSpan);
+  
   if (!badge || !mc || !totalSpan) return;
   
   const backend = await fetchBackendCart();
@@ -253,7 +250,6 @@ async function actualizarMiniCarrito() {
 
 // Al cargar la página, refrescar mini-carrito si hay sesión
 document.addEventListener("DOMContentLoaded", () => {
-  console.log("cargó con logsiyo:",document.querySelector(".cart-count"));
   if (getToken() && getClienteId()) {
     actualizarMiniCarrito();
   }
