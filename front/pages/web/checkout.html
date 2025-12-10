@@ -634,7 +634,7 @@
   <script src="./assets/js/site-cart.js "></script>
 
   <script>
-    const API_PEDIDOS = "http://localhost:3000/pedidos";
+    const API_PEDIDOS = "http://154.38.160.251/api/pedidos";
 
     const summaryItems = document.getElementById("summaryItems");
     const summarySubtotal = document.getElementById("summarySubtotal");
@@ -650,7 +650,7 @@
     const clienteId = pload.sub
     async function loadShippingInfo() {
       try {
-        const res = await fetch(`http://localhost:3000/clientes/${clienteId}`, {
+        const res = await fetch(`http://154.38.160.251/api/clientes/${clienteId}`, {
           headers: { "Authorization": "Bearer " + tok }
         });
 
@@ -814,7 +814,7 @@
 
       let cliente = null;
       try {
-        const res = await fetch(`http://localhost:3000/clientes/${clienteId}`, {
+        const res = await fetch(`http://154.38.160.251/api/clientes/${clienteId}`, {
           headers: { "Authorization": "Bearer " + tok }
         });
         const c = await res.json();
