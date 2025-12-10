@@ -7,7 +7,7 @@ export class ReportesService {
 
   // ventas totales entre fechas
   async ventasTotales(desde?: string, hasta?: string) {
-    let sql = `SELECT SUM(p.total) as total_ventas FROM pedido p WHERE estado='pagado'`;
+    let sql = `SELECT SUM(p.total) as total_ventas FROM pedido p WHERE estado='pagado' OR p.estado = 'entregado'`;
 
     const params: any[] = [];
 
@@ -34,7 +34,7 @@ export class ReportesService {
       FROM pedido_detalle pd
       JOIN producto pr ON pr.id_producto = pd.id_producto
       JOIN pedido p ON p.id_pedido = pd.id_pedido
-      WHERE p.estado = 'pagado'`; 
+      WHERE p.estado = 'pagado' OR p.estado = 'entregado'`; 
     
     const params: any[] = [];
     
@@ -50,7 +50,7 @@ export class ReportesService {
   // pedidos por dia
   async pedidosPorDia(desde?: string, hasta?: string) {
     let sql = `SELECT DATE(p.fecha_creacion) as fecha, COUNT(*) as cantidad_pedidos, SUM(p.total) as total
-      FROM pedido p WHERE p.estado = 'pagado'`;
+      FROM pedido p WHERE p.estado = 'pagado' OR p.estado = 'entregado'`;
       
     const params: any[] = [];
     
@@ -74,7 +74,7 @@ export class ReportesService {
            COUNT(p.id_pedido) as pedidos
     FROM cliente c
     JOIN pedido p ON p.id_cliente = c.id_cliente
-    WHERE p.estado = 'pagado'
+    WHERE p.estado = 'pagado' OR p.estado = 'entregado'
     GROUP BY c.id_cliente, c.nombre, c.apellido, c.correo
     ORDER BY total_gastado DESC
     LIMIT ?
